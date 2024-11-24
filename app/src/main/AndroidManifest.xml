@@ -12,15 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HabitApp"
         tools:targetApi="31">
+
+        <!-- LoginActivity set as MAIN to start the application -->
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- RegisterActivity declared -->
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="true" />
+
+        <!-- MainActivity declared (if needed later in the app flow) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
