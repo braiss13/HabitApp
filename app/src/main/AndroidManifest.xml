@@ -33,6 +33,11 @@
             android:name=".MainActivity"
             android:exported="true" />
 
+        <activity android:name=".activities.HabitsListActivity" />
+        <activity android:name=".activities.AddHabitActivity" />
+        <activity android:name=".activities.EditHabitActivity" />
+
+
     </application>
 
 </manifest>

@@ -47,12 +47,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (authenticateUser(username, password)) {
                     Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
 
-                    // Navegar a la lista de hábitos (comentado hasta que HabitsListActivity esté lista)
-                    /*
+                    // Navegar a la lista de hábitos
                     Intent intent = new Intent(LoginActivity.this, HabitsListActivity.class);
                     startActivity(intent);
                     finish();
-                    */
                 } else {
                     Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                 }
