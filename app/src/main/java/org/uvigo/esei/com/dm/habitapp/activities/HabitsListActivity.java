@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.util.Log;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +25,7 @@ public class HabitsListActivity extends AppCompatActivity {
     private DBManager dbManager;
     private SimpleCursorAdapter adapter;
     private ListView lvHabits;
+    private FloatingActionButton fabAddHabit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +34,15 @@ public class HabitsListActivity extends AppCompatActivity {
 
         dbManager = new DBManager(this);
         lvHabits = findViewById(R.id.lvHabits);
+        fabAddHabit = findViewById(R.id.fabAddHabit);
 
         setupListView();
         registerForContextMenu(lvHabits);
+
+        fabAddHabit.setOnClickListener(view -> {
+            Intent intent = new Intent(HabitsListActivity.this, AddHabitActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
