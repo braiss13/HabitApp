@@ -143,4 +143,17 @@ public class HabitsListActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Salir de la aplicación")
+                .setMessage("¿Deseas cerrar la aplicación?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    super.onBackPressed(); // Llamar al comportamiento predeterminado para cerrar la actividad
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
 }

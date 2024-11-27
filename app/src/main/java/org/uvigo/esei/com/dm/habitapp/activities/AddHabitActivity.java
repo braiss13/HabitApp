@@ -1,11 +1,11 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.R;
@@ -45,5 +45,17 @@ public class AddHabitActivity extends AppCompatActivity {
         dbManager.insertHabit(name, description, frequency, category);
         Toast.makeText(this, "Hábito agregado con éxito", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Cancelar creación")
+                .setMessage("¿Deseas salir sin crear el hábito?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    super.onBackPressed(); // Llamar al comportamiento predeterminado para cerrar la actividad
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }

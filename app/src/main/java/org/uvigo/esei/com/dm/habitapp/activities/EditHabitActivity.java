@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.R;
@@ -61,5 +62,17 @@ public class EditHabitActivity extends AppCompatActivity {
         dbManager.updateHabit((int) habitId, name, description, frequency, category, 0);
         Toast.makeText(this, "Hábito actualizado con éxito", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Cancelar edición")
+                .setMessage("¿Deseas salir sin guardar los cambios?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    super.onBackPressed(); // Llamar al comportamiento predeterminado para cerrar la actividad
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }
