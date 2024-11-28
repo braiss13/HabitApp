@@ -39,7 +39,7 @@ public class EditHabitActivity extends AppCompatActivity {
 
     private void loadHabitDetails() {
         Cursor cursor = dbManager.getAllHabits();
-        if (cursor.moveToPosition((int) habitId)) {
+        if (cursor.moveToPosition((int) habitId-1)) {
             edtName.setText(cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_NOMBRE)));
             edtDescription.setText(cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_DESCRIPCION)));
             edtFrequency.setText(cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_FRECUENCIA)));
