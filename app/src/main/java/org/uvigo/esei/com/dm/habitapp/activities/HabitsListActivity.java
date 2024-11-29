@@ -123,6 +123,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("MenuDebug", "SE LLAMA AL MÉTODO ONCREATE OPTIONS MENU");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;

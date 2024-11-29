@@ -81,7 +81,7 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-    // Métodos para gestionar usuarios (mantiene lo que ya había)
+    // Métodos para gestionar usuarios
     public Cursor getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLE_USUARIOS, null, null, null, null, null, null);
