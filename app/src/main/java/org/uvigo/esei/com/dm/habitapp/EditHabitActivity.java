@@ -56,12 +56,12 @@ public class EditHabitActivity extends AppCompatActivity {
         String category = edtCategory.getText().toString().trim();
 
         if (name.isEmpty() || frequency.isEmpty() || category.isEmpty()) {
-            Toast.makeText(this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.fill_required_fields), Toast.LENGTH_SHORT).show();
             return;
         }
 
         habitFacade.updateHabit((int) habitId, name, description, frequency, category, 0);
-        Toast.makeText(this, "Hábito actualizado con éxito", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.habit_updated_successfully), Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -70,10 +70,10 @@ public class EditHabitActivity extends AppCompatActivity {
         new android.app.AlertDialog.Builder(this)
                 .setTitle("Cancelar edición")
                 .setMessage("¿Deseas salir sin guardar los cambios?")
-                .setPositiveButton("Sí", (dialog, which) -> {
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     super.onBackPressed(); // Llamar al comportamiento predeterminado para cerrar la actividad
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
 }

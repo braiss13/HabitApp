@@ -35,23 +35,23 @@ public class AddHabitActivity extends AppCompatActivity {
         String category = edtCategory.getText().toString().trim();
 
         if (name.isEmpty() || frequency.isEmpty() || category.isEmpty()) {
-            Toast.makeText(this, "Por favor, completa todos los campos obligatorios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,  getString(R.string.fill_required_fields), Toast.LENGTH_SHORT).show();
             return;
         }
 
         habitFacade.insertHabit(name, description, frequency, category);
-        Toast.makeText(this, "Hábito agregado con éxito", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.habit_added_successfully), Toast.LENGTH_SHORT).show();
         finish();
     }
     @Override
     public void onBackPressed() {
         new android.app.AlertDialog.Builder(this)
-                .setTitle("Cancelar creación")
-                .setMessage("¿Deseas salir sin crear el hábito?")
-                .setPositiveButton("Sí", (dialog, which) -> {
+                .setTitle(getString(R.string.cancel_creation))
+                .setMessage(getString(R.string.exit_without_creation))
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     super.onBackPressed(); // Llamar al comportamiento predeterminado para cerrar la actividad
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
 }

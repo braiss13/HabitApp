@@ -109,13 +109,13 @@ public class HabitsListActivity  extends AppCompatActivity{
     }
     private void confirmDeletion(long habitId) {
         new AlertDialog.Builder(this)
-                .setTitle("Confirmar eliminación")
-                .setMessage("¿Estás seguro de que quieres eliminar este hábito?")
-                .setPositiveButton("Sí", (dialog, which) -> {
+                .setTitle(getString(R.string.confirm_deletion_title))
+                .setMessage(getString(R.string.confirm_delete_habit))
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     habitFacade.deleteHabit((int) habitId);
                     loadHabits();
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
 
@@ -146,7 +146,7 @@ public class HabitsListActivity  extends AppCompatActivity{
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.exit_app_title))
-                .setMessage(getString(R.string.exit_app_title))
+                .setMessage(getString(R.string.exit_app_message))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     super.onBackPressed(); // Llamar al comportamiento predeterminado para cerrar la actividad
                 })

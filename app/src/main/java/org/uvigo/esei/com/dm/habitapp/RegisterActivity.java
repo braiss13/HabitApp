@@ -39,17 +39,17 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = edtEmail.getText().toString().trim();
 
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.register_empty_fields), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (registerUser(username, password, email)) {
-                    Toast.makeText(RegisterActivity.this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();
                     Intent intent =new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.register_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });

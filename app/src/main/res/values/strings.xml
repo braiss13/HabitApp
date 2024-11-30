@@ -1,8 +1,26 @@
 <resources>
     <string name="app_name">HabitApp</string>
+    <!--LOGIN-->
+    <string name="login_empty_fields">Por favor, completa todos los campos</string>
+    <string name="login_successful">Inicio de sesión exitoso</string>
+    <string name="login_invalid_credentials">Credenciales incorrectas</string>
+    <!--REGISTER-->
+    <string name="register_empty_fields">Por favor, completa todos los campos</string>
+    <string name="register_success">Usuario registrado con éxito</string>
+    <string name="register_error">Error al registrar usuario</string>
+    <!--HABITSLIST-->
+    <string name="confirm_deletion_title">Confirmar borrado</string>
     <string name="confirm_delete_habit">¿Estás seguro de que quieres eliminar este hábito?</string>
     <string name="exit_app_title">Salir de la aplicación</string>
     <string name="exit_app_message">¿Deseas cerrar la aplicación?</string>
+    <!--ADDHABIT-->
+    <string name="fill_required_fields">Por favor, completa todos los campos obligatorios</string>
+    <string name="habit_added_successfully">Hábito agregado con éxito</string>
+    <string name="cancel_creation">Cancelar creación</string>
+    <string name="exit_without_creation">¿Deseas salir sin crear el hábito?</string>
+    <!--EDITHABIT-->
+    <string name ="habit_updated_successfully">Hábito modificado con éxito</string>
+    <!--BOTONES-->
     <string name="yes">Sí</string>
     <string name="no">No</string>
 </resources>
