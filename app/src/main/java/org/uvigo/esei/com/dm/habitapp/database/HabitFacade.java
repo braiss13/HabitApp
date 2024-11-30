@@ -44,10 +44,7 @@ public class HabitFacade {
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         // Selecciona todas las columnas, renombrando "id" como "_id"
-        return db.rawQuery(
-                "SELECT id AS _id, nombre, descripcion, frecuencia, categoria, estado FROM " + DBManager.TABLE_HABITOS,
-                null
-        );
+        return db.query(DBManager.TABLE_HABITOS, null, null, null, null, null, null);
     }
 
     public long insertHabit(String nombre, String descripcion, String frecuencia, String categoria) {
