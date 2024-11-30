@@ -81,57 +81,6 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-    // Métodos para gestionar usuarios
-    public Cursor getAllUsers() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLE_USUARIOS, null, null, null, null, null, null);
-    }
 
-    public long insertUser(String username, String password, String email) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USERNAME, username);
-        values.put(COLUMN_PASSWORD, password);
-        values.put(COLUMN_EMAIL, email);
-        return db.insert(TABLE_USUARIOS, null, values);
-    }
-
-    public Cursor authenticateUser(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_USUARIOS + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?",
-                new String[]{username, password});
-    }
-
-    // Métodos para gestionar hábitos
-    public Cursor getAllHabits() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLE_HABITOS, null, null, null, null, null, null);
-    }
-
-    public long insertHabit(String nombre, String descripcion, String frecuencia, String categoria) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_HABITO_NOMBRE, nombre);
-        values.put(COLUMN_HABITO_DESCRIPCION, descripcion);
-        values.put(COLUMN_HABITO_FRECUENCIA, frecuencia);
-        values.put(COLUMN_HABITO_CATEGORIA, categoria);
-        return db.insert(TABLE_HABITOS, null, values);
-    }
-
-    public int updateHabit(int id, String nombre, String descripcion, String frecuencia, String categoria, int estado) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_HABITO_NOMBRE, nombre);
-        values.put(COLUMN_HABITO_DESCRIPCION, descripcion);
-        values.put(COLUMN_HABITO_FRECUENCIA, frecuencia);
-        values.put(COLUMN_HABITO_CATEGORIA, categoria);
-        values.put(COLUMN_HABITO_ESTADO, estado);
-        return db.update(TABLE_HABITOS, values, COLUMN_HABITO_ID + "=?", new String[]{String.valueOf(id)});
-    }
-
-    public int deleteHabit(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_HABITOS, COLUMN_HABITO_ID + "=?", new String[]{String.valueOf(id)});
-    }
 
 }

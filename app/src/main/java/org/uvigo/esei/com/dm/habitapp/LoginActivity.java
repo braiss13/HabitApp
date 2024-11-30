@@ -1,4 +1,4 @@
-package org.uvigo.esei.com.dm.habitapp.activities;
+package org.uvigo.esei.com.dm.habitapp;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,29 +11,26 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 
 public class LoginActivity extends AppCompatActivity {
+
     private EditText edtUsername, edtPassword;
-    private Button btnLogin, btnRegister;
-    private DBManager dbManager;
+    private Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        dbManager = new DBManager(this);
 
         // Referencia a los elementos del layout
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        btnRegister = findViewById(R.id.btnRegister);
 
         // Manejo del botón de login
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = edtUsername.getText().toString().trim();
@@ -57,15 +54,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Manejo del botón de registro
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navegar a la actividad de registro
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     /**
@@ -76,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
      * @return Verdadero si las credenciales son correctas, falso en otro caso.
      */
     private boolean authenticateUser(String username, String password) {
+        DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getReadableDatabase();
         String query = "SELECT * FROM " + DBManager.TABLE_USUARIOS +
                 " WHERE " + DBManager.COLUMN_USERNAME + "=? AND " + DBManager.COLUMN_PASSWORD + "=?";
@@ -86,3 +75,5 @@ public class LoginActivity extends AppCompatActivity {
         return isAuthenticated;
     }
 }
+
+

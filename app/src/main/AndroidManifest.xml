@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".HabitApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +16,7 @@
 
         <!-- LoginActivity set as MAIN to start the application -->
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,17 +26,17 @@
 
         <!-- RegisterActivity declared -->
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name=".RegisterActivity"
             android:exported="true" />
 
         <!-- MainActivity declared (if needed later in the app flow) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true" />
 
-        <activity android:name=".activities.HabitsListActivity" />
-        <activity android:name=".activities.AddHabitActivity" />
-        <activity android:name=".activities.EditHabitActivity" />
+
+
+
 
 
     </application>

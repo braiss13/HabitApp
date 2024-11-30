@@ -1,4 +1,4 @@
-package org.uvigo.esei.com.dm.habitapp.models;
+package org.uvigo.esei.com.dm.habitapp;
 
 public class Habito {
     private int id;

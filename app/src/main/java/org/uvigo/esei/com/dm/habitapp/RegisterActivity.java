@@ -1,5 +1,8 @@
-package org.uvigo.esei.com.dm.habitapp.activities;
+package org.uvigo.esei.com.dm.habitapp;
 
+import android.content.Intent;
+import android.widget.Button;
+import android.widget.EditText;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,20 +13,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText edtUsername, edtPassword, edtEmail;
-    private Button btnRegister;
-    private DBManager dbManager;
 
-    @Override
+    private Button btnRegister;
+
+    private EditText edtUsername,edtPassword,edtEmail;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        dbManager = new DBManager(this);
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         edtEmail = findViewById(R.id.edtEmail);
@@ -43,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (registerUser(username, password, email)) {
                     Toast.makeText(RegisterActivity.this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
+                    Intent intent =new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
                     finish();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
@@ -52,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean registerUser(String username, String password, String email) {
+        DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBManager.COLUMN_USERNAME, username);
@@ -62,4 +67,3 @@ public class RegisterActivity extends AppCompatActivity {
         return result != -1;
     }
 }
-
