@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">HabitApp</string>
+    <string name="confirm_delete_habit">¿Estás seguro de que quieres eliminar este hábito?</string>
+    <string name="exit_app_title">Salir de la aplicación</string>
+    <string name="exit_app_message">¿Deseas cerrar la aplicación?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
 </resources>
