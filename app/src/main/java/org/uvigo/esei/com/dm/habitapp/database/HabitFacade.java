@@ -43,7 +43,7 @@ public class HabitFacade {
     public Cursor getAllHabits() {
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
-        // Selecciona todas las columnas, renombrando "id" como "_id"
+
         return db.query(DBManager.TABLE_HABITOS, null, null, null, null, null, null);
     }
 

@@ -1,6 +1,7 @@
 package org.uvigo.esei.com.dm.habitapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+
+        if(isLogged()){
+            Intent intent = new Intent(MainActivity.this, HabitsListActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            setContentView(R.layout.activity_main);
+        }
+
 
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
@@ -46,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         });
         habitFacade = new HabitFacade((HabitApplication) getApplication());
 
+    }
+
+    public boolean isLogged(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Session",MODE_PRIVATE);
+        return sharedPreferences.getBoolean("isLogged",false);
     }
 
     private DBManager getDBManager() {

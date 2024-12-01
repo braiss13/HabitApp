@@ -58,9 +58,12 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean registerUser(String username, String password, String email) {
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getWritableDatabase();
+
+        String hashedPassword = PasswordSecurity.hashPassword(password);
+
         ContentValues values = new ContentValues();
         values.put(DBManager.COLUMN_USERNAME, username);
-        values.put(DBManager.COLUMN_PASSWORD, password);
+        values.put(DBManager.COLUMN_PASSWORD, hashedPassword);
         values.put(DBManager.COLUMN_EMAIL, email);
 
         long result = db.insert(DBManager.TABLE_USUARIOS, null, values);

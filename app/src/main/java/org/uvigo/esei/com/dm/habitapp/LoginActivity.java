@@ -1,6 +1,7 @@
 package org.uvigo.esei.com.dm.habitapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
+
+import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,8 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
+
         // Manejo del botón de login
-         btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = edtUsername.getText().toString().trim();
@@ -44,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (authenticateUser(username, password)) {
                     Toast.makeText(LoginActivity.this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
 
-                    // Navegar a la lista de hábitos
+                    saveSession(username);//GUARDAMOS LA SESION
+
                     Intent intent = new Intent(LoginActivity.this, HabitsListActivity.class);
                     startActivity(intent);
                     finish();
@@ -53,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
     }
 
@@ -66,14 +73,43 @@ public class LoginActivity extends AppCompatActivity {
     private boolean authenticateUser(String username, String password) {
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getReadableDatabase();
-        String query = "SELECT * FROM " + DBManager.TABLE_USUARIOS +
-                " WHERE " + DBManager.COLUMN_USERNAME + "=? AND " + DBManager.COLUMN_PASSWORD + "=?";
-        Cursor cursor = db.rawQuery(query, new String[]{username, password});
 
-        boolean isAuthenticated = cursor.getCount() > 0;
+        Cursor cursor = db.query(
+                DBManager.TABLE_USUARIOS,
+                new String[]{DBManager.COLUMN_PASSWORD}, // Obtener solo el hash
+                DBManager.COLUMN_USERNAME + "=?",       // Filtro: username
+                new String[]{username},                 // Parámetro: valor del username
+                null, null, null
+        );
+        if(cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(DBManager.COLUMN_PASSWORD);
+            if (columnIndex == -1) {
+                throw new IllegalArgumentException("Column not found: " + DBManager.COLUMN_PASSWORD);
+            }
+            String storedHashedPassword = cursor.getString(columnIndex);
+
+            // Comparar la contraseña ingresada con el hash almacenado
+            return PasswordSecurity.checkPassword(password, storedHashedPassword);
+        }
+
+
         cursor.close();
-        return isAuthenticated;
+        return false;
+
+        }
+
+        public void saveSession(String username){
+            SharedPreferences sharedPreferences = getSharedPreferences("Session",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString("loggeduser",username);
+            editor.putBoolean("isLogged", true);
+            editor.apply();
+
+        }
+
+
     }
-}
+
 
 
