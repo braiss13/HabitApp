@@ -39,6 +39,34 @@ public class HabitFacade {
                 new String[]{username, password});
     }
 
+    public Cursor getHabitsByCategory(String category) {
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        return db.query(
+                DBManager.TABLE_HABITOS,  // Nombre de la tabla
+                null,
+                DBManager.COLUMN_HABITO_CATEGORIA + " = ?",  // Condición de filtro
+                new String[]{category},
+                null,
+                null,
+                null
+        );
+    }
+
+    public Cursor getHabitsByName(String name) {
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        return db.query(
+                DBManager.TABLE_HABITOS,
+                null,
+                DBManager.COLUMN_HABITO_NOMBRE + " LIKE ?",  // El LIKE lo uso para búsquedas parciales
+                new String[]{"%" + name + "%"},  //Esto lo saqué de stackOverflow
+                null,
+                null,
+                null
+        );
+    }
+
     // Métodos para gestionar hábitos
     public Cursor getAllHabits() {
         SQLiteDatabase db = dbManager.getReadableDatabase();

@@ -20,6 +20,22 @@
     <string name="exit_without_creation">¿Deseas salir sin crear el hábito?</string>
     <!--EDITHABIT-->
     <string name ="habit_updated_successfully">Hábito modificado con éxito</string>
+
+    <string-array name="habit_options">
+        <item>Nutrición</item>
+        <item>Productividad</item>
+        <item>Salud</item>
+        <item>Deporte</item>
+        <item>Estudio</item>
+        <item>Finanzas</item>
+        <item>Salud mental</item>
+        <item>Otros</item>
+    </string-array>
+
+    <string-array name="habit_filter">
+        <item>Nombre</item>
+        <item>Categoría</item>
+    </string-array>
     <!--BOTONES-->
     <string name="yes">Sí</string>
     <string name="no">No</string>

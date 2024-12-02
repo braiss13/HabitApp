@@ -33,17 +33,22 @@
             android:hint="Frecuencia (ej. Diario, Semanal)"
             android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edtHabitCategory"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Categoría (ej. Salud, Productividad)"
-            android:inputType="text" />
+        <Spinner
+            android:id="@+id/spHabitCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/habit_options"
+            android:text="Categoría" />
+
+
 
         <Button
             android:id="@+id/btnSaveHabit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar" />
-    </LinearLayout>
+
+
+
+</LinearLayout>
 </LinearLayout>

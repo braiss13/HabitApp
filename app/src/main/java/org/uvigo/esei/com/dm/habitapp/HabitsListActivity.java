@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -12,8 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,8 +31,11 @@ import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 public class HabitsListActivity  extends AppCompatActivity{
     private SimpleCursorAdapter adapter;
     private ListView lvHabits;
+    private EditText edtHabitFilter;
     private FloatingActionButton fabAddHabit, fabLogout;
+    private Spinner spHabitFilter;
     private HabitFacade habitFacade;
+    private String filter = "Nombre";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +47,39 @@ public class HabitsListActivity  extends AppCompatActivity{
         lvHabits = findViewById(R.id.lvHabits);
         fabAddHabit = findViewById(R.id.fabAddHabit);
         fabLogout = findViewById(R.id.fabLogout);
+        edtHabitFilter = findViewById(R.id.edtHabitFilter);
+        spHabitFilter = findViewById(R.id.spHabitFilter);
+
+        spHabitFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                filter = adapterView.getItemAtPosition(position).toString();
+                filterHabits();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                filter = "Nombre";
+
+            }
+        });
+
+        edtHabitFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                filterHabits(); // Filtrar los hábitos cuando se cambie el texto
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
 
         setupListView();
         registerForContextMenu(lvHabits);
+
 
         fabAddHabit.setOnClickListener(view -> {
             Intent intent = new Intent(HabitsListActivity.this, AddHabitActivity.class);
@@ -87,6 +126,24 @@ public class HabitsListActivity  extends AppCompatActivity{
             oldCursor.close(); // Cierra el cursor anterior si existía
         }
     }
+
+    private void filterHabits() {
+        String filterText = edtHabitFilter.getText().toString().trim();
+        Cursor cursor;
+
+        if ("Nombre".equals(filter)) {
+            cursor = habitFacade.getHabitsByName(filterText);
+        } else if ("Categoría".equals(filter)) {
+            cursor = habitFacade.getHabitsByCategory(filterText);
+        } else {
+            cursor = habitFacade.getAllHabits();
+        }
+
+        // Actualizar el ListView con los resultados filtrados
+        adapter.swapCursor(cursor);
+    }
+
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);

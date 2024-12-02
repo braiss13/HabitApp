@@ -11,6 +11,39 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+
+        <EditText
+            android:id="@+id/edtHabitFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp">
+
+        </EditText>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Filtrar por:        ">
+
+            </TextView>
+
+            <Spinner
+                android:id="@+id/spHabitFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:entries="@array/habit_filter">
+
+            </Spinner>
+
+
+        </LinearLayout>
+
         <ListView
             android:id="@+id/lvHabits"
             android:layout_width="match_parent"
@@ -32,6 +65,7 @@
         android:id="@+id/fabLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_margin="16dp"
         android:contentDescription="Cerrar Sesión"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
