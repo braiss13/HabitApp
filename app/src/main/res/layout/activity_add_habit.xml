@@ -30,8 +30,8 @@
             android:id="@+id/edtHabitFrequency"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Frecuencia (ej. Diario, Semanal)"
-            android:inputType="text" />
+            android:hint="Frecuencia semanal"
+            android:inputType="number" />
 
         <Spinner
             android:id="@+id/spHabitCategory"

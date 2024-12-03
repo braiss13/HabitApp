@@ -6,14 +6,18 @@ public class Habito {
     private String descripcion;
     private String frecuencia;
     private String categoria;
+    private int objetivo;
+    private int progreso;
     private boolean estado;
 
-    public Habito(int id, String nombre, String descripcion, String frecuencia, String categoria, boolean estado) {
+    public Habito(int id, String nombre, String descripcion, String frecuencia, String categoria, int objetivo, int progreso, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.frecuencia = frecuencia;
         this.categoria = categoria;
+        this.objetivo = objetivo;
+        this.progreso = progreso;
         this.estado = estado;
     }
 
@@ -36,6 +40,8 @@ public class Habito {
     public String getCategoria() {
         return categoria;
     }
+    public int getProgreso() { return progreso; }
+    public int getObjetivo() { return objetivo; }
 
     public boolean isEstado() {
         return estado;
@@ -44,6 +50,12 @@ public class Habito {
     public void setId(int id) {
         this.id = id;
     }
+
+
+
+    public void setObjetivo(int objetivo) { this.objetivo = objetivo; }
+
+    public void setProgreso(int progreso) { this.progreso = progreso; }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;

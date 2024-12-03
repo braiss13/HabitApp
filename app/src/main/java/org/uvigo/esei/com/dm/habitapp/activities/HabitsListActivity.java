@@ -1,5 +1,6 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,8 +17,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -38,6 +41,7 @@ public class HabitsListActivity  extends AppCompatActivity{
     private HabitFacade habitFacade;
     private String filter = "Nombre";
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,7 @@ public class HabitsListActivity  extends AppCompatActivity{
         fabLogout = findViewById(R.id.fabLogout);
         edtHabitFilter = findViewById(R.id.edtHabitFilter);
         spHabitFilter = findViewById(R.id.spHabitFilter);
+
 
         spHabitFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -208,12 +213,24 @@ public class HabitsListActivity  extends AppCompatActivity{
         SharedPreferences sharedPreferences = getSharedPreferences("Session",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.clear();
-        editor.apply();
+        new AlertDialog.Builder(this)
+                .setTitle("Cierre de Sesión")
+                .setMessage("¿Está seguro de que quiere cerrar sesión?")
+                .setPositiveButton("Sí",(dialog, which) -> {
+                    editor.clear();
+                    editor.apply();
 
-        Intent intent = new Intent(HabitsListActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+                    Intent intent = new Intent(HabitsListActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(HabitsListActivity.this, "La sesión ha sido cerrada", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("No", null)
+                .show();
+
+
+
+
     }
 
     @Override

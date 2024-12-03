@@ -13,7 +13,8 @@
         android:layout_weight="2"
         android:text="Habit Name"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="9dp"/>
 
     <TextView
         android:id="@+id/tvHabitCategory"
@@ -22,5 +23,17 @@
         android:layout_weight="1"
         android:gravity="end"
         android:text="Category"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_marginTop="9dp"/>
+
+    <ProgressBar
+        android:id="@+id/pgHabitProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="50"
+        android:layout_weight="1.5" />
+
+
 </LinearLayout>

@@ -27,6 +27,8 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String COLUMN_HABITO_FRECUENCIA = "frecuencia";
     public static final String COLUMN_HABITO_CATEGORIA = "categoria";
     public static final String COLUMN_HABITO_ESTADO = "estado";
+    public static final String COLUMN_HABITO_PROGRESOACTUAL = "progreso actual";
+    public static final String COLUMN_HABITO_OBJETIVO = "objetivo";
 
     public DBManager(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
