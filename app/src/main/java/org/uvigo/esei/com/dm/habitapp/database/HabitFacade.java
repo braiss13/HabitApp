@@ -45,8 +45,8 @@ public class HabitFacade {
         return db.query(
                 DBManager.TABLE_HABITOS,  // Nombre de la tabla
                 null,
-                DBManager.COLUMN_HABITO_CATEGORIA + " = ?",  // Condición de filtro
-                new String[]{category},
+                DBManager.COLUMN_HABITO_CATEGORIA + " LIKE ?",  // Condición de filtro
+                new String[]{"%" + category + "%"},
                 null,
                 null,
                 null

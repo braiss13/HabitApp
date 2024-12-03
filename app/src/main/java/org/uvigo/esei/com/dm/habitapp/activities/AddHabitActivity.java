@@ -1,8 +1,11 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +15,9 @@ import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
 public class AddHabitActivity extends AppCompatActivity {
-    private EditText edtName, edtDescription, edtFrequency, edtCategory;
+    private EditText edtName, edtDescription, edtFrequency;
+    private Spinner spHabitCategory;
+    private String selectedCategory;
     private Button btnSave;
     private HabitFacade habitFacade;
 
@@ -25,7 +30,20 @@ public class AddHabitActivity extends AppCompatActivity {
         edtName = findViewById(R.id.edtHabitName);
         edtDescription = findViewById(R.id.edtHabitDescription);
         edtFrequency = findViewById(R.id.edtHabitFrequency);
-        edtCategory = findViewById(R.id.edtHabitCategory);
+        spHabitCategory = findViewById(R.id.spHabitCategory);
+
+        spHabitCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedCategory = adapterView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                selectedCategory = null;
+            }
+        });
+
         btnSave = findViewById(R.id.btnSaveHabit);
 
         btnSave.setOnClickListener(v -> saveHabit());
@@ -34,7 +52,7 @@ public class AddHabitActivity extends AppCompatActivity {
         String name = edtName.getText().toString().trim();
         String description = edtDescription.getText().toString().trim();
         String frequency = edtFrequency.getText().toString().trim();
-        String category = edtCategory.getText().toString().trim();
+        String category = spHabitCategory.getSelectedItem().toString();
 
         if (name.isEmpty() || frequency.isEmpty() || category.isEmpty()) {
             Toast.makeText(this,  getString(R.string.fill_required_fields), Toast.LENGTH_SHORT).show();
