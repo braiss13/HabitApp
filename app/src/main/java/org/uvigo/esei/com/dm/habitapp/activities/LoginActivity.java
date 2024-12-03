@@ -1,4 +1,4 @@
-package org.uvigo.esei.com.dm.habitapp;
+package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,9 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
+import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
-
-import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -107,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
 
         }
-
 
     }
 

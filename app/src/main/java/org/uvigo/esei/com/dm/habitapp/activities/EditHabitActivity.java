@@ -1,4 +1,4 @@
-package org.uvigo.esei.com.dm.habitapp;
+package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
@@ -12,9 +12,9 @@ import android.widget.Toast;
 import android.widget.SpinnerAdapter;
 
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.uvigo.esei.com.dm.habitapp.HabitApplication;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;

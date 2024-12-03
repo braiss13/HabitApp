@@ -26,17 +26,17 @@
 
         <!-- RegisterActivity declared -->
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="true" />
 
         <!-- MainActivity declared (if needed later in the app flow) -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true" />
 
-        <activity android:name=".HabitsListActivity" />
-        <activity android:name=".AddHabitActivity" />
-        <activity android:name=".EditHabitActivity" />
+        <activity android:name=".activities.HabitsListActivity" />
+        <activity android:name=".activities.AddHabitActivity" />
+        <activity android:name=".activities.EditHabitActivity" />
 
 
 

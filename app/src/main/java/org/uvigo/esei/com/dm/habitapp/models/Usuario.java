@@ -1,4 +1,4 @@
-package org.uvigo.esei.com.dm.habitapp;
+package org.uvigo.esei.com.dm.habitapp.models;
 
 public class Usuario {
     private int id;

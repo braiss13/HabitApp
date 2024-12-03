@@ -71,7 +71,6 @@ public class HabitFacade {
     public Cursor getAllHabits() {
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
-
         return db.query(DBManager.TABLE_HABITOS, null, null, null, null, null, null);
     }
 

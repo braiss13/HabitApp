@@ -8,10 +8,10 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import org.uvigo.esei.com.dm.habitapp.activities.HabitsListActivity;
+import org.uvigo.esei.com.dm.habitapp.activities.LoginActivity;
+import org.uvigo.esei.com.dm.habitapp.activities.RegisterActivity;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 

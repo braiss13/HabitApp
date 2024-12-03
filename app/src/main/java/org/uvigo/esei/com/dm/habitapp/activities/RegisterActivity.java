@@ -1,4 +1,4 @@
-package org.uvigo.esei.com.dm.habitapp;
+package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.content.Intent;
 import android.widget.Button;
@@ -7,12 +7,13 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
+import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 
 public class RegisterActivity extends AppCompatActivity {

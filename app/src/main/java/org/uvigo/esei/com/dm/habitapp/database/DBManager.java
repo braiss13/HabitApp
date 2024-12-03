@@ -81,6 +81,4 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-
-
 }
