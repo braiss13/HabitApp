@@ -11,10 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HabitApp"
         tools:targetApi="31">
+        <!--android:theme="@style/Theme.HabitApp"-->
 
-        <!-- LoginActivity set as MAIN to start the application -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -29,7 +28,7 @@
             android:name=".activities.RegisterActivity"
             android:exported="true" />
 
-        <!-- MainActivity declared (if needed later in the app flow) -->
+        <!-- LoginActivity declared -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true" />
@@ -37,11 +36,6 @@
         <activity android:name=".activities.HabitsListActivity" />
         <activity android:name=".activities.AddHabitActivity" />
         <activity android:name=".activities.EditHabitActivity" />
-
-
-
-
-
 
     </application>
 

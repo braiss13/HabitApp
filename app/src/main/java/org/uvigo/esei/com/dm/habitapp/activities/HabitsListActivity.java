@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -86,7 +85,6 @@ public class HabitsListActivity  extends AppCompatActivity{
         setupListView();
         registerForContextMenu(lvHabits);
 
-
         fabAddHabit.setOnClickListener(view -> {
             Intent intent = new Intent(HabitsListActivity.this, AddHabitActivity.class);
             startActivity(intent);
@@ -149,14 +147,14 @@ public class HabitsListActivity  extends AppCompatActivity{
         adapter.swapCursor(cursor);
     }
 
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         if (v.getId() == R.id.lvHabits) {
-            getMenuInflater().inflate(R.menu.menu_contextual_habit, menu);
+            getMenuInflater().inflate(R.menu.context_menu, menu);
         }
     }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -188,23 +186,24 @@ public class HabitsListActivity  extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         Log.d("MenuDebug", "SE LLAMA AL MÉTODO ONCREATE OPTIONS MENU");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        this.getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_add_habit) {
+            // TODO podríamos cambiar esto a un método como sumar "+1" a todas las actividades del día (=has hecho todos los hábitos ese día)
             startActivity(new Intent(this, AddHabitActivity.class));
             return true;
         }
-        /*else if (item.getItemId() == R.id.menu_filter_habits) {
-            startActivity(new Intent(this, FilterActivity.class));
+        else if (item.getItemId() == R.id.menu_filter_habits) {
+            filterHabits();
             return true;
 
-         */
-        else {
+        }else {
             return super.onOptionsItemSelected(item);
         }
     }
@@ -227,9 +226,6 @@ public class HabitsListActivity  extends AppCompatActivity{
                 })
                 .setNegativeButton("No", null)
                 .show();
-
-
-
 
     }
 
