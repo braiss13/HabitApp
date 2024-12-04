@@ -20,7 +20,7 @@
         <EditText
             android:id="@+id/edtHabitDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Descripción del hábito"
             android:inputType="textMultiLine"
             android:lines="3"
@@ -36,7 +36,7 @@
         <Spinner
             android:id="@+id/spHabitCategory"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:entries="@array/habit_options"
             android:text="Categoría" />
 
@@ -44,6 +44,8 @@
             android:id="@+id/btnSaveHabit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar" />
+            android:text="Guardar"
+            android:gravity="center" />
+
     </LinearLayout>
 </LinearLayout>
