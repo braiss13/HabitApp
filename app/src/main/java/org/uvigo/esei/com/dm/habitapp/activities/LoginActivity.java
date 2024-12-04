@@ -27,12 +27,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         // Referencia a los elementos del layout
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-
 
         // Manejo del botón de login
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -46,10 +44,11 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (authenticateUser(username, password)) {
+                int userId = authenticateUser(username, password);
+                if (userId != -1) {
                     Toast.makeText(LoginActivity.this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
 
-                    saveSession(username);//GUARDAMOS LA SESION
+                    saveSession(username, userId); // GUARDAMOS LA SESIÓN
 
                     Intent intent = new Intent(LoginActivity.this, HabitsListActivity.class);
                     startActivity(intent);
@@ -60,8 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     /**
@@ -69,47 +66,55 @@ public class LoginActivity extends AppCompatActivity {
      *
      * @param username Nombre de usuario ingresado.
      * @param password Contraseña ingresada.
-     * @return Verdadero si las credenciales son correctas, falso en otro caso.
+     * @return El user_id si las credenciales son correctas, -1 en otro caso.
      */
-    private boolean authenticateUser(String username, String password) {
+    private int authenticateUser(String username, String password) {
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         Cursor cursor = db.query(
                 DBManager.TABLE_USUARIOS,
-                new String[]{DBManager.COLUMN_PASSWORD}, // Obtener solo el hash
-                DBManager.COLUMN_USERNAME + "=?",       // Filtro: username
-                new String[]{username},                 // Parámetro: valor del username
+                new String[]{DBManager.COLUMN_ID, DBManager.COLUMN_PASSWORD}, // Obtener ID y hash de contraseña
+                DBManager.COLUMN_USERNAME + "=?",                             // Filtro: username
+                new String[]{username},                                       // Parámetro: valor del username
                 null, null, null
         );
-        if(cursor.moveToFirst()) {
-            int columnIndex = cursor.getColumnIndex(DBManager.COLUMN_PASSWORD);
-            if (columnIndex == -1) {
-                throw new IllegalArgumentException("Column not found: " + DBManager.COLUMN_PASSWORD);
+
+        if (cursor.moveToFirst()) {
+            int idColumnIndex = cursor.getColumnIndex(DBManager.COLUMN_ID);
+            int passwordColumnIndex = cursor.getColumnIndex(DBManager.COLUMN_PASSWORD);
+
+            if (idColumnIndex == -1 || passwordColumnIndex == -1) {
+                throw new IllegalArgumentException("Required column not found in the database.");
             }
-            String storedHashedPassword = cursor.getString(columnIndex);
+
+            int userId = cursor.getInt(idColumnIndex);
+            String storedHashedPassword = cursor.getString(passwordColumnIndex);
 
             // Comparar la contraseña ingresada con el hash almacenado
-            return PasswordSecurity.checkPassword(password, storedHashedPassword);
+            if (PasswordSecurity.checkPassword(password, storedHashedPassword)) {
+                cursor.close();
+                return userId; // Retorna el ID del usuario autenticado
+            }
         }
-
 
         cursor.close();
-        return false;
-
-        }
-
-        public void saveSession(String username){
-            SharedPreferences sharedPreferences = getSharedPreferences("Session",MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-
-            editor.putString("loggeduser",username);
-            editor.putBoolean("isLogged", true);
-            editor.apply();
-
-        }
-
+        return -1; // Si la autenticación falla
     }
 
+    /**
+     * Guardar la sesión del usuario autenticado en SharedPreferences.
+     *
+     * @param username Nombre de usuario autenticado.
+     * @param userId ID del usuario autenticado.
+     */
+    public void saveSession(String username, int userId) {
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-
+        editor.putString("loggeduser", username); // Guardar el nombre de usuario
+        editor.putInt("user_id", userId);         // Guardar el ID del usuario
+        editor.putBoolean("isLogged", true);      // Marcar como logueado
+        editor.apply();
+    }
+}

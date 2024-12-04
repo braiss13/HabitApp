@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class DBManager extends SQLiteOpenHelper {
     private static final String DB_NAME = "HabitAppDB";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     // Tabla de usuarios
     public static final String TABLE_USUARIOS = "usuarios";
@@ -27,7 +27,7 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String COLUMN_HABITO_FRECUENCIA = "frecuencia";
     public static final String COLUMN_HABITO_CATEGORIA = "categoria";
     public static final String COLUMN_HABITO_ESTADO = "estado";
-    public static final String COLUMN_HABITO_PROGRESOACTUAL = "progreso actual";
+    public static final String COLUMN_HABITO_PROGRESOACTUAL = "progreso_actual";
     public static final String COLUMN_HABITO_OBJETIVO = "objetivo";
 
     public DBManager(Context context) {
@@ -42,6 +42,7 @@ public class DBManager extends SQLiteOpenHelper {
         try {
             db.beginTransaction();
 
+            // Crear tabla de usuarios
             String CREATE_TABLE_USUARIOS = "CREATE TABLE " + TABLE_USUARIOS + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_USERNAME + " TEXT NOT NULL UNIQUE, " +
@@ -49,15 +50,18 @@ public class DBManager extends SQLiteOpenHelper {
                     COLUMN_EMAIL + " TEXT NOT NULL UNIQUE)";
             db.execSQL(CREATE_TABLE_USUARIOS);
 
+            // Crear tabla de hábitos
             String CREATE_TABLE_HABITOS = "CREATE TABLE " + TABLE_HABITOS + " (" +
                     COLUMN_HABITO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_HABITO_NOMBRE + " TEXT NOT NULL, " +
                     COLUMN_HABITO_DESCRIPCION + " TEXT, " +
                     COLUMN_HABITO_FRECUENCIA + " TEXT, " +
                     COLUMN_HABITO_CATEGORIA + " TEXT, " +
-                    COLUMN_HABITO_ESTADO + " INTEGER DEFAULT 0)";
-
+                    COLUMN_HABITO_ESTADO + " INTEGER DEFAULT 0, " +
+                    "user_id INTEGER NOT NULL, " + // Nueva columna para el ID del usuario
+                    "FOREIGN KEY(user_id) REFERENCES " + TABLE_USUARIOS + "(" + COLUMN_ID + "))";
             db.execSQL(CREATE_TABLE_HABITOS);
+
             db.setTransactionSuccessful();
         } catch (SQLException e) {
             Log.e("DBManager", "Error creando tablas: " + e.getMessage());

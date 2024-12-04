@@ -31,7 +31,8 @@ import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
-public class HabitsListActivity  extends AppCompatActivity{
+public class HabitsListActivity extends AppCompatActivity {
+
     private SimpleCursorAdapter adapter;
     private ListView lvHabits;
     private EditText edtHabitFilter;
@@ -39,6 +40,7 @@ public class HabitsListActivity  extends AppCompatActivity{
     private Spinner spHabitFilter;
     private HabitFacade habitFacade;
     private String filter = "Nombre";
+    private int userId; // Usuario logueado
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -47,6 +49,9 @@ public class HabitsListActivity  extends AppCompatActivity{
         setContentView(R.layout.activity_habits_list);
 
         habitFacade = new HabitFacade((HabitApplication) getApplication());
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
+        userId = sharedPreferences.getInt("user_id", -1);
 
         lvHabits = findViewById(R.id.lvHabits);
         fabAddHabit = findViewById(R.id.fabAddHabit);
@@ -71,7 +76,8 @@ public class HabitsListActivity  extends AppCompatActivity{
 
         edtHabitFilter.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
@@ -79,7 +85,8 @@ public class HabitsListActivity  extends AppCompatActivity{
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         setupListView();
@@ -92,10 +99,12 @@ public class HabitsListActivity  extends AppCompatActivity{
 
         fabLogout.setOnClickListener(view -> logout());
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         // Inspeccionar las columnas de la tabla de hábitos
+        /*
         Cursor cursor = habitFacade.getAllHabits();
         String[] columnNames = cursor.getColumnNames();
         for (String column : columnNames) {
@@ -103,9 +112,11 @@ public class HabitsListActivity  extends AppCompatActivity{
         }
         cursor.close();
 
+         */
         // Cargar los hábitos en el ListView
         loadHabits();
     }
+
     private void setupListView() {
         adapter = new SimpleCursorAdapter(
                 this,
@@ -123,24 +134,29 @@ public class HabitsListActivity  extends AppCompatActivity{
             startActivity(intent);
         });
     }
+
     private void loadHabits() {
-        Cursor cursor = habitFacade.getAllHabits();
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("user_id", -1); // Recuperar el user_id del usuario logueado
+
+        Cursor cursor = habitFacade.getAllHabits(userId);
         Cursor oldCursor = adapter.swapCursor(cursor);
         if (oldCursor != null) {
             oldCursor.close(); // Cierra el cursor anterior si existía
         }
     }
 
+
     private void filterHabits() {
         String filterText = edtHabitFilter.getText().toString().trim();
         Cursor cursor;
 
         if ("Nombre".equals(filter)) {
-            cursor = habitFacade.getHabitsByName(filterText);
+            cursor = habitFacade.getHabitsByName(filterText, userId);
         } else if ("Categoría".equals(filter)) {
-            cursor = habitFacade.getHabitsByCategory(filterText);
+            cursor = habitFacade.getHabitsByCategory(filterText, userId);
         } else {
-            cursor = habitFacade.getAllHabits();
+            cursor = habitFacade.getAllHabits(userId);
         }
 
         // Actualizar el ListView con los resultados filtrados
@@ -172,13 +188,17 @@ public class HabitsListActivity  extends AppCompatActivity{
             return super.onContextItemSelected(item);
         }
     }
+
     private void confirmDeletion(long habitId) {
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("user_id", -1); // Asegúrate de usar la clave correcta
+
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.confirm_deletion_title))
                 .setMessage(getString(R.string.confirm_delete_habit))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                    habitFacade.deleteHabit((int) habitId);
-                    loadHabits();
+                    habitFacade.deleteHabit((int) habitId, userId);
+                    loadHabits(); // Recargar los hábitos tras eliminar uno
                 })
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
@@ -198,24 +218,23 @@ public class HabitsListActivity  extends AppCompatActivity{
             // TODO podríamos cambiar esto a un método como sumar "+1" a todas las actividades del día (=has hecho todos los hábitos ese día)
             startActivity(new Intent(this, AddHabitActivity.class));
             return true;
-        }
-        else if (item.getItemId() == R.id.menu_filter_habits) {
+        } else if (item.getItemId() == R.id.menu_filter_habits) {
             filterHabits();
             return true;
 
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }
 
-    public void logout(){
-        SharedPreferences sharedPreferences = getSharedPreferences("Session",MODE_PRIVATE);
+    public void logout() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         new AlertDialog.Builder(this)
                 .setTitle("Cierre de Sesión")
                 .setMessage("¿Está seguro de que quiere cerrar sesión?")
-                .setPositiveButton("Sí",(dialog, which) -> {
+                .setPositiveButton("Sí", (dialog, which) -> {
                     editor.clear();
                     editor.apply();
 

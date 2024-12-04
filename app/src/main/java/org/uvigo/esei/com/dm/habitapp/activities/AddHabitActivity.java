@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.content.SharedPreferences;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -48,21 +49,26 @@ public class AddHabitActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> saveHabit());
     }
-    private void saveHabit() {
+
+    public void saveHabit() {
         String name = edtName.getText().toString().trim();
         String description = edtDescription.getText().toString().trim();
         String frequency = edtFrequency.getText().toString().trim();
         String category = spHabitCategory.getSelectedItem().toString();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("user_id", -1);
+
         if (name.isEmpty() || frequency.isEmpty() || category.isEmpty()) {
-            Toast.makeText(this,  getString(R.string.fill_required_fields), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.fill_required_fields), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        habitFacade.insertHabit(name, description, frequency, category);
+        habitFacade.insertHabit(name, description, frequency, category, userId);
         Toast.makeText(this, getString(R.string.habit_added_successfully), Toast.LENGTH_SHORT).show();
         finish();
     }
+
     @Override
     public void onBackPressed() {
         new android.app.AlertDialog.Builder(this)

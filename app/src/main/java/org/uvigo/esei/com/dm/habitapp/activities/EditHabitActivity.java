@@ -11,7 +11,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.SpinnerAdapter;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
@@ -42,7 +41,7 @@ public class EditHabitActivity extends AppCompatActivity {
         spHabitCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-               selectedCategory = adapterView.getItemAtPosition(position).toString();
+                selectedCategory = adapterView.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -60,8 +59,10 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void loadHabitDetails() {
-        Cursor cursor = habitFacade.getAllHabits();
-        if (cursor.moveToPosition((int) habitId-1) ) {
+        int userId = getSharedPreferences("Session", MODE_PRIVATE).getInt("user_id", -1); // Obtener usuario actual
+        Cursor cursor = habitFacade.getHabitById((int) habitId, userId); // Modificar HabitFacade para admitir userId
+
+        if (cursor != null && cursor.moveToFirst()) {
             edtName.setText(cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_NOMBRE)));
             edtDescription.setText(cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_DESCRIPCION)));
             edtFrequency.setText(cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_FRECUENCIA)));
@@ -75,8 +76,13 @@ public class EditHabitActivity extends AppCompatActivity {
                     break;
                 }
             }
+        } else {
+            Toast.makeText(this, "No se encontró el hábito o no pertenece al usuario actual", Toast.LENGTH_SHORT).show();
+            finish(); // Salir de la actividad si no se encuentra el hábito
         }
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+        }
     }
 
     private void updateHabit() {
@@ -90,9 +96,15 @@ public class EditHabitActivity extends AppCompatActivity {
             return;
         }
 
-        habitFacade.updateHabit((int) habitId, name, description, frequency, category, 0);
-        Toast.makeText(this, getString(R.string.habit_updated_successfully), Toast.LENGTH_SHORT).show();
-        finish();
+        int userId = getSharedPreferences("Session", MODE_PRIVATE).getInt("user_id", -1); // Obtener usuario actual
+        int rowsUpdated = habitFacade.updateHabit((int) habitId, name, description, frequency, category, 0, userId); // Modificar HabitFacade
+
+        if (rowsUpdated > 0) {
+            Toast.makeText(this, getString(R.string.habit_updated_successfully), Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "No se pudo actualizar el hábito. Revisa los datos", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
