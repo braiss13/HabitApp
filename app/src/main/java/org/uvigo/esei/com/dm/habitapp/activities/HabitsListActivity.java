@@ -15,10 +15,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,7 +50,7 @@ public class HabitsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habits_list);
 
-        habitFacade = new HabitFacade((HabitApplication) getApplication());
+        habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         userId = sharedPreferences.getInt("user_id", -1);
@@ -59,6 +61,9 @@ public class HabitsListActivity extends AppCompatActivity {
         edtHabitFilter = findViewById(R.id.edtHabitFilter);
         spHabitFilter = findViewById(R.id.spHabitFilter);
 
+        setupListView();
+
+        registerForContextMenu(lvHabits);
 
         spHabitFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -70,7 +75,6 @@ public class HabitsListActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 filter = "Nombre";
-
             }
         });
 
@@ -89,9 +93,6 @@ public class HabitsListActivity extends AppCompatActivity {
             }
         });
 
-        setupListView();
-        registerForContextMenu(lvHabits);
-
         fabAddHabit.setOnClickListener(view -> {
             Intent intent = new Intent(HabitsListActivity.this, AddHabitActivity.class);
             startActivity(intent);
@@ -103,29 +104,61 @@ public class HabitsListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Inspeccionar las columnas de la tabla de hábitos
-        /*
-        Cursor cursor = habitFacade.getAllHabits();
-        String[] columnNames = cursor.getColumnNames();
-        for (String column : columnNames) {
-            Log.d("DatabaseColumns", column); // Imprime los nombres de las columnas
-        }
-        cursor.close();
-
-         */
         // Cargar los hábitos en el ListView
         loadHabits();
     }
 
     private void setupListView() {
-        adapter = new SimpleCursorAdapter(
-                this,
-                R.layout.list_item_habit,
-                null,
-                new String[]{DBManager.COLUMN_HABITO_NOMBRE, DBManager.COLUMN_HABITO_CATEGORIA},
-                new int[]{R.id.tvHabitName, R.id.tvHabitCategory},
-                0
-        );
+        // Definimos cómo se mapea cada dato de la base de datos a los elementos visuales del XML
+        String[] from = {
+                DBManager.COLUMN_HABITO_NOMBRE,
+                DBManager.COLUMN_HABITO_CATEGORIA,
+                DBManager.COLUMN_HABITO_PROGRESO,
+                DBManager.COLUMN_HABITO_FRECUENCIA
+        };
+
+        int[] to = {
+                R.id.tvHabitName,
+                R.id.tvHabitCategory,
+                R.id.tvHabitProgress,
+                R.id.btnIncrementProgress
+        };
+
+        adapter = new SimpleCursorAdapter(this, R.layout.list_item_habit, null, from, to, 0);
+
+        // Adaptador personalizado para gestionar dinámicamente el progreso (0/frecuencia)
+        adapter.setViewBinder((view, cursor, columnIndex) -> {
+            if (view.getId() == R.id.tvHabitProgress) {
+                int progresoIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_PROGRESO);
+                int frecuenciaIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_FRECUENCIA);
+
+                if (progresoIndex == -1 || frecuenciaIndex == -1) {
+                    Log.e("setViewBinder", "Column not found in cursor");
+                    return false;
+                }
+
+                int progreso = cursor.getInt(progresoIndex);
+                int frecuencia = cursor.getInt(frecuenciaIndex);
+                ((TextView) view).setText(progreso + "/" + frecuencia);
+                return true;
+            }
+            else if (view.getId() == R.id.btnIncrementProgress) {
+                int habitIdIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID);
+                if (habitIdIndex == -1) {
+                    Log.e("setViewBinder", "Column not found in cursor");
+                    return false;
+                }
+
+                int habitId = cursor.getInt(habitIdIndex);
+                view.setOnClickListener(v -> {
+                    habitFacade.incrementProgress(habitId); // Incrementar el progreso
+                    loadHabits(); // Recargar la lista
+                });
+                return true;
+            }
+            return false; // Permitir que otros valores se gestionen automáticamente
+        });
+
         lvHabits.setAdapter(adapter);
 
         lvHabits.setOnItemClickListener((parent, view, position, id) -> {
@@ -133,6 +166,7 @@ public class HabitsListActivity extends AppCompatActivity {
             intent.putExtra("habit_id", id);
             startActivity(intent);
         });
+
     }
 
     private void loadHabits() {
@@ -140,12 +174,17 @@ public class HabitsListActivity extends AppCompatActivity {
         int userId = sharedPreferences.getInt("user_id", -1); // Recuperar el user_id del usuario logueado
 
         Cursor cursor = habitFacade.getAllHabits(userId);
+
+        // Verificar que el Cursor tiene las columnas necesarias
+        if (cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID) == -1) {
+            throw new IllegalStateException("Cursor does not contain COLUMN_HABITO_ID");
+        }
+
         Cursor oldCursor = adapter.swapCursor(cursor);
         if (oldCursor != null) {
             oldCursor.close(); // Cierra el cursor anterior si existía
         }
     }
-
 
     private void filterHabits() {
         String filterText = edtHabitFilter.getText().toString().trim();
@@ -165,6 +204,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        Log.d("ContextMenu", "SE ESTÁ LLAMANDO A ON CREATE CONTEXTMENU :)");
         super.onCreateContextMenu(menu, v, menuInfo);
         if (v.getId() == R.id.lvHabits) {
             getMenuInflater().inflate(R.menu.context_menu, menu);
@@ -173,6 +213,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        Log.d("ContextMenu", "ESTOY LLAMANDO AL CONTEXT ITEM SELECTED CON: " + item.getTitle());
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         long habitId = info.id;
 
@@ -191,6 +232,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     private void confirmDeletion(long habitId) {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
+
         int userId = sharedPreferences.getInt("user_id", -1); // Asegúrate de usar la clave correcta
 
         new AlertDialog.Builder(this)
@@ -215,8 +257,8 @@ public class HabitsListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_add_habit) {
-            // TODO podríamos cambiar esto a un método como sumar "+1" a todas las actividades del día (=has hecho todos los hábitos ese día)
             startActivity(new Intent(this, AddHabitActivity.class));
+            // TODO -> Hay que cambiar esta opción a un método que sume +1 a todos los hábitos
             return true;
         } else if (item.getItemId() == R.id.menu_filter_habits) {
             filterHabits();
@@ -259,5 +301,4 @@ public class HabitsListActivity extends AppCompatActivity {
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
-
 }

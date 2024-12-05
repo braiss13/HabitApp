@@ -32,7 +32,7 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
-        habitFacade = new HabitFacade((HabitApplication) getApplication());
+        habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
         edtName = findViewById(R.id.edtHabitName);
         edtDescription = findViewById(R.id.edtHabitDescription);
         edtFrequency = findViewById(R.id.edtHabitFrequency);

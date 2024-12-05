@@ -27,7 +27,7 @@ public class AddHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
 
-        habitFacade = new HabitFacade((HabitApplication) getApplication());
+        habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
         edtName = findViewById(R.id.edtHabitName);
         edtDescription = findViewById(R.id.edtHabitDescription);
         edtFrequency = findViewById(R.id.edtHabitFrequency);

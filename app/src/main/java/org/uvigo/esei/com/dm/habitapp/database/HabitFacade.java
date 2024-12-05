@@ -3,15 +3,19 @@ package org.uvigo.esei.com.dm.habitapp.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
+import android.content.Context;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
 
 public class HabitFacade {
 
     private DBManager dbManager;
+    private final Context context; // Almacenar el contexto para usar en el increment_progress
 
-    public HabitFacade(HabitApplication habitApplication) {
+    public HabitFacade(HabitApplication habitApplication, Context context) {
         this.dbManager = habitApplication.getDbManager();
+        this.context = context;
     }
 
     // Métodos para gestionar usuarios
@@ -134,4 +138,14 @@ public class HabitFacade {
                 new String[]{String.valueOf(habitId), String.valueOf(userId)}
         );
     }
+
+    // Método para incrementar el progreso en HabitFacade
+    public void incrementProgress(int habitId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("user_id", -1); // Recupera el user_id de la sesión
+
+        // Llama al método de DBManager con habitId y userId
+        dbManager.incrementProgress(habitId, userId);
+    }
+
 }

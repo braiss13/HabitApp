@@ -22,7 +22,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText edtUsername,edtPassword,edtEmail;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
