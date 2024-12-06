@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
     <item
-        android:id="@+id/menu_add_habit"
-        android:title="Agregar Hábito"
+        android:id="@+id/menu_increment_all_habits"
+        android:title="Incrementar hábitos"
         android:icon="@android:drawable/ic_menu_add"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menu_filter_habits"
-        android:title="Filtrar Hábitos"
+        android:id="@+id/menu_profile"
+        android:title="Ver Perfil"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         app:showAsAction="ifRoom" />
 </menu>

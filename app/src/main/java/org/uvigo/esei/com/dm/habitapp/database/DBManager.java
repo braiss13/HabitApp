@@ -84,13 +84,5 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-    // Método para incrementar el progreso de un hábito, considerando el user_id
-    public void incrementProgress(int habitId, int userId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE " + TABLE_HABITOS +
-                        " SET " + COLUMN_HABITO_PROGRESO + " = " + COLUMN_HABITO_PROGRESO + " + 1 " +
-                        " WHERE " + COLUMN_HABITO_ID + " = ? AND user_id = ?",
-                new String[]{String.valueOf(habitId), String.valueOf(userId)});
-    }
 
 }

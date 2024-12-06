@@ -38,6 +38,8 @@
         <activity android:name=".activities.HabitsListActivity" />
         <activity android:name=".activities.AddHabitActivity" />
         <activity android:name=".activities.EditHabitActivity" />
+        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.PasswordChangeActivity" />
 
     </application>
 

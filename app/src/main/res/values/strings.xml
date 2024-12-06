@@ -35,6 +35,8 @@
     <string-array name="habit_filter">
         <item>Nombre</item>
         <item>Categoría</item>
+        <item>Completado</item>
+        <item>En progreso</item>
     </string-array>
     <!--BOTONES-->
     <string name="yes">Sí</string>

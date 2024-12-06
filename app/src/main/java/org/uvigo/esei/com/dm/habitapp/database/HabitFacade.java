@@ -1,12 +1,16 @@
 package org.uvigo.esei.com.dm.habitapp.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.widget.Toast;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
+import org.uvigo.esei.com.dm.habitapp.activities.HabitsListActivity;
 
 public class HabitFacade {
 
@@ -22,6 +26,57 @@ public class HabitFacade {
     public Cursor getAllUsers() {
         SQLiteDatabase db = dbManager.getReadableDatabase();
         return db.query(DBManager.TABLE_USUARIOS, null, null, null, null, null, null);
+    }
+
+    public String getUsername(int userId){
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                DBManager.TABLE_USUARIOS,
+                new String[]{DBManager.COLUMN_USERNAME},
+                DBManager.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(userId)},
+                null,
+                null,
+                null
+        );
+
+        if(cursor != null && cursor.moveToFirst()){
+            String username = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_USERNAME));
+            cursor.close();
+            return username;
+        }
+
+        if(cursor != null) { cursor.close(); }
+
+
+        return null;
+
+
+    }
+
+    public String getEmail(int userId){
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                DBManager.TABLE_USUARIOS,
+                new String[]{DBManager.COLUMN_EMAIL},
+                DBManager.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(userId)},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String email = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_EMAIL));
+            cursor.close();
+            return email;
+        }
+
+        if (cursor != null) cursor.close();
+        return null;
+
     }
 
     public long insertUser(String username, String password, String email) {
@@ -63,6 +118,76 @@ public class HabitFacade {
                 null,
                 DBManager.COLUMN_HABITO_NOMBRE + " LIKE ? AND user_id = ?",
                 new String[]{"%" + name + "%", String.valueOf(userId)},
+                null,
+                null,
+                null
+        );
+    }
+
+    public boolean updatePassword(int userId, String newPassword) {
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+
+        String hashedPassword = PasswordSecurity.hashPassword(newPassword);
+
+        ContentValues values = new ContentValues();//Esto no se muy bien lo que hace
+        values.put(DBManager.COLUMN_PASSWORD, hashedPassword);
+
+        int rowsUpdated = db.update(
+                DBManager.TABLE_USUARIOS,
+                values,
+                DBManager.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(userId)}
+        );
+
+        return rowsUpdated > 0;
+    }
+
+    public boolean verifyPassword(int userId, String inputPassword) {
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                DBManager.TABLE_USUARIOS,
+                new String[]{DBManager.COLUMN_PASSWORD},
+                DBManager.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(userId)},
+                null, null, null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String storedHashedPassword = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_PASSWORD));
+            cursor.close();
+
+            return PasswordSecurity.checkPassword(inputPassword, storedHashedPassword);
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+        return false;
+    }
+
+    public Cursor getHabitsByCompleted(int userId){
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        return db.query(
+                DBManager.TABLE_HABITOS,
+                null,
+                DBManager.COLUMN_HABITO_ESTADO + " = ? AND user_id = ?",
+                new String[]{"1", String.valueOf(userId)},
+                null,
+                null,
+                null
+        );
+    }
+
+    public Cursor getHabitsByIncompleted( int userId){
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        return db.query(
+                DBManager.TABLE_HABITOS,
+                null,
+                DBManager.COLUMN_HABITO_ESTADO + " = ? AND user_id = ?",
+                new String[]{"0", String.valueOf(userId)},
                 null,
                 null,
                 null
@@ -139,13 +264,117 @@ public class HabitFacade {
         );
     }
 
+    public boolean deleteUser(int userId){
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+
+        db.beginTransaction();
+        try{
+            db.delete(
+                    DBManager.TABLE_HABITOS,
+                    userId + " = ?",
+                    new String[]{String.valueOf(userId)}
+            );
+
+            int rowDeleted = db.delete(
+                    DBManager.TABLE_USUARIOS,
+                    DBManager.COLUMN_ID + " = ?",
+                    new String[]{String.valueOf(userId)}
+            );
+
+            if(rowDeleted < 0){
+                db.setTransactionSuccessful();
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            db.endTransaction();
+        }
+
+    }
+
     // Método para incrementar el progreso en HabitFacade
     public void incrementProgress(int habitId) {
+        SQLiteDatabase db = dbManager.getWritableDatabase();
         SharedPreferences sharedPreferences = context.getSharedPreferences("Session", Context.MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1); // Recupera el user_id de la sesión
 
-        // Llama al método de DBManager con habitId y userId
-        dbManager.incrementProgress(habitId, userId);
+        Cursor cursor = db.rawQuery(
+                "SELECT " + DBManager.COLUMN_HABITO_PROGRESO + ", " + DBManager.COLUMN_HABITO_FRECUENCIA +
+                        " FROM " + DBManager.TABLE_HABITOS +
+                        " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
+                new String[]{String.valueOf(habitId), String.valueOf(userId)}
+        );
+
+        if (cursor.moveToFirst()) {
+
+            int currentProgress = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_PROGRESO));
+            int frequency = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_FRECUENCIA));
+
+
+            if (currentProgress < frequency) {
+                db.execSQL(
+                        "UPDATE " + DBManager.TABLE_HABITOS +
+                                " SET " + DBManager.COLUMN_HABITO_PROGRESO + " = " + DBManager.COLUMN_HABITO_PROGRESO + " + 1 " +
+                                " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
+                        new String[]{String.valueOf(habitId), String.valueOf(userId)}
+                );
+
+                if(currentProgress+1 == frequency){
+                    db.execSQL("UPDATE " + DBManager.TABLE_HABITOS +
+                                    " SET " + DBManager.COLUMN_HABITO_ESTADO + " = 1 " +
+                                    " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
+                            new String[]{String.valueOf(habitId), String.valueOf(userId)});
+                }
+
+            } else {
+
+                Toast.makeText(context, "Ya has cumplido tu objetivo en este hábito, Enhorabuena!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        cursor.close();
+
+    }
+
+    public void incrementAllHabitsProgress(int userId) {
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+
+        Cursor cursor = db.query(
+                DBManager.TABLE_HABITOS,
+                new String[]{DBManager.COLUMN_HABITO_ID, DBManager.COLUMN_HABITO_FRECUENCIA, DBManager.COLUMN_HABITO_PROGRESO},
+                "user_id = ?",
+                new String[]{String.valueOf(userId)},
+                null, null, null
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") int habitId = cursor.getInt(cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID));
+                @SuppressLint("Range") int frequency = cursor.getInt(cursor.getColumnIndex(DBManager.COLUMN_HABITO_FRECUENCIA));
+                @SuppressLint("Range") int progress = cursor.getInt(cursor.getColumnIndex(DBManager.COLUMN_HABITO_PROGRESO));
+
+                if (progress < frequency) {
+                    db.execSQL("UPDATE " + DBManager.TABLE_HABITOS +
+                                    " SET " + DBManager.COLUMN_HABITO_PROGRESO + " = " + DBManager.COLUMN_HABITO_PROGRESO + " + 1 " +
+                                    " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
+                            new String[]{String.valueOf(habitId), String.valueOf(userId)});
+
+                    if (progress + 1 == frequency) {
+                        db.execSQL("UPDATE " + DBManager.TABLE_HABITOS +
+                                        " SET " + DBManager.COLUMN_HABITO_ESTADO + " = 1 " +
+                                        " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
+                                new String[]{String.valueOf(habitId), String.valueOf(userId)});
+                    }
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
     }
 
 }

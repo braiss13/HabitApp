@@ -186,7 +186,7 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
-    private void filterHabits() {
+    public void filterHabits() {
         String filterText = edtHabitFilter.getText().toString().trim();
         Cursor cursor;
 
@@ -194,12 +194,28 @@ public class HabitsListActivity extends AppCompatActivity {
             cursor = habitFacade.getHabitsByName(filterText, userId);
         } else if ("Categoría".equals(filter)) {
             cursor = habitFacade.getHabitsByCategory(filterText, userId);
+        } else if ("Completado".equals(filter)) {
+            cursor = habitFacade.getHabitsByCompleted(userId);
+        } else if ("En progreso".equals(filter)) {
+            cursor = habitFacade.getHabitsByIncompleted(userId);
         } else {
             cursor = habitFacade.getAllHabits(userId);
         }
 
         // Actualizar el ListView con los resultados filtrados
         adapter.swapCursor(cursor);
+    }
+
+    private void incrementAllHabits(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("user_id", -1);
+
+        habitFacade.incrementAllHabitsProgress(userId);
+
+        // Refrescar la lista
+        filterHabits();
+        Toast.makeText(this, "Progreso incrementado para todos los hábitos", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -231,7 +247,7 @@ public class HabitsListActivity extends AppCompatActivity {
     private void confirmDeletion(long habitId) {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
 
-        int userId = sharedPreferences.getInt("user_id", -1); // Asegúrate de usar la clave correcta
+        int userId = sharedPreferences.getInt("user_id", -1);
 
         new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle(getString(R.string.confirm_deletion_title))
@@ -253,12 +269,12 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_add_habit) {
-            startActivity(new Intent(this, AddHabitActivity.class));
-            // TODO -> Hay que cambiar esta opción a un método que sume +1 a todos los hábitos
+        if (item.getItemId() == R.id.menu_increment_all_habits) {
+            incrementAllHabits();
             return true;
-        } else if (item.getItemId() == R.id.menu_filter_habits) {
-            filterHabits();
+        } else if (item.getItemId() == R.id.menu_profile) {
+            Intent intent = new Intent(HabitsListActivity.this, ProfileActivity.class);
+            startActivity(intent);
             return true;
 
         } else {
