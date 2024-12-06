@@ -204,7 +204,6 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        Log.d("ContextMenu", "SE ESTÁ LLAMANDO A ON CREATE CONTEXTMENU :)");
         super.onCreateContextMenu(menu, v, menuInfo);
         if (v.getId() == R.id.lvHabits) {
             getMenuInflater().inflate(R.menu.context_menu, menu);
@@ -213,7 +212,6 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        Log.d("ContextMenu", "ESTOY LLAMANDO AL CONTEXT ITEM SELECTED CON: " + item.getTitle());
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         long habitId = info.id;
 
@@ -235,7 +233,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
         int userId = sharedPreferences.getInt("user_id", -1); // Asegúrate de usar la clave correcta
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle(getString(R.string.confirm_deletion_title))
                 .setMessage(getString(R.string.confirm_delete_habit))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
@@ -249,7 +247,6 @@ public class HabitsListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        Log.d("MenuDebug", "SE LLAMA AL MÉTODO ONCREATE OPTIONS MENU");
         this.getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
@@ -273,7 +270,7 @@ public class HabitsListActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle("Cierre de Sesión")
                 .setMessage("¿Está seguro de que quiere cerrar sesión?")
                 .setPositiveButton("Sí", (dialog, which) -> {
@@ -292,7 +289,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle(getString(R.string.exit_app_title))
                 .setMessage(getString(R.string.exit_app_message))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {

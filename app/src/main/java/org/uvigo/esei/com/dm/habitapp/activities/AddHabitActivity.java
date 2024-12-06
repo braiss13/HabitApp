@@ -71,7 +71,7 @@ public class AddHabitActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new android.app.AlertDialog.Builder(this)
+        new android.app.AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle(getString(R.string.cancel_creation))
                 .setMessage(getString(R.string.exit_without_creation))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {

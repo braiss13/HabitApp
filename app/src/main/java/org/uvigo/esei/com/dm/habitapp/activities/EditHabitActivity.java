@@ -109,7 +109,7 @@ public class EditHabitActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new android.app.AlertDialog.Builder(this)
+        new android.app.AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle("Cancelar edición")
                 .setMessage("¿Deseas salir sin guardar los cambios?")
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
