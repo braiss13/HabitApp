@@ -44,6 +44,14 @@ public class PasswordChangeActivity extends AppCompatActivity {
                     Toast.makeText(PasswordChangeActivity.this, "Por favor, complete ambos campos.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                // Validar la nueva contraseña
+
+                if (newPassword.length() < 8 || !newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+
+                    Toast.makeText(PasswordChangeActivity.this, "La nueva contraseña debe tener al menos 8 caracteres, incluir una letra y un número.", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
 
                 // Obtener el ID del usuario de la sesión actual
                 SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);

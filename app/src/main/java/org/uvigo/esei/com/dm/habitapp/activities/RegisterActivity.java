@@ -42,6 +42,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, getString(R.string.register_empty_fields), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (password.length() < 8 || !password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+                    Toast.makeText(RegisterActivity.this, getString(R.string.register_password_invalid), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
 
                 if (registerUser(username, password, email)) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();

@@ -19,7 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView tvUsername, tvEmail;
     private ImageView ivProfileImage;
-    private Button btnChangePassword, btnDeleteUser, btnEditPhoto;
+    private Button btnChangePassword, btnDeleteUser, btnEditPhoto, btnHabitsList;
     private HabitFacade habitFacade;
     private SharedPreferences sharedPreferences;
     private int userId;
@@ -36,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
         ivProfileImage = findViewById(R.id.ivProfilePicture);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnDeleteUser = findViewById(R.id.btnDeleteUser);
+        btnHabitsList = findViewById(R.id.btnHabitsList);
         //btnEditPhoto =findViewById(R.id.btnEditPhoto);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
@@ -52,6 +53,13 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btnHabitsList.setOnClickListener(view->{
+            Intent intent = new Intent(ProfileActivity.this, HabitsListActivity.class);
+            startActivity(intent);
+            finish();
+
+        });
+
     }
 
     private void loadProfile(){
@@ -73,6 +81,8 @@ public class ProfileActivity extends AppCompatActivity {
         //TODO -> Esto no funciona, pero tampoco me da error, simplemente no pasa nada
 
     }
+
+
 
 
 }

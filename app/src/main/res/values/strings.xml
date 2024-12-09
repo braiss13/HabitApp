@@ -21,6 +21,9 @@
     <!--EDITHABIT-->
     <string name ="habit_updated_successfully">Hábito modificado con éxito</string>
 
+    <string name="register_password_invalid">La contraseña debe tener al menos 8 caracteres y contener letras y números</string>
+
+
     <string-array name="habit_options">
         <item>Nutrición</item>
         <item>Productividad</item>
