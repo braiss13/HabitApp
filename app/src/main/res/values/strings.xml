@@ -23,6 +23,11 @@
 
     <string name="register_password_invalid">La contraseña debe tener al menos 8 caracteres y contener letras y números</string>
 
+<!--NOTIFICACIONES-->
+    <string name="channel_name">HOLA</string>
+    <string name="channel_description">HOLA</string>
+
+
 
     <string-array name="habit_options">
         <item>Nutrición</item>
