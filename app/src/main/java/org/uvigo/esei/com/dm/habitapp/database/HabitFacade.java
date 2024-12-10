@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.SharedPreferences;
 import android.content.Context;
 import android.widget.Toast;
+import android.util.Log;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
 import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
@@ -271,7 +272,7 @@ public class HabitFacade {
         try{
             db.delete(
                     DBManager.TABLE_HABITOS,
-                    userId + " = ?",
+                    "user_id = ?",
                     new String[]{String.valueOf(userId)}
             );
 
@@ -280,13 +281,15 @@ public class HabitFacade {
                     DBManager.COLUMN_ID + " = ?",
                     new String[]{String.valueOf(userId)}
             );
+            Log.d("DeleteUser", "Filas afectadas: " + rowDeleted);
 
-            if(rowDeleted < 0){
+            if(rowDeleted > 0){
                 db.setTransactionSuccessful();
                 return true;
             }else{
                 return false;
             }
+
 
         }catch(Exception e){
             e.printStackTrace();

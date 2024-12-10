@@ -55,7 +55,8 @@ public class DBManager extends SQLiteOpenHelper {
                     COLUMN_HABITO_ESTADO + " INTEGER DEFAULT 0, " +
                     COLUMN_HABITO_PROGRESO + " INTEGER DEFAULT 0, " + // Inicializar progreso en 0
                     "user_id INTEGER NOT NULL, " +
-                    "FOREIGN KEY(user_id) REFERENCES " + TABLE_USUARIOS + "(" + COLUMN_ID + "))";
+                    "FOREIGN KEY(user_id) REFERENCES " + TABLE_USUARIOS + "(" + COLUMN_ID + ")" +
+                    "ON DELETE CASCADE" + ")";
             db.execSQL(CREATE_TABLE_HABITOS);
 
             db.setTransactionSuccessful();
