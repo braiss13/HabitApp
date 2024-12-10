@@ -96,6 +96,7 @@ public class HabitsListActivity extends AppCompatActivity {
         fabAddHabit.setOnClickListener(view -> {
             Intent intent = new Intent(HabitsListActivity.this, AddHabitActivity.class);
             startActivity(intent);
+            finish();
         });
 
         fabLogout.setOnClickListener(view -> logout());
@@ -104,8 +105,27 @@ public class HabitsListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Cargar los hábitos en el ListView
-        loadHabits();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("FilterState",MODE_PRIVATE);
+        filter = sharedPreferences.getString("filter_type", "Nombre");
+        String filterText = sharedPreferences.getString("filter_text", "");
+        edtHabitFilter.setText(filterText);
+
+        // Aplicar el filtro actual
+        filterHabits();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Guardar el estado del filtro actual y el texto de búsqueda
+        SharedPreferences sharedPreferences = getSharedPreferences("FilterState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("filter_type", filter);
+        editor.putString("filter_text", edtHabitFilter.getText().toString());
+        editor.apply();
     }
 
     private void setupListView() {
@@ -152,7 +172,7 @@ public class HabitsListActivity extends AppCompatActivity {
                 int habitId = cursor.getInt(habitIdIndex);
                 view.setOnClickListener(v -> {
                     habitFacade.incrementProgress(habitId); // Incrementar el progreso
-                    loadHabits(); // Recargar la lista
+                    filterHabits(); // Recargar la lista
                 });
                 return true;
             }
@@ -165,6 +185,7 @@ public class HabitsListActivity extends AppCompatActivity {
             Intent intent = new Intent(HabitsListActivity.this, EditHabitActivity.class);
             intent.putExtra("habit_id", id);
             startActivity(intent);
+            finish();
         });
 
     }
@@ -235,6 +256,7 @@ public class HabitsListActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EditHabitActivity.class);
             intent.putExtra("habit_id", habitId);
             startActivity(intent);
+            finish();
             return true;
         } else if (item.getItemId() == R.id.menu_delete_habit) {
             confirmDeletion(habitId);
@@ -275,6 +297,7 @@ public class HabitsListActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.menu_profile) {
             Intent intent = new Intent(HabitsListActivity.this, ProfileActivity.class);
             startActivity(intent);
+            finish();
             return true;
 
         } else {

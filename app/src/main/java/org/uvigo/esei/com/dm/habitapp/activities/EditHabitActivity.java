@@ -1,10 +1,12 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -33,6 +35,7 @@ public class EditHabitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_habit);
 
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
+
         edtName = findViewById(R.id.edtHabitName);
         edtDescription = findViewById(R.id.edtHabitDescription);
         edtFrequency = findViewById(R.id.edtHabitFrequency);
@@ -57,6 +60,37 @@ public class EditHabitActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> updateHabit());
     }
+
+    //TODO -> Esto no me funciona pero tampoco creo que sea necesario
+ /*   @Override
+    protected void onPause(){
+        super.onPause();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("AppState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("last_activity", "EditHabitActivity");
+        editor.apply();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("EditHabitState", MODE_PRIVATE);
+
+        String habitName = sharedPreferences.getString("habit_name","");
+        String habitDescription = sharedPreferences.getString("habit_description","");
+        String selectedCategory = sharedPreferences.getString("habit_selected_category", "");
+        // Setear el valor del spinner de categoría si es necesario
+        if (!selectedCategory.isEmpty()) {
+            int spinnerPositionCategory = ((ArrayAdapter<String>) spHabitCategory.getAdapter()).getPosition(selectedCategory);
+            spHabitCategory.setSelection(spinnerPositionCategory);
+        }
+
+        int habitFrequency = sharedPreferences.getInt("habit_frequency", -1);
+
+
+    }*/
 
     private void loadHabitDetails() {
         int userId = getSharedPreferences("Session", MODE_PRIVATE).getInt("user_id", -1); // Obtener usuario actual
