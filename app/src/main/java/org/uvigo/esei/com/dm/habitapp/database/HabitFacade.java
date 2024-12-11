@@ -10,17 +10,19 @@ import android.widget.Toast;
 import android.util.Log;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.NotificationHelper;
 import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
 import org.uvigo.esei.com.dm.habitapp.activities.HabitsListActivity;
 
 public class HabitFacade {
-
+    private NotificationHelper notificationHelper;
     private DBManager dbManager;
     private final Context context; // Almacenar el contexto para usar en el increment_progress
 
     public HabitFacade(HabitApplication habitApplication, Context context) {
         this.dbManager = habitApplication.getDbManager();
         this.context = context;
+        this.notificationHelper = new NotificationHelper(context);
     }
 
     // Métodos para gestionar usuarios
@@ -335,8 +337,8 @@ public class HabitFacade {
                 }
 
             } else {
-
-                Toast.makeText(context, "Ya has cumplido tu objetivo en este hábito, Enhorabuena!", Toast.LENGTH_SHORT).show();
+                notificationHelper.createNotification("Enhorabuena", "Ya has completado este hábito");
+                //Toast.makeText(context, "Ya has cumplido tu objetivo en este hábito, Enhorabuena!", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -379,5 +381,6 @@ public class HabitFacade {
 
         cursor.close();
     }
+
 
 }

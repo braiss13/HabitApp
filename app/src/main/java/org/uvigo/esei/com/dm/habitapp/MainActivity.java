@@ -22,10 +22,11 @@ import org.uvigo.esei.com.dm.habitapp.activities.RegisterActivity;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
 public class MainActivity extends AppCompatActivity {
+    private NotificationHelper notificationHelper;
 
     private HabitFacade habitFacade;
 
-    private Button btnLogin, btnRegister, noti;
+    private Button btnLogin, btnRegister;
 
 
     @Override
@@ -48,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
                     requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
                 }
             }
+        notificationHelper = new NotificationHelper(this);
+        notificationHelper.createNotificationChannel();
+
 
         // Inicializar vistas
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
-        noti = findViewById(R.id.noti);
-        noti.setOnClickListener(view ->
-                createNotification() );
 
         // Configurar los listeners para los botones
         btnLogin.setOnClickListener(view -> {
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicializar el HabitFacade
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
-        createNotificationChannel();
+        //createNotificationChannel();
 
     }
     @Override
@@ -97,37 +98,5 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         return sharedPreferences.getBoolean("isLogged", false);
     }
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is not in the Support Library.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("1", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this.
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-        private void createNotification(){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-    
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1")
-                    .setSmallIcon(android.R.drawable.star_on)
-                    .setContentTitle("My notification")
-                    .setContentText("Much longer text that cannot fit one line...")
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText("Much longer text that cannot fit one line..."))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(pendingIntent) // Asociar el PendingIntent
 
-                    .setAutoCancel(true);
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(1, builder.build());
-        }
 }
