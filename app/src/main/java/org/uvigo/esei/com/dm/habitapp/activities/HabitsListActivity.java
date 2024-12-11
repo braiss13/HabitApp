@@ -96,7 +96,6 @@ public class HabitsListActivity extends AppCompatActivity {
         fabAddHabit.setOnClickListener(view -> {
             Intent intent = new Intent(HabitsListActivity.this, AddHabitActivity.class);
             startActivity(intent);
-            finish();
         });
 
         fabLogout.setOnClickListener(view -> logout());
@@ -185,7 +184,6 @@ public class HabitsListActivity extends AppCompatActivity {
             Intent intent = new Intent(HabitsListActivity.this, EditHabitActivity.class);
             intent.putExtra("habit_id", id);
             startActivity(intent);
-            finish();
         });
 
     }
@@ -256,7 +254,6 @@ public class HabitsListActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EditHabitActivity.class);
             intent.putExtra("habit_id", habitId);
             startActivity(intent);
-            finish();
             return true;
         } else if (item.getItemId() == R.id.menu_delete_habit) {
             confirmDeletion(habitId);
