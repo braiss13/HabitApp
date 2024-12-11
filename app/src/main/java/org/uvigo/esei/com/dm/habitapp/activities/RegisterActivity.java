@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = edtEmail.getText().toString().trim();
 
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, getString(R.string.register_empty_fields), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.login_empty_fields), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (password.length() < 8 || !password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {

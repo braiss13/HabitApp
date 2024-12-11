@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name" translatable="false">HabitApp</string>
+    <string name="app_name">HabitApp</string>
     <!--LOGIN-->
-    <string name="login_empty_fields">Por favor, completa todos los campos</string>
-    <string name="login_successful">Inicio de sesión exitoso</string>
-    <string name="login_invalid_credentials">Credenciales incorrectas</string>
+    <string name="login_empty_fields">Please, fill all the fields</string>
+    <string name="login_successful">"Successful login "</string>
+    <string name="login_invalid_credentials">Incorrect credentials</string>
     <!--REGISTER-->
-    <string name="register_success">Usuario registrado con éxito</string>
-    <string name="register_error">Error al registrar usuario</string>
+    <string name="register_success">Successful register</string>
+    <string name="register_error">"Error registering user "</string>
     <!--HABITSLIST-->
     <string name="confirm_deletion_title">Confirmar borrado</string>
     <string name="confirm_delete_habit">¿Estás seguro de que quieres eliminar este hábito?</string>
@@ -48,13 +48,6 @@
     <!--BOTONES-->
     <string name="yes">Sí</string>
     <string name="no">No</string>
-
-        <string-array name="language_options">
-            <item>Español</item>
-            <item>Inglés</item>
-            <item>Galego</item>
-        </string-array>
-    <string name="configuracion">Configuración</string>
-
+    <string name="configuracion">Configuration</string>
 
 </resources>
