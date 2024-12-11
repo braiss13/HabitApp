@@ -294,7 +294,6 @@ public class HabitsListActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.menu_profile) {
             Intent intent = new Intent(HabitsListActivity.this, ProfileActivity.class);
             startActivity(intent);
-            finish();
             return true;
 
         } else {
