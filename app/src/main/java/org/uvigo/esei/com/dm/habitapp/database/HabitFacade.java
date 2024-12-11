@@ -309,7 +309,8 @@ public class HabitFacade {
         int userId = sharedPreferences.getInt("user_id", -1); // Recupera el user_id de la sesión
 
         Cursor cursor = db.rawQuery(
-                "SELECT " + DBManager.COLUMN_HABITO_PROGRESO + ", " + DBManager.COLUMN_HABITO_FRECUENCIA +
+                "SELECT " + DBManager.COLUMN_HABITO_PROGRESO + ", " + DBManager.COLUMN_HABITO_FRECUENCIA +  ", " +
+                        DBManager.COLUMN_HABITO_NOMBRE +
                         " FROM " + DBManager.TABLE_HABITOS +
                         " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
                 new String[]{String.valueOf(habitId), String.valueOf(userId)}
@@ -319,6 +320,13 @@ public class HabitFacade {
 
             int currentProgress = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_PROGRESO));
             int frequency = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_FRECUENCIA));
+            String habitName = ""; // Obtiene el nombre del hábito
+            try {
+                habitName = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_NOMBRE));
+            } catch (IllegalArgumentException e) {
+                Log.e("IncrementProgress", "La columna COLUMN_HABITO_NOMBRE no existe: " + e.getMessage());
+            }
+
 
 
             if (currentProgress < frequency) {
@@ -334,11 +342,12 @@ public class HabitFacade {
                                     " SET " + DBManager.COLUMN_HABITO_ESTADO + " = 1 " +
                                     " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
                             new String[]{String.valueOf(habitId), String.valueOf(userId)});
+                    notificationHelper.createNotification("Enhorabuena ;)", "Ya has completado el hábito: " + habitName +".");
                 }
 
             } else {
-                notificationHelper.createNotification("Enhorabuena", "Ya has completado este hábito");
-                //Toast.makeText(context, "Ya has cumplido tu objetivo en este hábito, Enhorabuena!", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(context, "Ya has cumplido tu objetivo en este hábito, Enhorabuena!", Toast.LENGTH_SHORT).show();
             }
         }
 
