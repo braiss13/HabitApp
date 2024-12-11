@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">HabitApp</string>
     <!--LOGIN-->
     <string name="login_empty_fields">Por favor, enche todos os campos</string>
     <string name="login_successful">Inicio de sesión exitoso</string>
@@ -9,23 +8,20 @@
     <string name="register_error">Erro ao rexistrar usuario</string>
     <!--HABITSLIST-->
     <string name="confirm_deletion_title">Confirmar borrado</string>
-    <string name="confirm_delete_habit">¿Estás seguro de que quieres eliminar este hábito?</string>
-    <string name="exit_app_title">Salir de la aplicación</string>
-    <string name="exit_app_message">¿Deseas cerrar la aplicación?</string>
+    <string name="confirm_delete_habit">¿Estás seguro de que querese eliminar este hábito?</string>
+    <string name="exit_app_title">Salír da aplicación</string>
+    <string name="exit_app_message">Queres pechar a aplicación?</string>
     <!--ADDHABIT-->
-    <string name="fill_required_fields">Por favor, completa todos los campos obligatorios</string>
+    <string name="fill_required_fields">Complete todos os campos obrigatorios</string>
     <string name="habit_added_successfully">Hábito agregado con éxito</string>
     <string name="cancel_creation">Cancelar creación</string>
-    <string name="exit_without_creation">¿Deseas salir sin crear el hábito?</string>
+    <string name="exit_without_creation">" Queres saír sen crear o hábito?"</string>
     <!--EDITHABIT-->
     <string name ="habit_updated_successfully">Hábito modificado con éxito</string>
 
-    <string name="register_password_invalid">La contraseña debe tener al menos 8 caracteres y contener letras y números</string>
+    <string name="register_password_invalid">" O contrasinal debe ter polo menos 8 caracteres e conter letras e números"</string>
 
 <!--NOTIFICACIONES-->
-    <string name="channel_name">HOLA</string>
-    <string name="channel_description">HOLA</string>
-
 
 
     <string-array name="habit_options">
@@ -48,6 +44,12 @@
     <!--BOTONES-->
     <string name="yes">Sí</string>
     <string name="no">No</string>
-    <string name="configuracion">Configuraçao</string>
+    <string name="configuracion">Configuración</string>
+    <string name="language">Lingua</string>
+    <string name="notifications">Notificacións</string>
+    <string name="delete_account">Borrar a conta</string>
+    <string name="user">Usuario</string>
+    <string name="pass">Contrasinal</string>
+    <string name="login">Iniciar Sesión</string>
 
 </resources>

@@ -4,6 +4,11 @@
     <string name="login_empty_fields">Por favor, completa todos los campos</string>
     <string name="login_successful">Inicio de sesión exitoso</string>
     <string name="login_invalid_credentials">Credenciales incorrectas</string>
+    <!--LOGIN LAYOUT-->
+    <string name="user">Usuario</string>
+    <string name="pass">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+
     <!--REGISTER-->
     <string name="register_success">Usuario registrado con éxito</string>
     <string name="register_error">Error al registrar usuario</string>
@@ -23,8 +28,8 @@
     <string name="register_password_invalid">La contraseña debe tener al menos 8 caracteres y contener letras y números</string>
 
 <!--NOTIFICACIONES-->
-    <string name="channel_name">HOLA</string>
-    <string name="channel_description">HOLA</string>
+    <string name="channel_name" translatable="false">canal</string>
+    <string name="channel_description" translatable="false">canal</string>
 
 
 
@@ -54,7 +59,12 @@
             <item>Inglés</item>
             <item>Galego</item>
         </string-array>
+
+    <!--SETTINGS LAYOUT-->
     <string name="configuracion">Configuración</string>
+    <string name="language">Idioma</string>
+    <string name="notifications">Notificaciones</string>
+    <string name= "delete_account">Borrar cuenta</string>
 
 
 </resources>
