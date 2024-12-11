@@ -64,6 +64,11 @@ public class AddHabitActivity extends AppCompatActivity {
             return;
         }
 
+        if(frequency.equals("0")) {
+            Toast.makeText(this,"La frecuencia no puede ser 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         habitFacade.insertHabit(name, description, frequency, category, userId);
         Toast.makeText(this, getString(R.string.habit_added_successfully), Toast.LENGTH_SHORT).show();
         finish();

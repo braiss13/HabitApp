@@ -129,6 +129,10 @@ public class EditHabitActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.fill_required_fields), Toast.LENGTH_SHORT).show();
             return;
         }
+        if(frequency.equals("0")){
+            Toast.makeText(this,"La frecuencia no puede ser 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         int userId = getSharedPreferences("Session", MODE_PRIVATE).getInt("user_id", -1); // Obtener usuario actual
         int rowsUpdated = habitFacade.updateHabit((int) habitId, name, description, frequency, category, 0, userId); // Modificar HabitFacade
