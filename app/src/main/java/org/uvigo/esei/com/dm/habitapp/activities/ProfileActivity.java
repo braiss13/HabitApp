@@ -23,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView tvUsername, tvEmail;
     private ImageView ivProfileImage;
-    private Button btnChangePassword, btnDeleteUser, btnEditPhoto, btnHabitsList;
+    private Button btnChangePassword, btnEditPhoto, btnHabitsList, btnSettings;
     private HabitFacade habitFacade;
     private HabitsListActivity habitsListActivity;
     private SharedPreferences sharedPreferences;
@@ -40,8 +40,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvEmail);
         ivProfileImage = findViewById(R.id.ivProfilePicture);
         btnChangePassword = findViewById(R.id.btnChangePassword);
-        btnDeleteUser = findViewById(R.id.btnDeleteUser);
         btnHabitsList = findViewById(R.id.btnHabitsList);
+        btnSettings = findViewById(R.id.btnSettings);
         //btnEditPhoto =findViewById(R.id.btnEditPhoto);
 
         sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
@@ -52,7 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
         loadProfile();
 
         //btnEditPhoto.setOnClickListener(view -> editPhoto());
-        btnDeleteUser.setOnClickListener(view -> deleteUser());
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,24 +66,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         });
 
-    }
-    private void deleteUser(){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        btnSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
 
-        new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
-                .setTitle("Confirmar borrado de Usuario")
-                .setMessage("¿Está seguro de que quiere eliminar su cuenta? Esta decisión es definitiva.")
-                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                    habitFacade.deleteUser(userId);
-                    editor.clear();
-                    editor.apply();
-
-                    Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                })
-                .setNegativeButton(getString(R.string.no), null)
-                .show();
     }
 
     private void loadProfile(){

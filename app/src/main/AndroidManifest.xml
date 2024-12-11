@@ -44,6 +44,7 @@
         <activity android:name=".activities.EditHabitActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.PasswordChangeActivity" />
+        <activity android:name=".activities.SettingsActivity" />
 
     </application>
 
