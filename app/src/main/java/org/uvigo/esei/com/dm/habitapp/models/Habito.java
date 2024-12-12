@@ -10,13 +10,14 @@ public class Habito {
     private int progreso;
     private boolean estado;
 
-    public Habito(int id, String nombre, String descripcion, String frecuencia, String categoria, int objetivo, int progreso, boolean estado) {
+    // Quitado , int objetivo
+    public Habito(int id, String nombre, String descripcion, String frecuencia, String categoria, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.frecuencia = frecuencia;
         this.categoria = categoria;
-        this.objetivo = objetivo;
+        //this.objetivo = objetivo;
         this.progreso = progreso;
         this.estado = estado;
     }
@@ -35,6 +36,14 @@ public class Habito {
 
     public String getFrecuencia() {
         return frecuencia;
+    }
+
+    public int getFrecuenciaAsInt() {
+        try {
+            return Integer.parseInt(frecuencia);
+        } catch (NumberFormatException e) {
+            return 0; // Valor predeterminado si la conversión falla
+        }
     }
 
     public String getCategoria() {

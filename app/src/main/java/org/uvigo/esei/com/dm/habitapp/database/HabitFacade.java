@@ -405,5 +405,26 @@ public class HabitFacade {
         cursor.close();
     }
 
+    public boolean checkHabitsPending(int userId) {
+
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        // Consulta para obtener un hábito pendiente
+        Cursor cursor = db.rawQuery(
+                "SELECT 1 FROM " + DBManager.TABLE_HABITOS +
+                        " WHERE user_id = ? AND " + DBManager.COLUMN_HABITO_PROGRESO + " < " + DBManager.COLUMN_HABITO_FRECUENCIA,
+                new String[]{String.valueOf(userId)}
+        );
+
+        boolean hasPending = cursor != null && cursor.moveToFirst();
+
+        // Cerrar el cursor
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        return hasPending;
+    }
+
 
 }

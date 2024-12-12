@@ -14,6 +14,9 @@ import android.Manifest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import android.app.AlarmManager;
 import java.util.Calendar;
 
@@ -22,11 +25,11 @@ import org.uvigo.esei.com.dm.habitapp.activities.LoginActivity;
 import org.uvigo.esei.com.dm.habitapp.activities.RegisterActivity;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
     private NotificationHelper notificationHelper;
-
     private HabitFacade habitFacade;
-
     private Button btnLogin, btnRegister;
 
 
@@ -81,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicializar el HabitFacade
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
+
+        // Llamada al método que crea una notificación cada x en tiempo (en este caso cada 5 días)
+        scheduleHabitReminder();
+
         //createNotificationChannel();
 
     }
@@ -128,5 +135,16 @@ public class MainActivity extends AppCompatActivity {
         alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
     }*/
+
+    private void scheduleHabitReminder() {
+        // Crear una solicitud periódica para el Worker
+        PeriodicWorkRequest reminderWorkRequest = new PeriodicWorkRequest.Builder(ReminderWorker.class, 1, TimeUnit.DAYS)
+                .setInitialDelay(5, TimeUnit.DAYS) // Ajustar la preferencia de días
+                .build();
+
+        Log.d("ReminderWorker", "Worker ejecutado correctamente TRAS LOS 5 DÍAS.");
+
+        WorkManager.getInstance(this).enqueue(reminderWorkRequest);
+    }
 
 }
