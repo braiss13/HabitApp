@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferences = getSharedPreferences("AlarmPrefs", MODE_PRIVATE);
+       /* SharedPreferences preferences = getSharedPreferences("AlarmPrefs", MODE_PRIVATE);
         boolean isAlarmSet = preferences.getBoolean("isAlarmSet", false);
 
         if (!isAlarmSet) {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("isAlarmSet", true);
             editor.apply();
-        }
+        }*/
 
 
         // Verificar si el usuario está autenticado
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         return sharedPreferences.getBoolean("isLogged", false);
     }
 
-    @SuppressLint("ScheduleExactAlarm")
+   /* @SuppressLint("ScheduleExactAlarm")
     private void scheduleWeeklyReset() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -127,6 +127,6 @@ public class MainActivity extends AppCompatActivity {
         // Configurar el AlarmManager para repetirse semanalmente
         alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-    }
+    }*/
 
 }
