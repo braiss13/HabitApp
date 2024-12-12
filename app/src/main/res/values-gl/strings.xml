@@ -26,17 +26,17 @@
 
     <string-array name="habit_options">
         <item>Nutrición</item>
-        <item>Productividad</item>
-        <item>Salud</item>
+        <item>Productividade</item>
+        <item>Saúde</item>
         <item>Deporte</item>
-        <item>Estudio</item>
+        <item>Estudo</item>
         <item>Finanzas</item>
-        <item>Salud mental</item>
-        <item>Otros</item>
+        <item>Saúde mental</item>
+        <item>Outros</item>
     </string-array>
 
     <string-array name="habit_filter">
-        <item>Nombre</item>
+        <item>Nombe</item>
         <item>Categoría</item>
         <item>Completado</item>
         <item>En progreso</item>
@@ -51,5 +51,38 @@
     <string name="user">Usuario</string>
     <string name="pass">Contrasinal</string>
     <string name="login">Iniciar Sesión</string>
+    <string name="welcome">Benvido</string>
+    <string name="register">Rexistrarse</string>
+    <string name="toast_progress_incremented_all">Incrementouse o progreso para todos os hábitos</string>
+    <string name="session_close">Peche da sesión</string>
+    <string name="session_close_confirmation">Seguro que quere pechar a sesión?</string>
+    <string name="session_closed">Pechouse a sesión</string>
+    <string name="progress">Progreso:</string>
+    <string name="habit_name">Nome do hábito</string>
+    <string name="habit_description">Descrición do hábito</string>
+    <string name="frequency">Frecuencia semanal</string>
+    <string name="category">Categoría</string>
+    <string name="save">Gardar</string>
+    <string name="no_0_frequency">A frecuencia non pode ser 0</string>
+    <string name="toast_habit_not_found">" Non se encontrou o hábito ou non pertenence ao usuario actual"</string>
+    <string name="cancel_edit">Cancelar a edición</string>
+    <string name="leave_wo_save">Saír sen gardar?</string>
+    <string name="toast_cant_update_habit">Non se pudo actualizar o hábito. Revisa os datos</string>
+    <string name="introduce_filter">Introduce o filtro</string>
+    <string name="filter_by">Filtrar por:</string>
+    <string name="add_habit">Agragar hábito</string>
+    <string name="edit_pic">Editar foto</string>
+    <string name="user_name">Nome de usuario</string>
+    <string name="change_pass">Cambiar contrasinal</string>
+    <string name="my_habits">Meus hábitos</string>
+    <string name="settings">Axustes</string>
+    <string name="delete">Vas  a eliminar</string>
+    <string name="delete_confirmation">Seguro que queres eliminar?</string>
+    <string name="pass_now">Contrasinal actual</string>
+    <string name="pass_new">Nova contrainal</string>
+    <string name="toast_fill_both">Por favor, enche ambos campos</string>
+    <string name="error_session">Erro ao obter a sesión. Por favor inicie sesión de novo.</string>
+    <string name="updated_pass">Contrasinal actualizada con éxito</string>
+    <string name="error_updating_pass">Erro ao actualizar o contrasinal. Intenteo de novo.</string>
 
 </resources>

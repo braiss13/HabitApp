@@ -80,8 +80,8 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
-                .setTitle("Vas a eliminar")
-                .setMessage("Seguro que quieres borrar?")
+                .setTitle(getString(R.string.delete))
+                .setMessage(getString(R.string.delete_confirmation))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     habitFacade.deleteUser(userId);
                     editor.clear();

@@ -14,14 +14,14 @@
             android:id="@+id/edtHabitName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Nombre del hábito"
+            android:hint="@string/habit_name"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/edtHabitDescription"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Descripción del hábito"
+            android:hint="@string/habit_description"
             android:inputType="textMultiLine"
             android:lines="3"
             android:gravity="top" />
@@ -30,7 +30,7 @@
             android:id="@+id/edtHabitFrequency"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Frecuencia semanal"
+            android:hint="@string/frequency"
             android:inputType="number" />
 
         <Spinner
@@ -38,13 +38,13 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:entries="@array/habit_options"
-            android:text="Categoría" />
+            android:text="@string/category" />
 
         <Button
             android:id="@+id/btnSaveHabit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
+            android:text="@string/save"
             android:gravity="center" />
 
     </LinearLayout>

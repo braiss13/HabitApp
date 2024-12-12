@@ -41,14 +41,14 @@ public class PasswordChangeActivity extends AppCompatActivity {
                 String newPassword = edtNewPassword.getText().toString().trim();
 
                 if (oldPassword.isEmpty() || newPassword.isEmpty()) {
-                    Toast.makeText(PasswordChangeActivity.this, "Por favor, complete ambos campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordChangeActivity.this, getString(R.string.toast_fill_both), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // Validar la nueva contraseña
 
                 if (newPassword.length() < 8 || !newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
 
-                    Toast.makeText(PasswordChangeActivity.this, "La nueva contraseña debe tener al menos 8 caracteres, incluir una letra y un número.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordChangeActivity.this, getString(R.string.register_password_invalid), Toast.LENGTH_SHORT).show();
                     return;
 
                 }
@@ -58,7 +58,7 @@ public class PasswordChangeActivity extends AppCompatActivity {
                 int userId = sharedPreferences.getInt("user_id", -1);
 
                 if (userId == -1) {
-                    Toast.makeText(PasswordChangeActivity.this, "Error al obtener la sesión. Por favor, inicie sesión de nuevo.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordChangeActivity.this, getString(R.string.error_session), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -66,7 +66,7 @@ public class PasswordChangeActivity extends AppCompatActivity {
                 boolean isOldPasswordCorrect = habitFacade.verifyPassword(userId, oldPassword);
 
                 if (!isOldPasswordCorrect) {
-                    Toast.makeText(PasswordChangeActivity.this, "La contraseña actual es incorrecta.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordChangeActivity.this, getString(R.string.login_invalid_credentials), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -74,10 +74,10 @@ public class PasswordChangeActivity extends AppCompatActivity {
                 boolean isPasswordChanged = habitFacade.updatePassword(userId, newPassword);
 
                 if (isPasswordChanged) {
-                    Toast.makeText(PasswordChangeActivity.this, "Contraseña actualizada con éxito.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordChangeActivity.this, getString(R.string.updated_pass), Toast.LENGTH_SHORT).show();
                     finish(); // Cerrar la actividad
                 } else {
-                    Toast.makeText(PasswordChangeActivity.this, "Error al actualizar la contraseña. Inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordChangeActivity.this, getString(R.string.error_updating_pass), Toast.LENGTH_SHORT).show();
                 }
             }
 

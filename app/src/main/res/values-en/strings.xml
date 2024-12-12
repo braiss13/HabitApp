@@ -25,22 +25,23 @@
 
 
     <string-array name="habit_options">
-        <item>Nutrición</item>
-        <item>Productividad</item>
-        <item>Salud</item>
-        <item>Deporte</item>
-        <item>Estudio</item>
-        <item>Finanzas</item>
-        <item>Salud mental</item>
-        <item>Otros</item>
+        <item>Nutrition</item>
+        <item>Productivity</item>
+        <item>Health</item>
+        <item>Sports</item>
+        <item>Study</item>
+        <item>Finance</item>
+        <item>Mental health</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="habit_filter">
-        <item>Nombre</item>
-        <item>Categoría</item>
-        <item>Completado</item>
-        <item>En progreso</item>
+        <item>Name</item>
+        <item>Category</item>
+        <item>Completed</item>
+        <item>In progress</item>
     </string-array>
+
     <!--BOTONES-->
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -51,5 +52,38 @@
     <string name="user">User</string>
     <string name="pass">Password</string>
     <string name="login">Login</string>
+    <string name="welcome">Welcome</string>
+    <string name="register">Register</string>
+    <string name="toast_progress_incremented_all">Increased progress for all habits</string>
+    <string name="session_close">Logout</string>
+    <string name="session_close_confirmation">Are you sure you want to log out?</string>
+    <string name="session_closed">Session closed</string>
+    <string name="progress">Progress:</string>
+    <string name="habit_name">Habit name</string>
+    <string name="habit_description">Habit description</string>
+    <string name="frequency">Weekly frequency</string>
+    <string name="category">Category</string>
+    <string name="save">Save</string>
+    <string name="no_0_frequency">Frequency must not be 0</string>
+    <string name="toast_habit_not_found">The habit was not found or does not belong to the current user</string>
+    <string name="cancel_edit">Cancel edit</string>
+    <string name="leave_wo_save">Leave without save?</string>
+    <string name="toast_cant_update_habit">Couldn\'t update habit. Check the data</string>
+    <string name="introduce_filter">Introduce filter</string>
+    <string name="filter_by">"Filter by: "</string>
+    <string name="add_habit">Add habit</string>
+    <string name="edit_pic">Edit pic</string>
+    <string name="user_name">User name</string>
+    <string name="change_pass">Change password</string>
+    <string name="my_habits">My habits</string>
+    <string name="settings">Settings</string>
+    <string name="delete">You are going to delete</string>
+    <string name="delete_confirmation">Are you sure you want to delete?</string>
+    <string name="pass_now">Current password</string>
+    <string name="pass_new">New password</string>
+    <string name="toast_fill_both">Please, fill both fields</string>
+    <string name="error_session">Error getting session. Please log in again.</string>
+    <string name="updated_pass">Password updated successfully</string>
+    <string name="error_updating_pass">Error updating password. Please try again.</string>
 
 </resources>

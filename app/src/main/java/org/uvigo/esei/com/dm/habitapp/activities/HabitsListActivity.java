@@ -233,7 +233,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
         // Refrescar la lista
         filterHabits();
-        Toast.makeText(this, "Progreso incrementado para todos los hábitos", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.toast_progress_incremented_all), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -306,18 +306,18 @@ public class HabitsListActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
-                .setTitle("Cierre de Sesión")
-                .setMessage("¿Está seguro de que quiere cerrar sesión?")
-                .setPositiveButton("Sí", (dialog, which) -> {
+                .setTitle( getString(R.string.session_close))
+                .setMessage(getString(R.string.session_close_confirmation))
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     editor.clear();
                     editor.apply();
 
                     Intent intent = new Intent(HabitsListActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(HabitsListActivity.this, "La sesión ha sido cerrada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HabitsListActivity.this, getString(R.string.session_closed), Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show();
 
     }

@@ -65,7 +65,7 @@ public class AddHabitActivity extends AppCompatActivity {
         }
 
         if(frequency.equals("0")) {
-            Toast.makeText(this,"La frecuencia no puede ser 0", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.no_0_frequency), Toast.LENGTH_SHORT).show();
             return;
         }
 

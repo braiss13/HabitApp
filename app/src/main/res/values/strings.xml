@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">HabitApp</string>
+    <!--MAIN LAYOUT-->
+    <string name="welcome">Bienvenido</string>
+    <string name="register">Registrarse</string>
+
     <!--LOGIN-->
     <string name="login_empty_fields">Por favor, completa todos los campos</string>
     <string name="login_successful">Inicio de sesión exitoso</string>
@@ -12,22 +16,75 @@
     <!--REGISTER-->
     <string name="register_success">Usuario registrado con éxito</string>
     <string name="register_error">Error al registrar usuario</string>
+    <!--REGISTER LAYOUT-->
+    <string name="email" translatable="false">Email</string>
+
     <!--HABITSLIST-->
     <string name="confirm_deletion_title">Confirmar borrado</string>
     <string name="confirm_delete_habit">¿Estás seguro de que quieres eliminar este hábito?</string>
     <string name="exit_app_title">Salir de la aplicación</string>
     <string name="exit_app_message">¿Deseas cerrar la aplicación?</string>
+    <string name="toast_progress_incremented_all">Progreso incrementado para todos los hábitos</string>
+    <string name="session_close">Cierre de Sesión</string>
+    <string name="session_close_confirmation">¿Está seguro de que quiere cerrar sesión?</string>
+    <string name="session_closed">La sesión ha sido cerrada</string>
+    <!--HABITSLIST LAYOUT-->
+    <string name="progress">Progreso:</string>
+    <string name="introduce_filter">Introduce el filtro</string>
+    <string name="filter_by">Filtrar por: </string>
+    <string name="add_habit">Agregar hábito </string>
+
     <!--ADDHABIT-->
     <string name="fill_required_fields">Por favor, completa todos los campos obligatorios</string>
     <string name="habit_added_successfully">Hábito agregado con éxito</string>
     <string name="cancel_creation">Cancelar creación</string>
     <string name="exit_without_creation">¿Deseas salir sin crear el hábito?</string>
+    <string name="no_0_frequency">La frecuencia no puede ser 0</string>
+    <!--ADDHABIT LAYOUT-->
+    <string name="habit_name">Nombre del hábito</string>
+    <string name="habit_description">Descripción del hábito</string>
+    <string name="frequency">Frecuencia semanal</string>
+    <string name="category">Categoría</string>
+    <string name="save">Guardar</string>
+
     <!--EDITHABIT-->
     <string name ="habit_updated_successfully">Hábito modificado con éxito</string>
-
+    <string name ="toast_habit_not_found">" No se encontró el hábito o no pertenece al usuario actual"</string>
     <string name="register_password_invalid">La contraseña debe tener al menos 8 caracteres y contener letras y números</string>
+    <string name ="cancel_edit">Cancelar edición</string>
+    <string name ="leave_wo_save">¿Deseas salir sin guardar los cambios?</string>
+    <string name ="toast_cant_update_habit"> No se pudo actualizar el hábito. Revisa los datos</string>
 
-<!--NOTIFICACIONES-->
+    <!--PROFILE LAYOUT-->
+    <string name ="edit_pic">Editar foto</string>
+    <string name ="user_name">Nombre de usuario</string>
+    <string name ="change_pass">Cambiar contraseña</string>
+    <string name ="my_habits">Mis hábitos</string>
+    <string name ="settings">Ajustes</string>
+
+    <!--SETTINGS-->
+    <string name ="delete">Vas a eliminar</string>
+    <string name ="delete_confirmation">Seguro que quieres borrar?</string>
+    <!--SETTINGS LAYOUT-->
+    <string name="configuracion">Configuración</string>
+    <string name="language">Idioma</string>
+    <string name="notifications">Notificaciones</string>
+    <string name= "delete_account">Borrar cuenta</string>
+
+    <!--PASSWORD CHANGE-->
+    <string name="toast_fill_both">Por favor, complete ambos campos.</string>
+    <string name="error_session">Error al obtener la sesión. Por favor, inicie sesión de nuevo.</string>
+    <string name="updated_pass">Contraseña actualizada con éxito</string>
+    <string name="error_updating_pass">Error al actualizar la contraseña. Inténtelo de nuevo.</string>
+
+    <!--PASSWORD CHANGE LAYOUT-->
+    <string name="pass_now">Contraseña actual</string>
+    <string name="pass_new">Contrasseña nueva</string>
+
+
+
+
+    <!--NOTIFICACIONES-->
     <string name="channel_name" translatable="false">canal</string>
     <string name="channel_description" translatable="false">canal</string>
 
@@ -60,11 +117,6 @@
             <item>Galego</item>
         </string-array>
 
-    <!--SETTINGS LAYOUT-->
-    <string name="configuracion">Configuración</string>
-    <string name="language">Idioma</string>
-    <string name="notifications">Notificaciones</string>
-    <string name= "delete_account">Borrar cuenta</string>
 
 
 </resources>

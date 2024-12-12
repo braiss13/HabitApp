@@ -111,7 +111,7 @@ public class EditHabitActivity extends AppCompatActivity {
                 }
             }
         } else {
-            Toast.makeText(this, "No se encontró el hábito o no pertenece al usuario actual", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_habit_not_found), Toast.LENGTH_SHORT).show();
             finish(); // Salir de la actividad si no se encuentra el hábito
         }
         if (cursor != null) {
@@ -130,7 +130,7 @@ public class EditHabitActivity extends AppCompatActivity {
             return;
         }
         if(frequency.equals("0")){
-            Toast.makeText(this,"La frecuencia no puede ser 0", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.no_0_frequency), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -141,15 +141,15 @@ public class EditHabitActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.habit_updated_successfully), Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(this, "No se pudo actualizar el hábito. Revisa los datos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_cant_update_habit), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onBackPressed() {
         new android.app.AlertDialog.Builder(this, R.style.AppTheme_Dialog)
-                .setTitle("Cancelar edición")
-                .setMessage("¿Deseas salir sin guardar los cambios?")
+                .setTitle(getString(R.string.cancel_edit))
+                .setMessage(getString(R.string.leave_wo_save))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     super.onBackPressed(); // Llamar al comportamiento predeterminado para cerrar la actividad
                 })
