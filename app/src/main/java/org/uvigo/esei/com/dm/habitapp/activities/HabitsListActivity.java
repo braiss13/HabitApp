@@ -237,6 +237,45 @@ public class HabitsListActivity extends AppCompatActivity {
 
     }
 
+    private void shareHabitsViaWhatsApp(int habitId) {
+
+        Cursor cursor = habitFacade.getAllHabits(userId);
+
+        if (cursor == null || cursor.getCount() == 0) {
+            Toast.makeText(this, "No hay hábitos para compartir.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        StringBuilder messageBuilder = new StringBuilder("📋 *Lista de Hábitos*\n\n");
+        while (cursor.moveToNext()) {
+            String habitName = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_NOMBRE));
+            String habitCategory = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_CATEGORIA));
+            int habitProgress = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_PROGRESO));
+            int habitFrequency = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_FRECUENCIA));
+
+            messageBuilder.append("🔹 *Hábito*: ").append(habitName).append("\n")
+                    .append("📂 *Categoría*: ").append(habitCategory).append("\n")
+                    .append("📊 *Progreso*: ").append(habitProgress).append("/").append(habitFrequency).append("\n\n");
+        }
+        cursor.close();
+
+        String message = messageBuilder.toString();
+
+        // Intent para compartir por WhatsApp
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+        sendIntent.setType("text/plain");
+        sendIntent.setPackage("com.whatsapp");
+
+        try {
+            startActivity(sendIntent);
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -258,7 +297,7 @@ public class HabitsListActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.menu_delete_habit) {
             confirmDeletion(habitId);
             return true;
-        } else {
+        }else{
             return super.onContextItemSelected(item);
         }
     }
@@ -296,7 +335,12 @@ public class HabitsListActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
 
-        } else {
+        } else if(item.getItemId() == R.id.menu_share) {
+            shareHabitsViaWhatsApp(userId);
+            return true;
+
+
+        }else{
             return super.onOptionsItemSelected(item);
         }
     }

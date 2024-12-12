@@ -12,4 +12,9 @@
         android:title="Ver Perfil"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_share"
+        android:title="Compartir via WhatsApp"
+        android:icon="@android:drawable/ic_menu_share"
+        app:showAsAction="ifRoom" />
 </menu>
