@@ -355,6 +355,20 @@ public class HabitFacade {
 
     }
 
+    public void resetAllHabitsProgress(int userId) {
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DBManager.COLUMN_HABITO_PROGRESO, 0);
+
+        db.update(
+                DBManager.TABLE_HABITOS,
+                values,
+                 "user_id = ?",
+                new String[]{String.valueOf(userId)}
+        );
+    }
+
     public void incrementAllHabitsProgress(int userId) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
 

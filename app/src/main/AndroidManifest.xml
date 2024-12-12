@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".HabitApplication"
@@ -45,6 +47,12 @@
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.PasswordChangeActivity" />
         <activity android:name=".activities.SettingsActivity" />
+        <receiver android:name=".ResetHabitsReceiver"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+        </receiver>
 
     </application>
 

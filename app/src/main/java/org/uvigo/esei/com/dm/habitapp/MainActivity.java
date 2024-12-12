@@ -1,8 +1,8 @@
 package org.uvigo.esei.com.dm.habitapp;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,7 +14,8 @@ import android.Manifest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
+import android.app.AlarmManager;
+import java.util.Calendar;
 
 import org.uvigo.esei.com.dm.habitapp.activities.HabitsListActivity;
 import org.uvigo.esei.com.dm.habitapp.activities.LoginActivity;
@@ -32,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences preferences = getSharedPreferences("AlarmPrefs", MODE_PRIVATE);
+        boolean isAlarmSet = preferences.getBoolean("isAlarmSet", false);
+
+        if (!isAlarmSet) {
+            scheduleWeeklyReset();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isAlarmSet", true);
+            editor.apply();
+        }
+
 
         // Verificar si el usuario está autenticado
         if (isLogged()) {
@@ -97,6 +108,25 @@ public class MainActivity extends AppCompatActivity {
     public boolean isLogged() {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         return sharedPreferences.getBoolean("isLogged", false);
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    private void scheduleWeeklyReset() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        // Calcular el tiempo para el domingo a las 12:00
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent intent = new Intent(this, ResetHabitsReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        // Configurar el AlarmManager para repetirse semanalmente
+        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
     }
 
 }
