@@ -382,9 +382,9 @@ public class HabitFacade {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") int habitId = cursor.getInt(cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID));
-                @SuppressLint("Range") int frequency = cursor.getInt(cursor.getColumnIndex(DBManager.COLUMN_HABITO_FRECUENCIA));
-                @SuppressLint("Range") int progress = cursor.getInt(cursor.getColumnIndex(DBManager.COLUMN_HABITO_PROGRESO));
+                int habitId = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_ID));
+                int frequency = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_FRECUENCIA));
+                int progress = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_PROGRESO));
 
                 if (progress < frequency) {
                     db.execSQL("UPDATE " + DBManager.TABLE_HABITOS +
