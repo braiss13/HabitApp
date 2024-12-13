@@ -55,6 +55,7 @@ public class AddHabitActivity extends AppCompatActivity {
         String description = edtDescription.getText().toString().trim();
         String frequency = edtFrequency.getText().toString().trim();
         String category = spHabitCategory.getSelectedItem().toString();
+        long creationTime = System.currentTimeMillis();
 
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1);
@@ -69,7 +70,7 @@ public class AddHabitActivity extends AppCompatActivity {
             return;
         }
 
-        habitFacade.insertHabit(name, description, frequency, category, userId);
+        habitFacade.insertHabit(name, description, frequency, category, creationTime, userId);
         Toast.makeText(this, getString(R.string.habit_added_successfully), Toast.LENGTH_SHORT).show();
         finish();
     }

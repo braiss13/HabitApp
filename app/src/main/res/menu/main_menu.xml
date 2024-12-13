@@ -2,19 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
+
     <item
         android:id="@+id/menu_increment_all_habits"
         android:title="Incrementar hábitos"
         android:icon="@android:drawable/ic_menu_add"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_profile"
         android:title="Ver Perfil"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_share"
         android:title="Compartir via WhatsApp"
         android:icon="@android:drawable/ic_menu_share"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_completed_habits"
+        android:title="Ver hábitos completados"
+        android:icon="@android:drawable/ic_menu_more"
+        app:showAsAction="always"/>
 </menu>

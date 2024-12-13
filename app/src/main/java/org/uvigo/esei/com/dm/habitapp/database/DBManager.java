@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class DBManager extends SQLiteOpenHelper {
     private static final String DB_NAME = "HabitAppDB";
-    private static final int DB_VERSION = 3; // Incrementar la versión
+    private static final int DB_VERSION = 4; // Incrementar la versión
 
     // Tabla de usuarios
     public static final String TABLE_USUARIOS = "usuarios";
@@ -26,7 +26,14 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String COLUMN_HABITO_FRECUENCIA = "frecuencia";
     public static final String COLUMN_HABITO_CATEGORIA = "categoria";
     public static final String COLUMN_HABITO_ESTADO = "estado";
-    public static final String COLUMN_HABITO_PROGRESO = "progreso_actual"; // Nuevo atributo
+    public static final String COLUMN_HABITO_PROGRESO = "progreso_actual";
+    public static final String COLUMN_HABITO_FECHA_CREACION = "fechaCreacion";
+
+    //Tabla hábitos completados
+    public static final String TABLE_HABITOS_COMPLETADOS = "habitos_completados";
+    public static final String COLUMN_HABITO_COMPLETADO_ID = "_id";
+    public static final String COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO = "fechaCompletado";
+
 
     public DBManager(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -53,11 +60,23 @@ public class DBManager extends SQLiteOpenHelper {
                     COLUMN_HABITO_FRECUENCIA + " INTEGER NOT NULL, " + // Cambiar frecuencia a entero
                     COLUMN_HABITO_CATEGORIA + " TEXT, " +
                     COLUMN_HABITO_ESTADO + " INTEGER DEFAULT 0, " +
-                    COLUMN_HABITO_PROGRESO + " INTEGER DEFAULT 0, " + // Inicializar progreso en 0
-                    "user_id INTEGER NOT NULL, " +
+                    COLUMN_HABITO_PROGRESO + " INTEGER DEFAULT 0, " +
+                    COLUMN_HABITO_FECHA_CREACION + " TEXT NOT NULL, " +// Inicializar progreso en 0
+                    " user_id INTEGER NOT NULL, " +
                     "FOREIGN KEY(user_id) REFERENCES " + TABLE_USUARIOS + "(" + COLUMN_ID + ")" +
                     "ON DELETE CASCADE" + ")";
             db.execSQL(CREATE_TABLE_HABITOS);
+
+            String CREATE_TABLE_HABITOS_COMPLETADOS = "CREATE TABLE " + TABLE_HABITOS_COMPLETADOS + " (" +
+                    COLUMN_HABITO_COMPLETADO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + "TEXT NOT NULL, " +
+                    " habito_id INTEGER NOT NULL, " +
+                    "FOREIGN KEY(habito_id) REFERENCES " + TABLE_HABITOS_COMPLETADOS + "(" + COLUMN_HABITO_ID + ")" +
+                    "ON DELETE CASCADE" + ")";
+
+            db.execSQL(CREATE_TABLE_HABITOS_COMPLETADOS);
+
+
 
             db.setTransactionSuccessful();
         } catch (SQLException e) {
@@ -75,7 +94,13 @@ public class DBManager extends SQLiteOpenHelper {
             // Agregar nueva columna `progreso_actual` si no existe
             if (oldVersion < 3) {
                 db.execSQL("ALTER TABLE " + TABLE_HABITOS + " ADD COLUMN " + COLUMN_HABITO_PROGRESO + " INTEGER DEFAULT 0");
+
             }
+
+            if(oldVersion < 4) {
+                db.execSQL("ALTER TABLE " + TABLE_HABITOS + " ADD COLUMN " + COLUMN_HABITO_FECHA_CREACION + " TEXT NOT NULL ");
+            }
+
 
             db.setTransactionSuccessful();
         } catch (SQLException e) {

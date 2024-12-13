@@ -228,16 +228,18 @@ public class HabitFacade {
     }
 
     // Insertar un nuevo hábito asociado a un usuario
-    public long insertHabit(String nombre, String descripcion, String frecuencia, String categoria, int userId) {
+    public long insertHabit(String nombre, String descripcion, String frecuencia, String categoria,long time, int userId) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBManager.COLUMN_HABITO_NOMBRE, nombre);
         values.put(DBManager.COLUMN_HABITO_DESCRIPCION, descripcion);
         values.put(DBManager.COLUMN_HABITO_FRECUENCIA, frecuencia);
         values.put(DBManager.COLUMN_HABITO_CATEGORIA, categoria);
+        values.put(DBManager.COLUMN_HABITO_FECHA_CREACION, time);
         values.put("user_id", userId); // Asociar el hábito al usuario
         return db.insert(DBManager.TABLE_HABITOS, null, values);
     }
+
 
     // Actualizar un hábito, asegurándose de que pertenece al usuario actual
     public int updateHabit(int habitId, String nombre, String descripcion, String frecuencia, String categoria, int estado, int userId) {

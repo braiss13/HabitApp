@@ -50,7 +50,7 @@ public class Habito {
         return categoria;
     }
     public int getProgreso() { return progreso; }
-    public int getObjetivo() { return objetivo; }
+
 
     public boolean isEstado() {
         return estado;
@@ -62,7 +62,7 @@ public class Habito {
 
 
 
-    public void setObjetivo(int objetivo) { this.objetivo = objetivo; }
+
 
     public void setProgreso(int progreso) { this.progreso = progreso; }
 
