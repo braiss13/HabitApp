@@ -66,14 +66,7 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             Toast.makeText(this, "Por favor, ingresa tu correo electrónico", Toast.LENGTH_SHORT).show();
             return;
-        }if (!LocaleUtils.isValidEmail(email)) {
-            Toast.makeText(RecoverPasswordActivity.this, "Email no valido", Toast.LENGTH_SHORT).show();
-            return;
-        }if (!LocaleUtils.isValidPassword(newPassword)) {
-            Toast.makeText(RecoverPasswordActivity.this, getString(R.string.register_password_invalid), Toast.LENGTH_SHORT).show();
-            return;
         }
-
         if (enteredToken.isEmpty()) {
             Toast.makeText(this, "Por favor, ingresa el token de recuperación", Toast.LENGTH_SHORT).show();
             return;
