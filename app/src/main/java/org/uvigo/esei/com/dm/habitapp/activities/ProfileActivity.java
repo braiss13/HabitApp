@@ -3,6 +3,7 @@ package org.uvigo.esei.com.dm.habitapp.activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,8 @@ public class ProfileActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private int userId;
 
+    private static final int PICK_IMAGE_REQUEST = 1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnHabitsList = findViewById(R.id.btnHabitsList);
         btnSettings = findViewById(R.id.btnSettings);
-        //btnEditPhoto =findViewById(R.id.btnEditPhoto);
+        btnEditPhoto =findViewById(R.id.btnEditPhoto);
 
         sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         userId = sharedPreferences.getInt("user_id", -1);
@@ -51,7 +54,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadProfile();
 
-        //btnEditPhoto.setOnClickListener(view -> editPhoto());
+        btnEditPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_IMAGE_REQUEST);
+            }
+        });
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,13 +88,25 @@ public class ProfileActivity extends AppCompatActivity {
 
         tvUsername.setText(habitFacade.getUsername(userId));
         tvEmail.setText(habitFacade.getEmail(userId));
+        String imageUri = sharedPreferences.getString("profile_image_uri", null);
+        if (imageUri != null) {
+            ivProfileImage.setImageURI(Uri.parse(imageUri));
+        }
 
-
-        //TODO -> Cargar Imagen
     }
 
-    //public void editPhoto(){}
-    //TODO-> Método para cambiar la foto de perfil
 
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            ivProfileImage.setImageURI(imageUri);
+
+
+            sharedPreferences.edit().putString("profile_image_uri", imageUri.toString()).apply();
+        }
+    }
 
 }
