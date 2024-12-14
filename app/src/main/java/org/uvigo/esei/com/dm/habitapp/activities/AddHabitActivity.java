@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
@@ -49,6 +50,13 @@ public class AddHabitActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> saveHabit());
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Llamar al método que aplica el idioma según las preferencias
+        LocaleUtils.setLocaleFromPreferences(this);
+    }
+
 
     public void saveHabit() {
         String name = edtName.getText().toString().trim();

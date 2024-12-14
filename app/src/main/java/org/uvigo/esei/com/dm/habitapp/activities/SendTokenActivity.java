@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.MailSender;
 import org.uvigo.esei.com.dm.habitapp.R;
 
@@ -48,6 +49,12 @@ public class SendTokenActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Llamar al método que aplica el idioma según las preferencias
+        LocaleUtils.setLocaleFromPreferences(this);
     }
 
 

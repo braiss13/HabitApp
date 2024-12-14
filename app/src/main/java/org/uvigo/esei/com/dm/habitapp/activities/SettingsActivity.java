@@ -1,6 +1,7 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.MainActivity;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
@@ -79,6 +81,13 @@ public class SettingsActivity extends AppCompatActivity {
         // Configurar la acción para borrar usuario
         btnDeleteUser.setOnClickListener(view -> deleteUser());
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Llamar al método que aplica el idioma según las preferencias
+        LocaleUtils.setLocaleFromPreferences(this);
+    }
+
 
     private void deleteUser() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -102,19 +111,37 @@ public class SettingsActivity extends AppCompatActivity {
     private void setLocale(String langCode) {
         Locale locale = new Locale(langCode);
         Locale.setDefault(locale);
-
         // Actualizar configuración
         Configuration config = new Configuration();
-        config.setLocale(locale);  // Usamos setLocale en lugar de config.locale (API más reciente)
+        config.setLocale(locale);
+        // Actualizar los recursos de la aplicación con el nuevo idioma
+        Context context = createConfigurationContext(config);
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
         // Guardar preferencia de idioma
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         editor.putString("language", langCode);
         editor.apply();
 
         // Reiniciar la actividad para aplicar cambios
-        recreate();
+        Intent intent = new Intent(this, SettingsActivity.class); // Reiniciar la actividad actual
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Esta línea es importante
+        startActivity(intent);
+        finish();
+    }
+    public void onBackPressed() {
+        // Aplicar el idioma actualizado antes de regresar
+        super.onBackPressed();
+        LocaleUtils.setLocaleFromPreferences(this);
+
+        // Usar un intent con las banderas necesarias para asegurar que el idioma se aplique
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Asegurarse de que ProfileActivity se inicie correctamente
+
+        // Iniciar la actividad
+        startActivity(intent);
+
+        // Llamar al nuevo comportamiento de "Atrás" con el dispatcher
+        getOnBackPressedDispatcher().onBackPressed();
     }
 
 
@@ -145,4 +172,24 @@ public class SettingsActivity extends AppCompatActivity {
                 return "es";
         }
     }
+    public void setLocaleFromPreferences() {
+        // Leer el idioma guardado en SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
+        String languageCode = prefs.getString("language", "es");  // "es" es el valor por defecto si no hay preferencia
+
+        // Cambiar la configuración del idioma
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+
+        // Crear una nueva configuración con el idioma deseado
+        Configuration config = new Configuration();
+        config.setLocale(locale);  // Establecer el nuevo idioma
+
+        // Crear un contexto con la nueva configuración
+        Context context = createConfigurationContext(config);
+
+        // Actualizar los recursos de la aplicación usando este nuevo contexto
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    }
+
 }

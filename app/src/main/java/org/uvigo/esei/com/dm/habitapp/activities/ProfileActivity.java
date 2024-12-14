@@ -15,7 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.MainActivity;
+import org.uvigo.esei.com.dm.habitapp.activities.SettingsActivity;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 import org.uvigo.esei.com.dm.habitapp.activities.HabitsListActivity;
@@ -83,6 +85,31 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Llama al método de la clase utilitaria para aplicar el idioma
+        LocaleUtils.setLocaleFromPreferences(this);
+
+    }
+
+    public void onBackPressed() {
+        // Aplicar el idioma actualizado antes de regresar
+        super.onBackPressed();
+        LocaleUtils.setLocaleFromPreferences(this);
+
+        // Usar un intent con las banderas necesarias para asegurar que el idioma se aplique
+        Intent intent = new Intent(this, HabitsListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Asegurarse de que ProfileActivity se inicie correctamente
+
+        // Iniciar la actividad
+        startActivity(intent);
+
+        // Llamar al nuevo comportamiento de "Atrás" con el dispatcher
+        getOnBackPressedDispatcher().onBackPressed();
+    }
+
+
 
     private void loadProfile(){
 

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
@@ -82,5 +83,11 @@ public class PasswordChangeActivity extends AppCompatActivity {
             }
 
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Llamar al método que aplica el idioma según las preferencias
+        LocaleUtils.setLocaleFromPreferences(this);
     }
 }

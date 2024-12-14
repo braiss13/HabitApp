@@ -16,6 +16,7 @@ import android.widget.SpinnerAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
@@ -60,6 +61,13 @@ public class EditHabitActivity extends AppCompatActivity {
 
         btnSave.setOnClickListener(v -> updateHabit());
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Llamar al método que aplica el idioma según las preferencias
+        LocaleUtils.setLocaleFromPreferences(this);
+    }
+
 
     //TODO -> Esto no me funciona pero tampoco creo que sea necesario
  /*   @Override

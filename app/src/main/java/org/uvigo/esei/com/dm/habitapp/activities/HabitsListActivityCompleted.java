@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
@@ -88,6 +89,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadCompletedHabits(); // Refresca los datos al reanudar la actividad
+        LocaleUtils.setLocaleFromPreferences(this);
     }
     private void loadCompletedHabits() {
         if (userId == -1) {

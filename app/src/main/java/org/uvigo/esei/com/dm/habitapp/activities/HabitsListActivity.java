@@ -28,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
+import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.MainActivity;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
@@ -111,6 +112,7 @@ public class HabitsListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        LocaleUtils.setLocaleFromPreferences(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("FilterState",MODE_PRIVATE);
         filter = sharedPreferences.getString("filter_type", "Nombre");
