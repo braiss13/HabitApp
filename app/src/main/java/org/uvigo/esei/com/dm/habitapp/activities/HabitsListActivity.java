@@ -42,6 +42,7 @@ public class HabitsListActivity extends AppCompatActivity {
     private SimpleCursorAdapter adapter;
     private ListView lvHabits;
     private EditText edtHabitFilter;
+    private TextView tvHabitCount;
     private FloatingActionButton fabAddHabit, fabLogout;
     private Spinner spHabitFilter;
     private HabitFacade habitFacade;
@@ -64,6 +65,8 @@ public class HabitsListActivity extends AppCompatActivity {
         fabLogout = findViewById(R.id.fabLogout);
         edtHabitFilter = findViewById(R.id.edtHabitFilter);
         spHabitFilter = findViewById(R.id.spHabitFilter);
+        tvHabitCount = findViewById(R.id.tvHabitNumber);
+
 
         setupListView();
 
@@ -128,6 +131,8 @@ public class HabitsListActivity extends AppCompatActivity {
         if (elapsedTimeMillis >= oneWeekMillis) {
             resetAllHabitsProgress();
         }
+        int habitCount = getHabitCount(userId); // Obtener el total de hábitos para el usuario
+        tvHabitCount.setText("Total Hábitos: " + habitCount);
 
         // Aplicar el filtro actual
         filterHabits();
@@ -150,6 +155,13 @@ public class HabitsListActivity extends AppCompatActivity {
         editor.putLong("lastPauseTime", currentTimeMillis);
 
         editor.apply();
+    }
+
+    private int getHabitCount(int userId){
+        Cursor cursor = habitFacade.getAllHabits(userId);
+        int habitCount = cursor.getCount();
+        cursor.close();
+        return habitCount;
     }
 
     public void resetAllHabitsProgress(){
@@ -316,11 +328,17 @@ public class HabitsListActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1);
 
-        habitFacade.incrementAllHabitsProgress(userId);
+        new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
+                .setTitle("Confirmar marcar todos")
+                .setMessage("¿Estás seguro de que quieres marcar todos los hábitos?")
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                    habitFacade.incrementAllHabitsProgress(userId);
+                    filterHabits();
+                    Toast.makeText(this, getString(R.string.toast_progress_incremented_all), Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(getString(R.string.no), null)
+                .show();
 
-        // Refrescar la lista
-        filterHabits();
-        Toast.makeText(this, getString(R.string.toast_progress_incremented_all), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -399,6 +417,8 @@ public class HabitsListActivity extends AppCompatActivity {
                 .setMessage(getString(R.string.confirm_delete_habit))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     habitFacade.deleteHabit((int) habitId, userId);
+                    int habitCount = getHabitCount(userId); // Obtener el total de hábitos para el usuario
+                    tvHabitCount.setText("Total Hábitos: " + habitCount);
                     loadHabits(); // Recargar los hábitos tras eliminar uno
                 })
                 .setNegativeButton(getString(R.string.no), null)
