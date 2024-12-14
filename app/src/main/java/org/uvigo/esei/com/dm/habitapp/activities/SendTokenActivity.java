@@ -17,8 +17,11 @@ import org.uvigo.esei.com.dm.habitapp.R;
 
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
+import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
+
 
 public class SendTokenActivity extends AppCompatActivity {
+    private HabitFacade habitFacade;
     private String emailFrom = "alicianoal1@gmail.com";
     private String passFrom = "mdrt ysck fnxg dkrl";
     private Session session;

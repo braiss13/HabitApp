@@ -16,8 +16,11 @@ import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
+import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
+
 
 public class RegisterActivity extends AppCompatActivity {
+    private HabitFacade habitFacade;
 
     private Button btnRegister;
 
@@ -43,13 +46,14 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, getString(R.string.login_empty_fields), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (password.length() < 8 || !password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+                if (!LocaleUtils.isValidPassword(password)) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.register_password_invalid), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-
+                if(!LocaleUtils.isValidEmail(email)){
+                    Toast.makeText(RegisterActivity.this, "Email no valido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (registerUser(username, password, email)) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();
                     Intent intent =new Intent(RegisterActivity.this, LoginActivity.class);
@@ -68,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         LocaleUtils.setLocaleFromPreferences(this);
     }
 
+    //TODO ESTA CLASE TMB INTERACTUA A PALO SOBRE LA BD
     private boolean registerUser(String username, String password, String email) {
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getWritableDatabase();

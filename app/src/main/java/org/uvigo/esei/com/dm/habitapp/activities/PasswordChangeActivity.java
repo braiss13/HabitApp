@@ -47,14 +47,13 @@ public class PasswordChangeActivity extends AppCompatActivity {
                 }
                 // Validar la nueva contraseña
 
-                if (newPassword.length() < 8 || !newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+            if (!LocaleUtils.isValidPassword(oldPassword)) {
+                Toast.makeText(PasswordChangeActivity.this, getString(R.string.register_password_invalid), Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                    Toast.makeText(PasswordChangeActivity.this, getString(R.string.register_password_invalid), Toast.LENGTH_SHORT).show();
-                    return;
 
-                }
-
-                // Obtener el ID del usuario de la sesión actual
+            // Obtener el ID del usuario de la sesión actual
                 SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
                 int userId = sharedPreferences.getInt("user_id", -1);
 

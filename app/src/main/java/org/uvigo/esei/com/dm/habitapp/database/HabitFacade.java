@@ -486,6 +486,19 @@ public class HabitFacade {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());  // Devuelve la fecha y hora actual
     }
+    public boolean isEmailRegistered(String email) {
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM users WHERE email = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email});
+
+        boolean exists = false;
+        if (cursor.moveToFirst()) {
+            exists = cursor.getInt(0) > 0; // Si COUNT(*) > 0, el email existe
+        }
+        cursor.close();
+        return exists;
+    }
+
 
 
 

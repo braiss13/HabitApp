@@ -15,9 +15,14 @@ import org.uvigo.esei.com.dm.habitapp.HabitApplication;
 import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
 import org.uvigo.esei.com.dm.habitapp.R;
+import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 
+
+
 public class RecoverPasswordActivity extends AppCompatActivity {
+    private HabitFacade habitFacade;
+
     private int sentToken; // Token generado y enviado
     private EditText etEmail, etToken, etNewPassword;
     private Button btnConfirm;
@@ -60,6 +65,12 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         // Validación inicial de los campos
         if (email.isEmpty()) {
             Toast.makeText(this, "Por favor, ingresa tu correo electrónico", Toast.LENGTH_SHORT).show();
+            return;
+        }if (!LocaleUtils.isValidEmail(email)) {
+            Toast.makeText(RecoverPasswordActivity.this, "Email no valido", Toast.LENGTH_SHORT).show();
+            return;
+        }if (!LocaleUtils.isValidPassword(newPassword)) {
+            Toast.makeText(RecoverPasswordActivity.this, getString(R.string.register_password_invalid), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -105,7 +116,7 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         }
     }
 
-    // Simula el guardado de la nueva contraseña en el sistema
+    // TODO ESTE METODO ESTA INTERACTUANDO CON LA BD A PALO SECO
     private void saveNewPassword(String email, String newPassword) {
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getWritableDatabase();
