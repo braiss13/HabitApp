@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,17 +21,21 @@ import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edtUsername, edtPassword;
-    private Button btnLogin;
+    private Button btnLogin, btnResetPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Permitir operaciones de red en el hilo principal (solo para pruebas, no recomendado en producción)
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         // Referencia a los elementos del layout
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnResetPass = findViewById(R.id.btnResetPass);
 
         // Manejo del botón de login
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +63,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
+        btnResetPass.setOnClickListener(view->{
+                Intent intent = new Intent(LoginActivity.this, SendTokenActivity.class);
+                startActivity(intent);
+        });
     }
 
     /**

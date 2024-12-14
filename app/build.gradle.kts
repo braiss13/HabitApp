@@ -29,9 +29,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude("META-INF/NOTICE.md")  // Excluir el archivo conflictivo
+        exclude("META-INF/LICENSE.md")
+    }
 }
 
 dependencies {
+    implementation(libs.javamail)
+    implementation(libs.javamail.activation)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -40,4 +46,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }

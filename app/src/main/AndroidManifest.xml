@@ -49,6 +49,9 @@
         <activity android:name=".activities.PasswordChangeActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.HabitsListActivityCompleted"/>
+        <activity android:name=".activities.RecoverPasswordActivity"/>
+        <activity android:name=".activities.SendTokenActivity"/>
+
 
     </application>
 
