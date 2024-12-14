@@ -445,12 +445,17 @@ public class HabitFacade {
 
 
     public void updateProgressToZero(int habitId) {
-        DBManager dbManager = new DBManager(context);
-        dbManager.updateProgressToZero(habitId);
+        SQLiteDatabase db = dbManager.getWritableDatabase();  // Usamos dbManager para obtener la instancia de la base de datos.
+        String updateQuery = "UPDATE " + DBManager.TABLE_HABITOS +  // Usamos el nombre de la tabla de hábitos desde DBManager
+                " SET " + DBManager.COLUMN_HABITO_PROGRESO + " = 0 WHERE " + DBManager.COLUMN_HABITO_ID + " = ?";
+        db.execSQL(updateQuery, new Object[]{habitId});
     }
 
     public void decrementProgress(int habitId) {
-        DBManager dbManager = new DBManager(context);
-        dbManager.decrementProgress(habitId);
+        SQLiteDatabase db = dbManager.getWritableDatabase();  // Usamos dbManager para obtener la instancia de la base de datos.
+        String updateQuery = "UPDATE " + DBManager.TABLE_HABITOS +  // Usamos el nombre de la tabla de hábitos desde DBManager
+                " SET " + DBManager.COLUMN_HABITO_PROGRESO + " = " + DBManager.COLUMN_HABITO_PROGRESO + " - 1 WHERE " + DBManager.COLUMN_HABITO_ID + " = ?";
+        db.execSQL(updateQuery, new Object[]{habitId});
     }
+
 }

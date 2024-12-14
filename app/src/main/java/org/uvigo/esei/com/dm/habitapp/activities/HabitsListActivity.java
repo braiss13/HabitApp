@@ -209,15 +209,16 @@ public class HabitsListActivity extends AppCompatActivity {
                 return true;
             } else if (view.getId() == R.id.btnDecrementProgress) {
                 int habitIdIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID);
-                int progressIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_PROGRESO); // Obtenemos el índice del progreso
+                int progresoIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_PROGRESO);
+                int frecuenciaIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_FRECUENCIA);
 
-                if (habitIdIndex == -1 || progressIndex == -1) {
+                if (habitIdIndex == -1) {
                     Log.e("setViewBinder", "Column not found in cursor");
                     return false;
                 }
 
                 int habitId = cursor.getInt(habitIdIndex);
-                int progress = cursor.getInt(progressIndex); // Obtenemos el valor del progreso
+                int progress = cursor.getInt(progresoIndex); // Obtenemos el valor del progreso
 
                 view.setOnClickListener(v -> {
                     // Crear el diálogo de confirmación
@@ -225,8 +226,11 @@ public class HabitsListActivity extends AppCompatActivity {
                             .setTitle("Eliminar progreso") // Título del diálogo
                             .setMessage("¿Seguro que quiere restar uno al progreso?") // Mensaje del diálogo
                             .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                                // Verificar si el progreso es 1
-                                if (progress == 1) {
+                                if (progress == 0) {
+                                    // Si el progreso ya es 0, mostrar un Toast
+                                    Toast.makeText(HabitsListActivity.this, "El progreso ya está en 0", Toast.LENGTH_SHORT).show();
+                                    // Verificar si el progreso es 1
+                                }else if (progress == 1) {
                                     habitFacade.updateProgressToZero(habitId); // Si es 1, lo ponemos a 0
                                 } else {
                                     habitFacade.decrementProgress(habitId); // Sino, restamos 1 al progreso
