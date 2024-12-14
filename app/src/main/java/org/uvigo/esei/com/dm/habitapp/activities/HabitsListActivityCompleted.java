@@ -31,12 +31,15 @@ import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class HabitsListActivityCompleted extends AppCompatActivity {
 
     private SimpleCursorAdapter adapter;
-    private ListView lvHabits;
+    private ListView lvHabitsCompleted;
     private EditText edtHabitFilter;
-    private FloatingActionButton fabAddHabit, fabLogout;
     private Spinner spHabitFilter;
     private HabitFacade habitFacade;
     private String filter = "Nombre";
@@ -52,21 +55,19 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         userId = sharedPreferences.getInt("user_id", -1);
 
-        lvHabits = findViewById(R.id.lvHabits);
-        fabAddHabit = findViewById(R.id.fabAddHabit);
-        fabLogout = findViewById(R.id.fabLogout);
+        lvHabitsCompleted = findViewById(R.id.lvHabitsCompleted);
         edtHabitFilter = findViewById(R.id.edtHabitFilter);
         spHabitFilter = findViewById(R.id.spHabitFilter);
 
-        setupListView();
+        //setupCompletedListView();
 
-        registerForContextMenu(lvHabits);
+        registerForContextMenu(lvHabitsCompleted);
 
         spHabitFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 filter = adapterView.getItemAtPosition(position).toString();
-                filterHabits();
+               // filterHabits();
             }
 
             @Override
@@ -82,7 +83,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                filterHabits(); // Filtrar los hábitos cuando se cambie el texto
+                //filterHabits(); // Filtrar los hábitos cuando se cambie el texto
             }
 
             @Override
@@ -100,7 +101,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         edtHabitFilter.setText(filterText);
 
         // Aplicar el filtro actual
-        filterHabits();
+        //filterHabits();
     }
 
     @Override
@@ -116,72 +117,43 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         editor.apply();
     }
 
-    private void setupListView() {
-        // Definimos cómo se mapea cada dato de la base de datos a los elementos visuales del XML
+   /* private void setupCompletedListView() {
         String[] from = {
                 DBManager.COLUMN_HABITO_NOMBRE,
                 DBManager.COLUMN_HABITO_CATEGORIA,
-                DBManager.COLUMN_HABITO_PROGRESO,
-                DBManager.COLUMN_HABITO_FRECUENCIA
+                DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO
         };
 
         int[] to = {
                 R.id.tvHabitName,
                 R.id.tvHabitCategory,
-                R.id.tvHabitProgress,
-                R.id.btnIncrementProgress
+                R.id.tvCompletionDate
         };
 
-        adapter = new SimpleCursorAdapter(this, R.layout.list_item_habit, null, from, to, 0);
+        adapter = new SimpleCursorAdapter(this, R.layout.list_item_completed_habit, null, from, to, 0);
 
-        // Adaptador personalizado para gestionar dinámicamente el progreso (0/frecuencia)
+        // Formatear la fecha de completado
         adapter.setViewBinder((view, cursor, columnIndex) -> {
-            if (view.getId() == R.id.tvHabitProgress) {
-                int progresoIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_PROGRESO);
-                int frecuenciaIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_FRECUENCIA);
+            if (view.getId() == R.id.tvCompletionDate) {
 
-                if (progresoIndex == -1 || frecuenciaIndex == -1) {
-                    Log.e("setViewBinder", "Column not found in cursor");
-                    return false;
-                }
+                long completedDateMillis = cursor.getLong(columnIndex);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-                int progreso = cursor.getInt(progresoIndex);
-                int frecuencia = cursor.getInt(frecuenciaIndex);
-                ((TextView) view).setText(progreso + "/" + frecuencia);
+                String formattedDate = sdf.format(new Date(completedDateMillis));
+                ((TextView) view).setText(formattedDate);
                 return true;
             }
-            else if (view.getId() == R.id.btnIncrementProgress) {
-                int habitIdIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID);
-                if (habitIdIndex == -1) {
-                    Log.e("setViewBinder", "Column not found in cursor");
-                    return false;
-                }
-
-                int habitId = cursor.getInt(habitIdIndex);
-                view.setOnClickListener(v -> {
-                    habitFacade.incrementProgress(habitId); // Incrementar el progreso
-                    filterHabits(); // Recargar la lista
-                });
-                return true;
-            }
-            return false; // Permitir que otros valores se gestionen automáticamente
+            return false;
         });
 
-        lvHabits.setAdapter(adapter);
-
-        lvHabits.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(HabitsListActivityCompleted.this, EditHabitActivity.class);
-            intent.putExtra("habit_id", id);
-            startActivity(intent);
-        });
-
+        lvHabitsCompleted.setAdapter(adapter);
     }
 
     private void loadHabits() {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1); // Recuperar el user_id del usuario logueado
 
-        Cursor cursor = habitFacade.getAllHabits(userId);
+        Cursor cursor = habitFacade.getCompletedHabits();
 
         // Verificar que el Cursor tiene las columnas necesarias
         if (cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID) == -1) {
@@ -192,9 +164,9 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         if (oldCursor != null) {
             oldCursor.close(); // Cierra el cursor anterior si existía
         }
-    }
+    }*/
 
-    public void filterHabits() {
+  /*  public void filterHabits() {
         String filterText = edtHabitFilter.getText().toString().trim();
         Cursor cursor;
 
@@ -212,7 +184,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
 
         // Actualizar el ListView con los resultados filtrados
         adapter.swapCursor(cursor);
-    }
+    }*/
     private void shareHabitsViaWhatsApp(int habitId) {
 
         Cursor cursor = habitFacade.getAllHabits(userId);

@@ -127,6 +127,21 @@ public class HabitFacade {
         );
     }
 
+    public Cursor getCompletedHabits() {
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+
+        // Query para obtener los datos del hábito junto con la fecha de completado
+        String query = "SELECT h." + DBManager.COLUMN_HABITO_NOMBRE + ", " +
+                "h." + DBManager.COLUMN_HABITO_CATEGORIA + ", " +
+                "c." + DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + " " +
+                "FROM " + DBManager.TABLE_HABITOS + " h " +
+                "INNER JOIN " + DBManager.TABLE_HABITOS_COMPLETADOS + " c " +
+                "ON h." + DBManager.COLUMN_HABITO_ID + " = c.habito_id " +
+                "ORDER BY c." + DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + " DESC";
+
+        return db.rawQuery(query, null);
+    }
+
     public boolean updatePassword(int userId, String newPassword) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
 

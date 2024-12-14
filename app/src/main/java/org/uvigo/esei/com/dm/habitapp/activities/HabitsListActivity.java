@@ -33,6 +33,10 @@ import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class HabitsListActivity extends AppCompatActivity {
 
     private SimpleCursorAdapter adapter;
@@ -158,6 +162,7 @@ public class HabitsListActivity extends AppCompatActivity {
                 DBManager.COLUMN_HABITO_NOMBRE,
                 DBManager.COLUMN_HABITO_CATEGORIA,
                 DBManager.COLUMN_HABITO_PROGRESO,
+                DBManager.COLUMN_HABITO_FECHA_CREACION,
                 DBManager.COLUMN_HABITO_FRECUENCIA
         };
 
@@ -165,6 +170,7 @@ public class HabitsListActivity extends AppCompatActivity {
                 R.id.tvHabitName,
                 R.id.tvHabitCategory,
                 R.id.tvHabitProgress,
+                R.id.tvCreationDate,
                 R.id.btnIncrementProgress
         };
 
@@ -185,8 +191,8 @@ public class HabitsListActivity extends AppCompatActivity {
                 int frecuencia = cursor.getInt(frecuenciaIndex);
                 ((TextView) view).setText(progreso + "/" + frecuencia);
                 return true;
-            }
-            else if (view.getId() == R.id.btnIncrementProgress) {
+
+            } else if (view.getId() == R.id.btnIncrementProgress) {
                 int habitIdIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID);
                 if (habitIdIndex == -1) {
                     Log.e("setViewBinder", "Column not found in cursor");
@@ -199,6 +205,25 @@ public class HabitsListActivity extends AppCompatActivity {
                     filterHabits(); // Recargar la lista
                 });
                 return true;
+            }else if(view.getId() == R.id.tvCreationDate){
+
+                int creationDateIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_FECHA_CREACION);
+                if (creationDateIndex == -1) {
+                    Log.e("setViewBinder", "Column not found in cursor");
+                    return false;
+                }
+
+                // Obtener la fecha en milisegundos desde la columna
+                long creationDateMillis = cursor.getLong(creationDateIndex);
+
+                // Formatear la fecha en un formato legible
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                String formattedDate = sdf.format(new Date(creationDateMillis));
+
+                // Establecer el texto en el TextView
+                ((TextView) view).setText(formattedDate);
+                return true;
+
             }
             return false; // Permitir que otros valores se gestionen automáticamente
         });

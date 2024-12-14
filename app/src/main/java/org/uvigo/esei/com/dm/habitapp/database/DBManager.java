@@ -69,9 +69,9 @@ public class DBManager extends SQLiteOpenHelper {
 
             String CREATE_TABLE_HABITOS_COMPLETADOS = "CREATE TABLE " + TABLE_HABITOS_COMPLETADOS + " (" +
                     COLUMN_HABITO_COMPLETADO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + "TEXT NOT NULL, " +
+                    COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + " TEXT NOT NULL, " + // Corrige el espacio
                     " habito_id INTEGER NOT NULL, " +
-                    "FOREIGN KEY(habito_id) REFERENCES " + TABLE_HABITOS_COMPLETADOS + "(" + COLUMN_HABITO_ID + ")" +
+                    "FOREIGN KEY(habito_id) REFERENCES " + TABLE_HABITOS + "(" + COLUMN_HABITO_ID + ")" + // Corrige la relación
                     "ON DELETE CASCADE" + ")";
 
             db.execSQL(CREATE_TABLE_HABITOS_COMPLETADOS);
