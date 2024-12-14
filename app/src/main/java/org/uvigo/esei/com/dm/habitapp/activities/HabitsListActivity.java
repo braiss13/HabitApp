@@ -163,6 +163,7 @@ public class HabitsListActivity extends AppCompatActivity {
                 DBManager.COLUMN_HABITO_CATEGORIA,
                 DBManager.COLUMN_HABITO_PROGRESO,
                 DBManager.COLUMN_HABITO_FECHA_CREACION,
+                DBManager.COLUMN_HABITO_FRECUENCIA,
                 DBManager.COLUMN_HABITO_FRECUENCIA
         };
 
@@ -171,7 +172,8 @@ public class HabitsListActivity extends AppCompatActivity {
                 R.id.tvHabitCategory,
                 R.id.tvHabitProgress,
                 R.id.tvCreationDate,
-                R.id.btnIncrementProgress
+                R.id.btnIncrementProgress,
+                R.id.btnDecrementProgress
         };
 
         adapter = new SimpleCursorAdapter(this, R.layout.list_item_habit, null, from, to, 0);
@@ -205,6 +207,37 @@ public class HabitsListActivity extends AppCompatActivity {
                     filterHabits(); // Recargar la lista
                 });
                 return true;
+            } else if (view.getId() == R.id.btnDecrementProgress) {
+                int habitIdIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID);
+                int progressIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_PROGRESO); // Obtenemos el índice del progreso
+
+                if (habitIdIndex == -1 || progressIndex == -1) {
+                    Log.e("setViewBinder", "Column not found in cursor");
+                    return false;
+                }
+
+                int habitId = cursor.getInt(habitIdIndex);
+                int progress = cursor.getInt(progressIndex); // Obtenemos el valor del progreso
+
+                view.setOnClickListener(v -> {
+                    // Crear el diálogo de confirmación
+                    new AlertDialog.Builder(HabitsListActivity.this, R.style.AppTheme_Dialog)
+                            .setTitle("Eliminar progreso") // Título del diálogo
+                            .setMessage("¿Seguro que quiere restar uno al progreso?") // Mensaje del diálogo
+                            .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                                // Verificar si el progreso es 1
+                                if (progress == 1) {
+                                    habitFacade.updateProgressToZero(habitId); // Si es 1, lo ponemos a 0
+                                } else {
+                                    habitFacade.decrementProgress(habitId); // Sino, restamos 1 al progreso
+                                }
+                                filterHabits(); // Recargar la lista después de hacer el cambio
+                            })
+                            .setNegativeButton(getString(R.string.no), null)
+                            .show();
+                });
+                return true;
+
             }else if(view.getId() == R.id.tvCreationDate){
 
                 int creationDateIndex = cursor.getColumnIndex(DBManager.COLUMN_HABITO_FECHA_CREACION);

@@ -444,4 +444,13 @@ public class HabitFacade {
     }
 
 
+    public void updateProgressToZero(int habitId) {
+        DBManager dbManager = new DBManager(context);
+        dbManager.updateProgressToZero(habitId);
+    }
+
+    public void decrementProgress(int habitId) {
+        DBManager dbManager = new DBManager(context);
+        dbManager.decrementProgress(habitId);
+    }
 }

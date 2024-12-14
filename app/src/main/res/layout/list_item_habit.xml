@@ -73,7 +73,15 @@
             android:text="Fecha de creación"
             android:gravity="center_vertical"
             android:layout_marginEnd="100dp"/>
-
+        <Button
+            android:id="@+id/btnDecrementProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"/>
         <Button
             android:id="@+id/btnIncrementProgress"
             android:layout_width="wrap_content"

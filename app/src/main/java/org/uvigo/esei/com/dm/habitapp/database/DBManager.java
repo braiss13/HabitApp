@@ -111,4 +111,15 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
+    public void updateProgressToZero(int habitId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateQuery = "UPDATE habits SET progreso = 0 WHERE id = ?";
+        db.execSQL(updateQuery, new Object[]{habitId});
+    }
+
+    public void decrementProgress(int habitId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateQuery = "UPDATE habits SET progreso = progreso - 1 WHERE id = ?";
+        db.execSQL(updateQuery, new Object[]{habitId});
+    }
 }
