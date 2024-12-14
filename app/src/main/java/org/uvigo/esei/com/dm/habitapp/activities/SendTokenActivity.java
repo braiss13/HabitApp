@@ -14,15 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.uvigo.esei.com.dm.habitapp.MailSender;
 import org.uvigo.esei.com.dm.habitapp.R;
 
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.NoSuchProviderException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendTokenActivity extends AppCompatActivity {

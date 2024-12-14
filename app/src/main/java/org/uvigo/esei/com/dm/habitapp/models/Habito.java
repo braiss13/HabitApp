@@ -9,9 +9,10 @@ public class Habito {
     private int objetivo;
     private int progreso;
     private boolean estado;
+    private String fecha_creacion;
 
     // Quitado , int objetivo
-    public Habito(int id, String nombre, String descripcion, String frecuencia, String categoria, boolean estado) {
+    public Habito(int id, String nombre, String descripcion, String frecuencia, String categoria, boolean estado, String fecha_creacion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -20,6 +21,7 @@ public class Habito {
         //this.objetivo = objetivo;
         this.progreso = progreso;
         this.estado = estado;
+        this.fecha_creacion=fecha_creacion;
     }
 
     public int getId() {
@@ -60,6 +62,8 @@ public class Habito {
         this.id = id;
     }
 
+    public String getFecha_creacion(){return fecha_creacion;}
+
 
 
 
@@ -85,6 +89,7 @@ public class Habito {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+    public  void setFecha_creacion(String fecha_creacion){this.fecha_creacion = fecha_creacion;}
 
     @Override
     public String toString() {

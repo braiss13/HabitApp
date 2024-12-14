@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,10 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.uvigo.esei.com.dm.habitapp.HabitApplication;
-import org.uvigo.esei.com.dm.habitapp.MainActivity;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
@@ -50,7 +46,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habits_list_completed);
 
-        habitFacade = new HabitFacade((HabitApplication) getApplication(),this);
+        habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         userId = sharedPreferences.getInt("user_id", -1);
@@ -59,15 +55,13 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         edtHabitFilter = findViewById(R.id.edtHabitFilter);
         spHabitFilter = findViewById(R.id.spHabitFilter);
 
-        //setupCompletedListView();
-
+        setupCompletedListView();
         registerForContextMenu(lvHabitsCompleted);
 
         spHabitFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 filter = adapterView.getItemAtPosition(position).toString();
-               // filterHabits();
             }
 
             @Override
@@ -78,46 +72,46 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
 
         edtHabitFilter.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                //filterHabits(); // Filtrar los hábitos cuando se cambie el texto
-            }
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {}
 
             @Override
-            public void afterTextChanged(Editable editable) {
-            }
+            public void afterTextChanged(Editable editable) {}
         });
-    }
 
-    protected void onResume() {
-        super.onResume();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("FilterState",MODE_PRIVATE);
-        filter = sharedPreferences.getString("filter_type", "Nombre");
-        String filterText = sharedPreferences.getString("filter_text", "");
-        edtHabitFilter.setText(filterText);
-
-        // Aplicar el filtro actual
-        //filterHabits();
+        loadCompletedHabits(); // Llama después de inicializar todo
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onResume() {
+        super.onResume();
+        loadCompletedHabits(); // Refresca los datos al reanudar la actividad
+    }
+    private void loadCompletedHabits() {
+        if (userId == -1) {
+            Toast.makeText(this, "Error: Usuario no autenticado.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Guardar el estado del filtro actual y el texto de búsqueda
-        SharedPreferences sharedPreferences = getSharedPreferences("FilterState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Cursor cursor = habitFacade.getCompletedHabits(userId);
 
-        editor.putString("filter_type", filter);
-        editor.putString("filter_text", edtHabitFilter.getText().toString());
-        editor.apply();
+        if (cursor == null) {
+            Toast.makeText(this, "No se pudieron cargar los hábitos completados.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Actualiza el adaptador con el nuevo cursor
+        Cursor oldCursor = adapter.swapCursor(cursor);
+        if (oldCursor != null) {
+            oldCursor.close(); // Cierra el cursor anterior si existía
+        }
     }
 
-   /* private void setupCompletedListView() {
+
+
+    private void setupCompletedListView() {
         String[] from = {
                 DBManager.COLUMN_HABITO_NOMBRE,
                 DBManager.COLUMN_HABITO_CATEGORIA,
@@ -132,95 +126,22 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
 
         adapter = new SimpleCursorAdapter(this, R.layout.list_item_completed_habit, null, from, to, 0);
 
-        // Formatear la fecha de completado
         adapter.setViewBinder((view, cursor, columnIndex) -> {
-            if (view.getId() == R.id.tvCompletionDate) {
-
-                long completedDateMillis = cursor.getLong(columnIndex);
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-                String formattedDate = sdf.format(new Date(completedDateMillis));
-                ((TextView) view).setText(formattedDate);
-                return true;
+            if (view.getId() == R.id.tvCreationDate || view.getId() == R.id.tvCompletionDate) {
+                try {
+                    long dateMillis = cursor.getLong(columnIndex); // Obtén la fecha en milisegundos
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()); // Formato amigable
+                    String formattedDate = sdf.format(new Date(dateMillis)); // Formatea la fecha
+                    ((TextView) view).setText(formattedDate); // Asigna la fecha formateada al TextView
+                    return true; // Indica que manejaste el bind
+                } catch (Exception e) {
+                    ((TextView) view).setText(""); // Muestra vacío en caso de error
+                    return true; // Previene la asignación predeterminada
+                }
             }
             return false;
         });
 
         lvHabitsCompleted.setAdapter(adapter);
-    }
-
-    private void loadHabits() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("user_id", -1); // Recuperar el user_id del usuario logueado
-
-        Cursor cursor = habitFacade.getCompletedHabits();
-
-        // Verificar que el Cursor tiene las columnas necesarias
-        if (cursor.getColumnIndex(DBManager.COLUMN_HABITO_ID) == -1) {
-            throw new IllegalStateException("Cursor does not contain COLUMN_HABITO_ID");
-        }
-
-        Cursor oldCursor = adapter.swapCursor(cursor);
-        if (oldCursor != null) {
-            oldCursor.close(); // Cierra el cursor anterior si existía
-        }
-    }*/
-
-  /*  public void filterHabits() {
-        String filterText = edtHabitFilter.getText().toString().trim();
-        Cursor cursor;
-
-        if ("Nombre".equals(filter)) {
-            cursor = habitFacade.getHabitsByName(filterText, userId);
-        } else if ("Categoría".equals(filter)) {
-            cursor = habitFacade.getHabitsByCategory(filterText, userId);
-        } else if ("Completado".equals(filter)) {
-            cursor = habitFacade.getHabitsByCompleted(userId);
-        } else if ("En progreso".equals(filter)) {
-            cursor = habitFacade.getHabitsByIncompleted(userId);
-        } else {
-            cursor = habitFacade.getAllHabits(userId);
-        }
-
-        // Actualizar el ListView con los resultados filtrados
-        adapter.swapCursor(cursor);
-    }*/
-    private void shareHabitsViaWhatsApp(int habitId) {
-
-        Cursor cursor = habitFacade.getAllHabits(userId);
-
-        if (cursor == null || cursor.getCount() == 0) {
-            Toast.makeText(this, "No hay hábitos para compartir.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
-        StringBuilder messageBuilder = new StringBuilder("📋 *Lista de Hábitos Completados*\n\n");
-        while (cursor.moveToNext()) {
-            String habitName = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_NOMBRE));
-            String habitCategory = cursor.getString(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_CATEGORIA));
-            int habitProgress = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_PROGRESO));
-            int habitFrequency = cursor.getInt(cursor.getColumnIndexOrThrow(DBManager.COLUMN_HABITO_FRECUENCIA));
-
-            messageBuilder.append("🔹 *Hábito*: ").append(habitName).append("\n")
-                    .append("📂 *Categoría*: ").append(habitCategory).append("\n")
-                    .append("📊 *Progreso*: ").append(habitProgress).append("/").append(habitFrequency).append("\n\n");
-        }
-        cursor.close();
-
-        String message = messageBuilder.toString();
-
-        // Intent para compartir por WhatsApp
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-
-        try {
-            startActivity(sendIntent);
-        } catch (android.content.ActivityNotFoundException e) {
-            Toast.makeText(this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
-        }
     }
 }

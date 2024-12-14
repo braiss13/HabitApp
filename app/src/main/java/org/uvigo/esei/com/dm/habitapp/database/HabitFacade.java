@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import android.widget.Toast;
 import android.util.Log;
 
@@ -13,6 +14,9 @@ import org.uvigo.esei.com.dm.habitapp.HabitApplication;
 import org.uvigo.esei.com.dm.habitapp.NotificationHelper;
 import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
 import org.uvigo.esei.com.dm.habitapp.activities.HabitsListActivity;
+
+import java.util.Date;
+import java.util.Locale;
 
 public class HabitFacade {
     private NotificationHelper notificationHelper;
@@ -127,20 +131,19 @@ public class HabitFacade {
         );
     }
 
-    public Cursor getCompletedHabits() {
+    public Cursor getCompletedHabits(int userId) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
-
-        // Query para obtener los datos del hábito junto con la fecha de completado
-        String query = "SELECT h." + DBManager.COLUMN_HABITO_NOMBRE + ", " +
+        String query = "SELECT hc." + DBManager.COLUMN_HABITO_COMPLETADO_ID + ", " +
+                "h." + DBManager.COLUMN_HABITO_NOMBRE + ", " +
                 "h." + DBManager.COLUMN_HABITO_CATEGORIA + ", " +
-                "c." + DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + " " +
-                "FROM " + DBManager.TABLE_HABITOS + " h " +
-                "INNER JOIN " + DBManager.TABLE_HABITOS_COMPLETADOS + " c " +
-                "ON h." + DBManager.COLUMN_HABITO_ID + " = c.habito_id " +
-                "ORDER BY c." + DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + " DESC";
-
-        return db.rawQuery(query, null);
+                "hc." + DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO +
+                " FROM " + DBManager.TABLE_HABITOS_COMPLETADOS + " hc " +
+                " JOIN " + DBManager.TABLE_HABITOS + " h " +
+                " ON hc.habito_id = h." + DBManager.COLUMN_HABITO_ID +
+                " WHERE h.user_id = ?";
+        return db.rawQuery(query, new String[]{String.valueOf(userId)});
     }
+
 
     public boolean updatePassword(int userId, String newPassword) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
@@ -359,6 +362,10 @@ public class HabitFacade {
                                     " SET " + DBManager.COLUMN_HABITO_ESTADO + " = 1 " +
                                     " WHERE " + DBManager.COLUMN_HABITO_ID + " = ? AND user_id = ?",
                             new String[]{String.valueOf(habitId), String.valueOf(userId)});
+                    ContentValues values = new ContentValues();
+                    values.put(DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO, System.currentTimeMillis());
+                    values.put("habito_id", habitId);
+                    long result = db.insert(DBManager.TABLE_HABITOS_COMPLETADOS, null, values);
                     notificationHelper.createNotification("Enhorabuena ;)", "Ya has completado el hábito: " + habitName +".");
                 }
 
@@ -457,5 +464,29 @@ public class HabitFacade {
                 " SET " + DBManager.COLUMN_HABITO_PROGRESO + " = " + DBManager.COLUMN_HABITO_PROGRESO + " - 1 WHERE " + DBManager.COLUMN_HABITO_ID + " = ?";
         db.execSQL(updateQuery, new Object[]{habitId});
     }
+
+    public boolean markHabitAsCompleted(int habitId) {
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+
+        // Obtener la fecha actual
+        long completionDate = System.currentTimeMillis();
+
+        ContentValues values = new ContentValues();
+        values.put(DBManager.COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO, completionDate);
+        values.put("habito_id", habitId); // FK al hábito completado
+
+        long result = db.insert(DBManager.TABLE_HABITOS_COMPLETADOS, null, values);
+
+        return result != -1; // Retorna true si se insertó correctamente
+    }
+
+
+    // Método auxiliar para obtener la fecha actual en formato adecuado
+    private String getCurrentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());  // Devuelve la fecha y hora actual
+    }
+
+
 
 }
