@@ -30,6 +30,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
+
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         edtEmail = findViewById(R.id.edtEmail);
@@ -54,6 +56,14 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Email no valido", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                // Verificar si el email ya está registrado
+                if (habitFacade.isEmailRegistered(email)) {
+                    Toast.makeText(RegisterActivity.this, "Este email ya existe, inicia sesión o regístrate con otro", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // En caso de que pase todas las validaciones, se registra el usuario
                 if (registerUser(username, password, email)) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();
                     Intent intent =new Intent(RegisterActivity.this, LoginActivity.class);

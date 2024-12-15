@@ -1,6 +1,5 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
-// SendTokenActivity.java
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,14 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.uvigo.esei.com.dm.habitapp.HabitApplication;
 import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.MailSender;
 import org.uvigo.esei.com.dm.habitapp.R;
 
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
+
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
 public class SendTokenActivity extends AppCompatActivity {
@@ -32,6 +34,8 @@ public class SendTokenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_token);
 
+        habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
+
         EditText emailTo = findViewById(R.id.emailEditText);
         Button sendTokenButton = findViewById(R.id.sendTokenButton);
 
@@ -39,24 +43,31 @@ public class SendTokenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = emailTo.getText().toString();
-                    MailSender mailSender = new MailSender();
-                    String subject = "Token de recuperacion";
-                    String body = "El token es: " +token;
-                    mailSender.sendEmail(email, subject, body);
-                    Intent intent = new Intent(SendTokenActivity.this, RecoverPasswordActivity.class);
-                    intent.putExtra("token", token);
-                    startActivity(intent);
+
+                // Verificar si el email ya está registrado
+                if (!habitFacade.isEmailRegistered(email)) {
+                    Toast.makeText(SendTokenActivity.this, "Este email no existe, revísalo o prueba con otro", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                MailSender mailSender = new MailSender();
+                String subject = "Token de recuperacion";
+                String body = "El token es: " + token;
+                mailSender.sendEmail(email, subject, body);
+                Intent intent = new Intent(SendTokenActivity.this, RecoverPasswordActivity.class);
+                intent.putExtra("token", token);
+                startActivity(intent);
 
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         // Llamar al método que aplica el idioma según las preferencias
         LocaleUtils.setLocaleFromPreferences(this);
     }
-
 
 }
 

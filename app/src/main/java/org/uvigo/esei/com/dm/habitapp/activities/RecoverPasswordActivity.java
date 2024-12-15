@@ -31,6 +31,8 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recover_password);
 
+        habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
+
         // Referencias al layout
         etEmail = findViewById(R.id.etEmail);
         etToken = findViewById(R.id.etToken);
