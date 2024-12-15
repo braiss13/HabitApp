@@ -21,7 +21,7 @@
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:drawableStart="@android:drawable/ic_lock_lock"
+        android:drawableStart="@android:drawable/ic_lock_idle_lock"
         android:hint="@string/pass"
         android:inputType="textPassword"
         android:textColor="#A3A0B2"
