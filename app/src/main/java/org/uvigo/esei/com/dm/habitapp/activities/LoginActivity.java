@@ -78,13 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         LocaleUtils.setLocaleFromPreferences(this);
     }
 
-    /**
-     * Método para autenticar al usuario consultando la base de datos.
-     *
-     * @param username Nombre de usuario ingresado.
-     * @param password Contraseña ingresada.
-     * @return El user_id si las credenciales son correctas, -1 en otro caso.
-     */
+    //Método para autenticar al usuario consultando la base de datos.
+
     private int authenticateUser(String username, String password) { //Método para confirmar que el usuario y contraseña coinciden y existen
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getReadableDatabase();
@@ -119,12 +114,8 @@ public class LoginActivity extends AppCompatActivity {
         return -1; // Si la autenticación falla
     }
 
-    /**
-     * Guardar la sesión del usuario autenticado en SharedPreferences.
-     *
-     * @param username Nombre de usuario autenticado.
-     * @param userId ID del usuario autenticado.
-     */
+   //Guardar la sesión del usuario autenticado en SharedPreferences.
+
     public void saveSession(String username, int userId) {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

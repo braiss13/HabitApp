@@ -171,6 +171,7 @@ public class HabitFacade {
         return rowsUpdated > 0;
     }
 
+    //Método para actualizar la contraseña
     public boolean updatePasswordByEmail(String email, String hashedPassword) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
@@ -326,7 +327,6 @@ public class HabitFacade {
                     DBManager.COLUMN_ID + " = ?",
                     new String[]{String.valueOf(userId)}
             );
-            Log.d("DeleteUser", "Filas afectadas: " + rowDeleted);
 
             if(rowDeleted > 0){
                 db.setTransactionSuccessful();

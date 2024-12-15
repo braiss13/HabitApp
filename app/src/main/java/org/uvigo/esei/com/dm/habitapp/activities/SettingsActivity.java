@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Button btnNotifications, btnDeleteUser;
+    private Button btnDeleteUser;
     private Spinner spinnerLanguage;
     private HabitFacade habitFacade;
     private SharedPreferences sharedPreferences;
@@ -38,7 +38,6 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Referenciamos los elementos del Layout para trabajar con ellos
-        btnNotifications = findViewById(R.id.btnNotifications);
         btnDeleteUser = findViewById(R.id.btnDeleteUser);
         spinnerLanguage = findViewById(R.id.spinnerLanguage);
 

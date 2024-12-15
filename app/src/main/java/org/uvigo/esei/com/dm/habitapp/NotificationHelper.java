@@ -12,12 +12,14 @@ import androidx.core.app.NotificationCompat;
 
 public class NotificationHelper {
 
+    //CLASE PARA CREAR NOTIFICACIONES
     private static final String CHANNEL_ID = "1"; // ID del canal
     private final Context context;
 
     public NotificationHelper(Context context) {
         this.context = context;
     }
+    //Metodo par crear el canal de notificaciones
     public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = context.getString(R.string.channel_name);
@@ -33,6 +35,7 @@ public class NotificationHelper {
         }
     }
 
+    //Metodo para crear notificaciones, permitiendo personalizar el titulo y el contenido
     public void createNotification(String title, String content) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

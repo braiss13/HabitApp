@@ -97,11 +97,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Verificar si el usuario ya ha iniciado sesión.
-     *
-     * @return True si está autenticado, False en caso contrario.
-     */
+    //Verificar si el usuario ya ha iniciado sesión.
+
     public boolean isLogged() { //Método para comprobar si el usuario ya está logueado
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         return sharedPreferences.getBoolean("isLogged", false);
@@ -112,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
         PeriodicWorkRequest reminderWorkRequest = new PeriodicWorkRequest.Builder(ReminderWorker.class, 1, TimeUnit.DAYS)
                 .setInitialDelay(5, TimeUnit.DAYS) // Ajustar la preferencia de días
                 .build();
-
-        Log.d("ReminderWorker", "Worker ejecutado correctamente TRAS LOS 5 DÍAS.");
-
         WorkManager.getInstance(this).enqueue(reminderWorkRequest);
     }
 

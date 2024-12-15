@@ -1,9 +1,7 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +15,6 @@ import org.uvigo.esei.com.dm.habitapp.LocaleUtils;
 import org.uvigo.esei.com.dm.habitapp.PasswordSecurity;
 import org.uvigo.esei.com.dm.habitapp.R;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
-import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 
 
 public class RecoverPasswordActivity extends AppCompatActivity {
@@ -36,13 +33,12 @@ public class RecoverPasswordActivity extends AppCompatActivity {
 
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
-        // Referencias al layout
         etEmail = findViewById(R.id.etEmail);
         etToken = findViewById(R.id.etToken);
         etNewPassword = findViewById(R.id.etNewPassword);
         btnConfirm = findViewById(R.id.btnConfirm);
 
-        // Obtén el token enviado desde SendTokenActivity
+        // Obtiene el token enviado desde SendTokenActivity
         Intent intent = getIntent();
         sentToken = intent.getIntExtra("token", -1);
 
@@ -61,12 +57,12 @@ public class RecoverPasswordActivity extends AppCompatActivity {
     }
 
     private void handleConfirmation() {
-        // Obtén valores ingresados
+        // Obtener valores ingresados
         String email = etEmail.getText().toString().trim();
         String enteredToken = etToken.getText().toString().trim();
         String newPassword = etNewPassword.getText().toString().trim();
 
-        // Validación inicial de los campos
+        // Validación campos
         if (email.isEmpty()) {
             Toast.makeText(this, getString(R.string.toast_empty_email), Toast.LENGTH_SHORT).show();
             return;
@@ -87,7 +83,7 @@ public class RecoverPasswordActivity extends AppCompatActivity {
             int token = Integer.parseInt(enteredToken);
 
             if (token == sentToken) {
-                // Si el token es válido, solicita la nueva contraseña
+                // Si el token es válido, solicita la nueva contraseña, se pone el campo visible
                 if (etNewPassword.getVisibility() == View.GONE) {
                     etNewPassword.setVisibility(View.VISIBLE);
                     Toast.makeText(this, getString(R.string.token_checked), Toast.LENGTH_SHORT).show();

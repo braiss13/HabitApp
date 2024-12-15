@@ -23,12 +23,12 @@ import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
 public class SendTokenActivity extends AppCompatActivity {
     private HabitFacade habitFacade;
+    //Credenciales desde las que se manda el correo
     private String emailFrom = "alicianoal1@gmail.com";
     private String passFrom = "mdrt ysck fnxg dkrl";
     private Session session;
     private MimeMessage message;
     int token = (int) (Math.random() * 900000) + 100000; // Genera un número aleatorio de 6 dígitos
-//TODO INTERNACIONALIZAR EL MENSAJE????
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,13 +49,14 @@ public class SendTokenActivity extends AppCompatActivity {
                     Toast.makeText(SendTokenActivity.this, "Este email no existe, revísalo o prueba con otro", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                //Envia el correo con el token  y redirige a la pagina para ingresarlo
+                //Llamamos a mailsender para crear el correo y e metemos desde aqui el texto del correo
                 MailSender mailSender = new MailSender();
                 String subject = "Token de recuperacion";
                 String body = "El token es: " + token;
                 mailSender.sendEmail(email, subject, body);
                 Intent intent = new Intent(SendTokenActivity.this, RecoverPasswordActivity.class);
-                intent.putExtra("token", token);
+                intent.putExtra("token", token);//Guardamos el token para poder comprobarlo con el que ingrese el usuario
                 startActivity(intent);
 
             }

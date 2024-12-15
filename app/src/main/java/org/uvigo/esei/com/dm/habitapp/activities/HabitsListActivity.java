@@ -316,7 +316,6 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
-    //TODO ESTO HAY QUE INTERNACIONALIZARLO?????
     //Método para cargar la lista de hábitos según el filtro aplicado
     public void filterHabits() {
         String filterText = edtHabitFilter.getText().toString().trim();
@@ -358,7 +357,6 @@ public class HabitsListActivity extends AppCompatActivity {
     }
 
     //Método para compartir tu Lista de Hábitos por Whatsapp
-    //TODO ESTO HAY QUE TRADUCIRLO ??? EL MENSAJE QUE COMPARTES LO TRADUCIMOS TMABIEN???
     private void shareHabitsViaWhatsApp(int habitId) {
 
         Cursor cursor = habitFacade.getAllHabits(userId);

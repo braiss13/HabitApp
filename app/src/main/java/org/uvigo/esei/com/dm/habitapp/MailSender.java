@@ -5,9 +5,11 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class MailSender {
+    //Email desde donde se manda el token
     private final String senderEmail = "alicianoal1@gmail.com";
     private final String senderPassword ="mdrt ysck fnxg dkrl" ;
 
+    //Esta clase tiene toda la logica para crear el email y mandarlo
     public void sendEmail(String recipientEmail, String subject, String body) {
         // Configuración de propiedades de correo
         Properties properties = new Properties();
