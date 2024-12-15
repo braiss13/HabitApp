@@ -17,6 +17,18 @@
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
+    <!-- Estilo para los elementos desplegados del Spinner -->
+    <style name="SpinnerDropdownTextStyle">
+        <item name="android:textColor">#FE9167</item> <!-- Color del texto blanco -->
+        <item name="android:background">#191919</item> <!-- Fondo negro -->
+    </style>
+
+    <!-- Estilo para el Spinner en general -->
+    <style name="SpinnerTextStyle">
+        <item name="android:textColor">#FE9167</item>
+        <item name="android:background">#191919</item>
+    </style>
+
     <!--Estilo para los cuadros de diálogo-->
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:buttonTint">#191919</item> <!-- Color del texto de los botones -->

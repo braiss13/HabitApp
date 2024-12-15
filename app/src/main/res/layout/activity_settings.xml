@@ -37,18 +37,13 @@
             android:id="@+id/spinnerLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FD9067"
             android:entries="@array/language_options"
-            android:spinnerMode="dropdown" />
+            android:backgroundTint="#191919"
+            android:background="@android:color/black"
+            android:popupTheme="@style/SpinnerDropdownTextStyle"
+            android:spinnerMode="dropdown"
+            android:theme="@style/SpinnerTextStyle"/>
     </LinearLayout>
-
-    <!-- Botón de notificaciones -->
-    <Button
-        android:id="@+id/btnNotifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/notifications" />
 
     <!-- Botón de borrar cuenta -->
     <Button

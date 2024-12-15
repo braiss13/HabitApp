@@ -57,7 +57,12 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:entries="@array/habit_options"
-            android:text="@string/category" />
+            android:text="@string/category"
+            android:backgroundTint="#191919"
+            android:background="@android:color/black"
+            android:popupTheme="@style/SpinnerDropdownTextStyle"
+            android:spinnerMode="dropdown"
+            android:theme="@style/SpinnerTextStyle"/>
 
         <Button
             android:id="@+id/btnSaveHabit"
