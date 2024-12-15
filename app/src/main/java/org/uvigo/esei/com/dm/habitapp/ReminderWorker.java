@@ -26,8 +26,7 @@ public class ReminderWorker extends Worker {
         HabitApplication app = (HabitApplication) context.getApplicationContext();
         this.habitFacade = new HabitFacade(app, context);
     }
-
-    @NonNull
+//TODO ESTO HAY QUE INTERNACIONALIZARLO???    @NonNull
     @Override
     // Método que se ejecuta al llamar al ReminderWorker
     public Result doWork() {
