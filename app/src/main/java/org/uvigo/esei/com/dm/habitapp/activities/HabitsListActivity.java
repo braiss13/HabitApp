@@ -56,6 +56,8 @@ public class HabitsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habits_list);
 
+        //Referenciamos todos los elementos del Layout para trabajar con ellos
+
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
@@ -73,6 +75,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
         registerForContextMenu(lvHabits);
 
+        //Manejo del Spinner de Filtro
         spHabitFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -86,6 +89,7 @@ public class HabitsListActivity extends AppCompatActivity {
             }
         });
 
+        //Manejo del "buscador" para que responda a cada vez que cambia el texto introducido
         edtHabitFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -101,16 +105,17 @@ public class HabitsListActivity extends AppCompatActivity {
             }
         });
 
-        fabAddHabit.setOnClickListener(view -> {
+        fabAddHabit.setOnClickListener(view -> {    //Manejo del Botón de añadir hábito
             Intent intent = new Intent(HabitsListActivity.this, AddHabitActivity.class);
             startActivity(intent);
         });
 
-        fabLogout.setOnClickListener(view -> logout());
+        fabLogout.setOnClickListener(view -> logout()); //Manejo del botón de cerrar sesión
     }
 
     @Override
     protected void onResume() {
+        //Aplicamos el idioma, el filtro que estaba guardado en sharedPreferences
         super.onResume();
         LocaleUtils.setLocaleFromPreferences(this);
 
@@ -118,9 +123,10 @@ public class HabitsListActivity extends AppCompatActivity {
         filter = sharedPreferences.getString("filter_type", "Nombre");
         String filterText = sharedPreferences.getString("filter_text", "");
         edtHabitFilter.setText(filterText);
+
+        //Aquí controlamos el tiempo para restear los hábitos a 0 una vez a la semana
         long lastPauseTime = sharedPreferences.getLong("lastPauseTime", -1);
 
-        // Si es la primera vez que se abre la actividad, no hay necesidad de resetear
         if (lastPauseTime == -1) {
             return;
         }
@@ -159,7 +165,7 @@ public class HabitsListActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private int getHabitCount(int userId){
+    private int getHabitCount(int userId){ //Método para contar el número de hábitos que tiene el usuario
         Cursor cursor = habitFacade.getAllHabits(userId);
         int habitCount = cursor.getCount();
         cursor.close();
@@ -168,7 +174,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     public void resetAllHabitsProgress(){
         habitFacade.resetAllHabitsProgress(userId);
-    }
+    } //Método para resetear los hábitos a 0
 
     private void setupListView() {
         // Definimos cómo se mapea cada dato de la base de datos a los elementos visuales del XML
@@ -218,7 +224,7 @@ public class HabitsListActivity extends AppCompatActivity {
                 int habitId = cursor.getInt(habitIdIndex);
                 view.setOnClickListener(v -> {
                     habitFacade.incrementProgress(habitId); // Incrementar el progreso
-                    filterHabits(); // Recargar la lista
+                    filterHabits(); // Recargar la lista con el filtro aplicado
                 });
                 return true;
             } else if (view.getId() == R.id.btnDecrementProgress) {
@@ -289,7 +295,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     }
 
-    private void loadHabits() {
+    private void loadHabits() { //Método para cargar la lista de hábitos sin filtro aplicado
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1); // Recuperar el user_id del usuario logueado
 
@@ -306,7 +312,7 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
-    public void filterHabits() {
+    public void filterHabits() { //Método para cargar la lista de hábitos con filtro aplicado
         String filterText = edtHabitFilter.getText().toString().trim();
         Cursor cursor;
 
@@ -326,7 +332,7 @@ public class HabitsListActivity extends AppCompatActivity {
         adapter.swapCursor(cursor);
     }
 
-    private void incrementAllHabits(){
+    private void incrementAllHabits(){ //Método para incrementar en 1 todos los hábitos
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1);
 
@@ -344,7 +350,7 @@ public class HabitsListActivity extends AppCompatActivity {
 
     }
 
-    private void shareHabitsViaWhatsApp(int habitId) {
+    private void shareHabitsViaWhatsApp(int habitId) { //Método para compartir tu Lista de Hábitos por Whatsapp
 
         Cursor cursor = habitFacade.getAllHabits(userId);
 
@@ -419,8 +425,8 @@ public class HabitsListActivity extends AppCompatActivity {
                 .setMessage(getString(R.string.confirm_delete_habit))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     habitFacade.deleteHabit((int) habitId, userId);
-                    int habitCount = getHabitCount(userId); // Obtener el total de hábitos para el usuario
-                    tvHabitCount.setText("Total Hábitos: " + habitCount);
+                    int habitCount = getHabitCount(userId);
+                    tvHabitCount.setText("Total Hábitos: " + habitCount); //Contamos aquí también el número de hábitos para que se actualice tras borrar uno
                     loadHabits(); // Recargar los hábitos tras eliminar uno
                 })
                 .setNegativeButton(getString(R.string.no), null)
@@ -459,7 +465,7 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
-    public void logout() {
+    public void logout() { //Método para cerrar sesión
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 

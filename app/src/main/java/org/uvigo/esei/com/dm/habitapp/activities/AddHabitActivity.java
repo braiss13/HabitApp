@@ -28,12 +28,14 @@ public class AddHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
 
+        //Referenciamos todos los elementos del Layout para trabajar con ellos
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
         edtName = findViewById(R.id.edtHabitName);
         edtDescription = findViewById(R.id.edtHabitDescription);
         edtFrequency = findViewById(R.id.edtHabitFrequency);
         spHabitCategory = findViewById(R.id.spHabitCategory);
 
+        //Manejo del spinner de categoría
         spHabitCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -48,7 +50,7 @@ public class AddHabitActivity extends AppCompatActivity {
 
         btnSave = findViewById(R.id.btnSaveHabit);
 
-        btnSave.setOnClickListener(v -> saveHabit());
+        btnSave.setOnClickListener(v -> saveHabit()); //Manejo del botón de añadir hábito
     }
     @Override
     protected void onResume() {
@@ -59,6 +61,8 @@ public class AddHabitActivity extends AppCompatActivity {
 
 
     public void saveHabit() {
+        //Método para guardar un hábito
+
         String name = edtName.getText().toString().trim();
         String description = edtDescription.getText().toString().trim();
         String frequency = edtFrequency.getText().toString().trim();

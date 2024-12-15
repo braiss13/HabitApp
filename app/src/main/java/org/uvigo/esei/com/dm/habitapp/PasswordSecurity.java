@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class PasswordSecurity {
 
-    public static String hashPassword(String normalPassword){
+    public static String hashPassword(String normalPassword){ //Método para hashear la contraseña
 
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -27,7 +27,7 @@ public class PasswordSecurity {
 
     }
 
-    public static boolean checkPassword(String normalPassword, String hashedPassword){
+    public static boolean checkPassword(String normalPassword, String hashedPassword){  //Método para comprobar que la contraseña coincide
 
         String generatedHash = hashPassword(normalPassword); // Generar el hash de la contraseña
         return generatedHash.equals(hashedPassword); // Comparar el hash generado con el hash almacenado

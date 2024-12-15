@@ -43,7 +43,7 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         Intent intent = getIntent();
         sentToken = intent.getIntExtra("token", -1);
 
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
+        btnConfirm.setOnClickListener(new View.OnClickListener() { //Manejo del Botón de confirmar
             @Override
             public void onClick(View v) {
                 handleConfirmation();

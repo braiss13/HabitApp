@@ -50,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
+        //Referenciamos a los elementos del Layout para trabajar con ellos
         tvUsername = findViewById(R.id.tvUsername);
         tvEmail = findViewById(R.id.tvEmail);
         ivProfileImage = findViewById(R.id.ivProfilePicture);
@@ -63,30 +64,30 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadProfile();
 
-        btnEditPhoto.setOnClickListener(new View.OnClickListener() {
+        btnEditPhoto.setOnClickListener(new View.OnClickListener() { //Manejo del Botón de editar foto
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_GET_CONTENT); //intent para acceder a la galería y elgir la imagen
                 startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_IMAGE_REQUEST);
             }
         });
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {   //Manejo del botón de cambiar contraseña
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProfileActivity.this, PasswordChangeActivity.class);
                 startActivity(intent);
             }
         });
-        btnHabitsList.setOnClickListener(view->{
+        btnHabitsList.setOnClickListener(view->{ //Manejo del botón de Mis Hábitos
             Intent intent = new Intent(ProfileActivity.this, HabitsListActivity.class);
             startActivity(intent);
             finish();
 
         });
 
-        btnSettings.setOnClickListener(view -> {
+        btnSettings.setOnClickListener(view -> { //Manejo del Botón de ajustes
             Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
@@ -116,12 +117,12 @@ public class ProfileActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().onBackPressed();
     }
 
-    private void loadProfile(){
+    private void loadProfile(){ //Método para cargar los datos del perfil
 
         tvUsername.setText(habitFacade.getUsername(userId));
         tvEmail.setText(habitFacade.getEmail(userId));
 
-        File file = new File(getFilesDir(), PROFILE_IMAGE_FILE_NAME);
+        File file = new File(getFilesDir(), PROFILE_IMAGE_FILE_NAME);   //Cargamos la imagen desde el almacenamiento de la App porque no tenemos permisos para recuperar la Uri
         if (file.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             ivProfileImage.setImageBitmap(bitmap);
@@ -129,20 +130,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //Respuesta al intent de elegir foto
+        super.onActivityResult(requestCode, resultCode, data);                                 //Esto se hace así porque solo con la Uri no nos deja
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
             try {
-                // Cargar InputStream de la imagen seleccionada
+                // Cargamos el InputStream de la imagen seleccionada
                 InputStream inputStream = getContentResolver().openInputStream(imageUri);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-                // Guardar la imagen en el almacenamiento interno
+                // Guardamos la imagen en el almacenamiento interno
                 saveImageToInternalStorage(bitmap);
 
-                // Establecer la imagen en el ImageView
+
                 ivProfileImage.setImageBitmap(bitmap);
 
                 inputStream.close();
@@ -153,8 +154,9 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImageToInternalStorage(Bitmap bitmap) {
+    private void saveImageToInternalStorage(Bitmap bitmap) { //Método para guardar la imagen escogida en el almacenamiento interno
         File file = new File(getFilesDir(), PROFILE_IMAGE_FILE_NAME);
+
         try (FileOutputStream outputStream = new FileOutputStream(file)) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         } catch (IOException e) {

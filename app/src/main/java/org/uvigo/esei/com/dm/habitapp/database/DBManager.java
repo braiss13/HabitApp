@@ -67,6 +67,7 @@ public class DBManager extends SQLiteOpenHelper {
                     "ON DELETE CASCADE" + ")";
             db.execSQL(CREATE_TABLE_HABITOS);
 
+            //Crear tabla de hábitos completados
             String CREATE_TABLE_HABITOS_COMPLETADOS = "CREATE TABLE " + TABLE_HABITOS_COMPLETADOS + " (" +
                     COLUMN_HABITO_COMPLETADO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_HABITO_COMPLETADO_FECHA_COMPLETADO + " TEXT NOT NULL, " + // Corrige el espacio

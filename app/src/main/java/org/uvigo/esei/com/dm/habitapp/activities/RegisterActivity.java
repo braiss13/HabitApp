@@ -32,12 +32,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
+        //Referenciamos los elementos del Layout para trabajar con ellos
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         edtEmail = findViewById(R.id.edtEmail);
         btnRegister = findViewById(R.id.btnRegister);
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        btnRegister.setOnClickListener(new View.OnClickListener() { //Manejo del botón de Registrarse
             @Override
             public void onClick(View v) {
                 String username = edtUsername.getText().toString().trim();
@@ -83,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //TODO ESTA CLASE TMB INTERACTUA A PALO SOBRE LA BD
-    private boolean registerUser(String username, String password, String email) {
+    private boolean registerUser(String username, String password, String email) { //Método para registrar el Usuario,contraseña y email en la BD
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getWritableDatabase();
 

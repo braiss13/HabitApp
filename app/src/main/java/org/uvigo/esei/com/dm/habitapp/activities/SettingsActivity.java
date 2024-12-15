@@ -37,12 +37,11 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Inicializar los botones
+        // Referenciamos los elementos del Layout para trabajar con ellos
         btnNotifications = findViewById(R.id.btnNotifications);
         btnDeleteUser = findViewById(R.id.btnDeleteUser);
-
-        // Inicializar el Spinner
         spinnerLanguage = findViewById(R.id.spinnerLanguage);
+
         sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         userId = sharedPreferences.getInt("user_id", -1);
 
@@ -89,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    private void deleteUser() {
+    private void deleteUser() { //Método que borra el usuario y sale de la app
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         new AlertDialog.Builder(this, R.style.AppTheme_Dialog)

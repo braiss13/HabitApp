@@ -15,5 +15,5 @@ public class HabitApplication  extends Application {
 
     public DBManager getDbManager() {
         return dbManager;
-    }
+    } //Instancia de la BD
 }

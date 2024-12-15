@@ -29,13 +29,13 @@ public class HabitFacade {
         this.notificationHelper = new NotificationHelper(context);
     }
 
-    // Métodos para gestionar usuarios
+    // Métodos para obtener todos los usuarios
     public Cursor getAllUsers() {
         SQLiteDatabase db = dbManager.getReadableDatabase();
         return db.query(DBManager.TABLE_USUARIOS, null, null, null, null, null, null);
     }
 
-    public String getUsername(int userId){
+    public String getUsername(int userId){  //Método para obtener el nombre de usuario
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         Cursor cursor = db.query(
@@ -62,7 +62,7 @@ public class HabitFacade {
 
     }
 
-    public String getEmail(int userId){
+    public String getEmail(int userId){ //Método para obtener el email
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         Cursor cursor = db.query(
@@ -86,7 +86,7 @@ public class HabitFacade {
 
     }
 
-    public long insertUser(String username, String password, String email) {
+    public long insertUser(String username, String password, String email) {    //Método para crear un usuario
         SQLiteDatabase db = dbManager.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBManager.COLUMN_USERNAME, username);
@@ -95,14 +95,14 @@ public class HabitFacade {
         return db.insert(DBManager.TABLE_USUARIOS, null, values);
     }
 
-    public Cursor authenticateUser(String username, String password) {
+    public Cursor authenticateUser(String username, String password) {  //Método para comprobar que un usuario existe
         SQLiteDatabase db = dbManager.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + DBManager.TABLE_USUARIOS + " WHERE " + DBManager.COLUMN_USERNAME + "=? AND " + DBManager.COLUMN_PASSWORD + "=?",
                 new String[]{username, password});
     }
 
-    // Consultar hábitos por categoría, filtrados por usuario
-    public Cursor getHabitsByCategory(String category, int userId) {
+
+    public Cursor getHabitsByCategory(String category, int userId) {    //Obtener habitos filtrados por categoría
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -116,8 +116,7 @@ public class HabitFacade {
         );
     }
 
-    // Consultar hábitos por nombre, filtrados por usuario
-    public Cursor getHabitsByName(String name, int userId) {
+    public Cursor getHabitsByName(String name, int userId) {    //Obtener habitos filtrados por nombre
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -131,7 +130,7 @@ public class HabitFacade {
         );
     }
 
-    public Cursor getCompletedHabits(int userId) {
+    public Cursor getCompletedHabits(int userId) {      //Obtener habitos completados
         SQLiteDatabase db = dbManager.getReadableDatabase();
         String query = "SELECT hc." + DBManager.COLUMN_HABITO_COMPLETADO_ID + ", " +
                 "h." + DBManager.COLUMN_HABITO_NOMBRE + ", " +
@@ -145,7 +144,7 @@ public class HabitFacade {
     }
 
 
-    public boolean updatePassword(int userId, String newPassword) {
+    public boolean updatePassword(int userId, String newPassword) { //Método para actualizar la contraseña
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         String hashedPassword = PasswordSecurity.hashPassword(newPassword);
@@ -163,7 +162,7 @@ public class HabitFacade {
         return rowsUpdated > 0;
     }
 
-    public boolean verifyPassword(int userId, String inputPassword) {
+    public boolean verifyPassword(int userId, String inputPassword) { //Método para verificar la contraseña
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         Cursor cursor = db.query(
@@ -187,7 +186,7 @@ public class HabitFacade {
         return false;
     }
 
-    public Cursor getHabitsByCompleted(int userId){
+    public Cursor getHabitsByCompleted(int userId){     //Obtener habitos filtrados por estado completado
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -201,7 +200,7 @@ public class HabitFacade {
         );
     }
 
-    public Cursor getHabitsByIncompleted( int userId){
+    public Cursor getHabitsByIncompleted( int userId){      //Obtener habitos filtrados por estado en progreso
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -215,8 +214,8 @@ public class HabitFacade {
         );
     }
 
-    // Consultar todos los hábitos de un usuario
-    public Cursor getAllHabits(int userId) {
+
+    public Cursor getAllHabits(int userId) {    //Método para obtener todos los hábitos de un usuario
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -287,7 +286,7 @@ public class HabitFacade {
         );
     }
 
-    public boolean deleteUser(int userId){
+    public boolean deleteUser(int userId){ //Eliminar un usuario junto con sus hábitos (no se si es realmente necesario con ON DELETE CASCADE)
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         db.beginTransaction();
@@ -379,7 +378,7 @@ public class HabitFacade {
 
     }
 
-    public void resetAllHabitsProgress(int userId) {
+    public void resetAllHabitsProgress(int userId) { //Método para resetear el progreso de los hábitos
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -393,7 +392,7 @@ public class HabitFacade {
         );
     }
 
-    public void incrementAllHabitsProgress(int userId) {
+    public void incrementAllHabitsProgress(int userId) {    //Método para incrementar el progreso de todos los hábitos
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         Cursor cursor = db.query(
@@ -487,7 +486,7 @@ public class HabitFacade {
         return sdf.format(new Date());  // Devuelve la fecha y hora actual
     }
 
-    public boolean isEmailRegistered(String email) {
+    public boolean isEmailRegistered(String email) { //Método para comprobar si el email existe en la BD
         SQLiteDatabase db = dbManager.getReadableDatabase();
         String query = "SELECT COUNT(*) FROM " + DBManager.TABLE_USUARIOS + " WHERE " + DBManager.COLUMN_EMAIL + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{email});

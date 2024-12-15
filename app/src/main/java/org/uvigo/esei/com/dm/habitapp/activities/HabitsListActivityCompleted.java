@@ -47,40 +47,17 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habits_list_completed);
 
+        //Referenciamos todos los elementos del Layout para trabajar con ellos
+
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         userId = sharedPreferences.getInt("user_id", -1);
 
         lvHabitsCompleted = findViewById(R.id.lvHabitsCompleted);
-        edtHabitFilter = findViewById(R.id.edtHabitFilter);
-        spHabitFilter = findViewById(R.id.spHabitFilter);
 
         setupCompletedListView();
         registerForContextMenu(lvHabitsCompleted);
-
-        spHabitFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                filter = adapterView.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                filter = "Nombre";
-            }
-        });
-
-        edtHabitFilter.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
-        });
 
         loadCompletedHabits(); // Llama después de inicializar todo
     }
@@ -91,7 +68,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         loadCompletedHabits(); // Refresca los datos al reanudar la actividad
         LocaleUtils.setLocaleFromPreferences(this);
     }
-    private void loadCompletedHabits() {
+    private void loadCompletedHabits() { //Método para cargar los hábitos completados
         if (userId == -1) {
             Toast.makeText(this, "Error: Usuario no autenticado.", Toast.LENGTH_SHORT).show();
             return;

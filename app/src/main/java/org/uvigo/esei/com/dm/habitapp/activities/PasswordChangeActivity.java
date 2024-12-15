@@ -29,13 +29,14 @@ public class PasswordChangeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_change);
 
+        //Referenciamos a los elementos del Layout para trabajar con ellos
         edtNewPassword = findViewById(R.id.edtNewPassword);
         edtOldPassword = findViewById(R.id.edtOldPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
 
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {   //Manejo del Botón de cambiar contraseña
             @Override
             public void onClick(View view) {
                 String oldPassword = edtOldPassword.getText().toString().trim();

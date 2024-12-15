@@ -28,7 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Permitir operaciones de red en el hilo principal (solo para pruebas, no recomendado en producción)
+
+        // Permitir operaciones de red en el hilo principal (solo para pruebas)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        //Manejo del Botón de Recuperar contraseña
         btnResetPass.setOnClickListener(view->{
                 Intent intent = new Intent(LoginActivity.this, SendTokenActivity.class);
                 startActivity(intent);
@@ -83,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param password Contraseña ingresada.
      * @return El user_id si las credenciales son correctas, -1 en otro caso.
      */
-    private int authenticateUser(String username, String password) {
+    private int authenticateUser(String username, String password) { //Método para confirmar que el usuario y contraseña coinciden y existen
         DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
@@ -106,10 +108,10 @@ public class LoginActivity extends AppCompatActivity {
             int userId = cursor.getInt(idColumnIndex);
             String storedHashedPassword = cursor.getString(passwordColumnIndex);
 
-            // Comparar la contraseña ingresada con el hash almacenado
+            // Comparamos la contraseña ingresada con el hash almacenado
             if (PasswordSecurity.checkPassword(password, storedHashedPassword)) {
                 cursor.close();
-                return userId; // Retorna el ID del usuario autenticado
+                return userId; // Devuelve el ID del usuario autenticado
             }
         }
 
@@ -123,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param username Nombre de usuario autenticado.
      * @param userId ID del usuario autenticado.
      */
-    public void saveSession(String username, int userId) {
+    public void saveSession(String username, int userId) { //Método para guardar la sesión del Usuario que se loguea
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 

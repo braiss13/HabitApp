@@ -35,6 +35,8 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
+        //Referenciamos todos los elementos del Layout para trabajar con ellos
+
         habitFacade = new HabitFacade((HabitApplication) getApplication(), this);
 
         edtName = findViewById(R.id.edtHabitName);
@@ -42,6 +44,7 @@ public class EditHabitActivity extends AppCompatActivity {
         edtFrequency = findViewById(R.id.edtHabitFrequency);
         spHabitCategory = findViewById(R.id.spHabitCategory);
 
+        //Manejo del Spinner de categoría
         spHabitCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -53,7 +56,7 @@ public class EditHabitActivity extends AppCompatActivity {
                 selectedCategory = null;
             }
         });
-        btnSave = findViewById(R.id.btnSaveHabit);
+        btnSave = findViewById(R.id.btnSaveHabit); //Manejo del Botón de guardar hábito
 
         habitId = getIntent().getLongExtra("habit_id", -1);
 
@@ -69,38 +72,9 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
 
-    //TODO -> Esto no me funciona pero tampoco creo que sea necesario
- /*   @Override
-    protected void onPause(){
-        super.onPause();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("AppState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("last_activity", "EditHabitActivity");
-        editor.apply();
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("EditHabitState", MODE_PRIVATE);
-
-        String habitName = sharedPreferences.getString("habit_name","");
-        String habitDescription = sharedPreferences.getString("habit_description","");
-        String selectedCategory = sharedPreferences.getString("habit_selected_category", "");
-        // Setear el valor del spinner de categoría si es necesario
-        if (!selectedCategory.isEmpty()) {
-            int spinnerPositionCategory = ((ArrayAdapter<String>) spHabitCategory.getAdapter()).getPosition(selectedCategory);
-            spHabitCategory.setSelection(spinnerPositionCategory);
-        }
-
-        int habitFrequency = sharedPreferences.getInt("habit_frequency", -1);
-
-
-    }*/
-
     private void loadHabitDetails() {
+        //Método para cargar los atributos del Hábito que quieres editar
+
         int userId = getSharedPreferences("Session", MODE_PRIVATE).getInt("user_id", -1); // Obtener usuario actual
         Cursor cursor = habitFacade.getHabitById((int) habitId, userId); // Modificar HabitFacade para admitir userId
 
@@ -128,6 +102,8 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     private void updateHabit() {
+        //Método para actualizar el hábito en la BD.
+
         String name = edtName.getText().toString().trim();
         String description = edtDescription.getText().toString().trim();
         String frequency = edtFrequency.getText().toString().trim();

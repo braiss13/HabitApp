@@ -36,16 +36,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* SharedPreferences preferences = getSharedPreferences("AlarmPrefs", MODE_PRIVATE);
-        boolean isAlarmSet = preferences.getBoolean("isAlarmSet", false);
-
-        if (!isAlarmSet) {
-            scheduleWeeklyReset();
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("isAlarmSet", true);
-            editor.apply();
-        }*/
-
 
         // Verificar si el usuario está autenticado
         if (isLogged()) {
@@ -112,29 +102,10 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return True si está autenticado, False en caso contrario.
      */
-    public boolean isLogged() {
+    public boolean isLogged() { //Método para comprobar si el usuario ya está logueado
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         return sharedPreferences.getBoolean("isLogged", false);
     }
-
-   /* @SuppressLint("ScheduleExactAlarm")
-    private void scheduleWeeklyReset() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        // Calcular el tiempo para el domingo a las 12:00
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 0);
-
-        Intent intent = new Intent(this, ResetHabitsReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        // Configurar el AlarmManager para repetirse semanalmente
-        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-    }*/
 
     private void scheduleHabitReminder() {
         // Crear una solicitud periódica para el Worker
