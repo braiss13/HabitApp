@@ -12,6 +12,7 @@
     <string name="user">Usuario</string>
     <string name="pass">Contraseña</string>
     <string name="login">Iniciar Sesión</string>
+    <string name="forgot_pass">He olvidado mi contraseña</string>
 
     <!--REGISTER-->
     <string name="register_success">Usuario registrado con éxito</string>
@@ -28,11 +29,18 @@
     <string name="session_close">Cierre de Sesión</string>
     <string name="session_close_confirmation">¿Está seguro de que quiere cerrar sesión?</string>
     <string name="session_closed">La sesión ha sido cerrada</string>
+    <string name="habits_number">Número de Habitos</string>
     <!--HABITSLIST LAYOUT-->
     <string name="progress">Progreso:</string>
     <string name="introduce_filter">Introduce el filtro</string>
     <string name="filter_by">Filtrar por: </string>
-    <string name="add_habit">Agregar hábito </string>
+    <string name="add_habit">"Añadir hábito "</string>
+
+    <!-- HABITS_LIST_COMPLETED LAYOUT-->
+    <string name="completed_habits">Hábitos Completados</string>
+
+    <!--LIST_ITEM_COMPLETED_HABIT LAYOUT-->
+    <string name="completion_date">Fecha de completado: </string>
 
     <!--ADDHABIT-->
     <string name="fill_required_fields">Por favor, completa todos los campos obligatorios</string>
@@ -54,6 +62,8 @@
     <string name ="cancel_edit">Cancelar edición</string>
     <string name ="leave_wo_save">¿Deseas salir sin guardar los cambios?</string>
     <string name ="toast_cant_update_habit"> No se pudo actualizar el hábito. Revisa los datos</string>
+    <!--EDIT_HABIT LAYOUT-->
+    <string name="edit_habit">Editar Hábito</string>
 
     <!--PROFILE LAYOUT-->
     <string name ="edit_pic">Editar foto</string>
@@ -77,19 +87,28 @@
     <string name="updated_pass">Contraseña actualizada con éxito</string>
     <string name="error_updating_pass">Error al actualizar la contraseña. Inténtelo de nuevo.</string>
 
-    <!--PASSWORD CHANGE LAYOUT-->
+    <!--PASSWORD_CHANGE LAYOUT-->
     <string name="pass_now">Contraseña actual</string>
-    <string name="pass_new">Contrasseña nueva</string>
+    <string name="pass_new">Contraseña nueva</string>
 
+    <!--SEND_TOKEN LAYOUT-->
+    <string name="introduce_email">Ingrese su correo electrónico: </string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="send_token">Enviar token</string>
 
-
+    <!--RECOVER_PASSWORD LAYOUT-->
+    <string name="recover_password">Recuperar Contraseña</string>
+    <string name="recovery_token">Token de recuperación</string>
+    <string name="confirm">Confirmar</string>
 
     <!--NOTIFICACIONES-->
     <string name="channel_name" translatable="false">canal</string>
     <string name="channel_description" translatable="false">canal</string>
 
+    <!--PROFILE LAYOUT-->
+    <string name="profile">Mi perfil</string>
 
-
+    <!-- HABIT OPTIONS-->
     <string-array name="habit_options">
         <item>Nutrición</item>
         <item>Productividad</item>
@@ -101,12 +120,14 @@
         <item>Otros</item>
     </string-array>
 
+    <!--HABIT FILTER-->
     <string-array name="habit_filter">
         <item>Nombre</item>
         <item>Categoría</item>
         <item>Completado</item>
         <item>En progreso</item>
     </string-array>
+
     <!--BOTONES-->
     <string name="yes">Sí</string>
     <string name="no">No</string>
@@ -116,7 +137,5 @@
             <item>Inglés</item>
             <item>Galego</item>
         </string-array>
-
-
 
 </resources>

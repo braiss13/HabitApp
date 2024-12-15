@@ -85,5 +85,17 @@
     <string name="error_session">Error getting session. Please log in again.</string>
     <string name="updated_pass">Password updated successfully</string>
     <string name="error_updating_pass">Error updating password. Please try again.</string>
+    <string name="completion_date">Completion date:</string>
+    <string name="introduce_email">Enter  your email</string>
+    <string name="correo_electronico">Email</string>
+    <string name="send_token">Send tojken</string>
+    <string name="recover_password">Recover Password</string>
+    <string name="recovery_token">Recovery token</string>
+    <string name="confirm">Confirm</string>
+    <string name="profile">My Profile</string>
+    <string name="forgot_pass">I forgot my password</string>
+    <string name="completed_habits">Completed Habits</string>
+    <string name="habits_number">Habits Number</string>
+    <string name="edit_habit">Habit Edit</string>
 
 </resources>

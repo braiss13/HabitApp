@@ -10,7 +10,7 @@
         android:id="@+id/emailLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ingrese su correo electrónico"
+        android:text="@string/introduce_email"
         android:textSize="18sp"
         android:layout_marginBottom="8dp"/>
 
@@ -18,7 +18,7 @@
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
+        android:hint="@string/correo_electronico"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="16dp"/>
 

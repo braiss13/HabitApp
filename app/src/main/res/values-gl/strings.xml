@@ -70,7 +70,7 @@
     <string name="toast_cant_update_habit">Non se pudo actualizar o hábito. Revisa os datos</string>
     <string name="introduce_filter">Introduce o filtro</string>
     <string name="filter_by">Filtrar por:</string>
-    <string name="add_habit">Agragar hábito</string>
+    <string name="add_habit">Engadir hábito</string>
     <string name="edit_pic">Editar foto</string>
     <string name="user_name">Nome de usuario</string>
     <string name="change_pass">Cambiar contrasinal</string>
@@ -84,5 +84,17 @@
     <string name="error_session">Erro ao obter a sesión. Por favor inicie sesión de novo.</string>
     <string name="updated_pass">Contrasinal actualizada con éxito</string>
     <string name="error_updating_pass">Erro ao actualizar o contrasinal. Intenteo de novo.</string>
+    <string name="completion_date">Data completado:</string>
+    <string name="introduce_email">Ingrese o seu correo electrónico</string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="send_token">Enviar token</string>
+    <string name="recover_password">Recuperar contrasinal</string>
+    <string name="recovery_token">Token de recuperación</string>
+    <string name="confirm">Confirmar</string>
+    <string name="profile">Meu Perfil</string>
+    <string name="forgot_pass">Olvideime do contrasinal</string>
+    <string name="completed_habits">Hábitos Rematados</string>
+    <string name="habits_number">Número de Hábitos</string>
+    <string name="edit_habit">Editar Hábito</string>
 
 </resources>
