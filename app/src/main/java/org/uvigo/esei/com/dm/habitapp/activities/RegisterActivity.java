@@ -83,19 +83,11 @@ public class RegisterActivity extends AppCompatActivity {
         LocaleUtils.setLocaleFromPreferences(this);
     }
 
-    //TODO ESTA CLASE TMB INTERACTUA A PALO SOBRE LA BD
-    private boolean registerUser(String username, String password, String email) { //Método para registrar el Usuario,contraseña y email en la BD
-        DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-
+    private boolean registerUser(String username, String password, String email) {
+        // Hashea la contraseña
         String hashedPassword = PasswordSecurity.hashPassword(password);
 
-        ContentValues values = new ContentValues();
-        values.put(DBManager.COLUMN_USERNAME, username);
-        values.put(DBManager.COLUMN_PASSWORD, hashedPassword);
-        values.put(DBManager.COLUMN_EMAIL, email);
-
-        long result = db.insert(DBManager.TABLE_USUARIOS, null, values);
-        return result != -1;
+        // Usa HabitFacade para registrar el usuario
+        return habitFacade.registerNewUser(username, hashedPassword, email);
     }
 }

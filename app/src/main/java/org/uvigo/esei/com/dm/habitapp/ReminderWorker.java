@@ -60,7 +60,6 @@ public class ReminderWorker extends Worker {
         }
     }
 
-    // TODO -> Revisar si este método debería ir aquí
     private int getUserIdFromSession() {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Session", Context.MODE_PRIVATE);
         return sharedPreferences.getInt("user_id", -1); // Devuelve -1 si no se encuentra el ID del usuario

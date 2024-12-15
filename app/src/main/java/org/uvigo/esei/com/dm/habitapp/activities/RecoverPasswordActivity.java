@@ -2,6 +2,7 @@ package org.uvigo.esei.com.dm.habitapp.activities;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,8 @@ public class RecoverPasswordActivity extends AppCompatActivity {
     private int sentToken; // Token generado y enviado
     private EditText etEmail, etToken, etNewPassword;
     private Button btnConfirm;
+
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,22 +113,14 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         }
     }
 
-    // TODO ESTE METODO ESTA INTERACTUANDO CON LA BD A PALO SECO
     private void saveNewPassword(String email, String newPassword) {
-        DBManager dbManager = ((HabitApplication) getApplication()).getDbManager();
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-
         // Hashea la nueva contraseña
         String hashedPassword = PasswordSecurity.hashPassword(newPassword);
 
-        // Crea los valores para la actualización
-        ContentValues values = new ContentValues();
-        values.put(DBManager.COLUMN_PASSWORD, hashedPassword);
+        // Usa HabitFacade para actualizar la contraseña
+        boolean isUpdated = habitFacade.updatePasswordByEmail(email, hashedPassword);
 
-        // Actualiza la contraseña para el correo dado
-        int rowsUpdated = db.update(DBManager.TABLE_USUARIOS, values, DBManager.COLUMN_EMAIL + " = ?", new String[]{email});
-
-        if (rowsUpdated > 0) {
+        if (isUpdated) {
             Toast.makeText(this, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Error al actualizar la contraseña. Verifica el correo.", Toast.LENGTH_SHORT).show();

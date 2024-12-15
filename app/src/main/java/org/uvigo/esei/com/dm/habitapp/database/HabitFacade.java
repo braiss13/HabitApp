@@ -86,13 +86,17 @@ public class HabitFacade {
 
     }
 
-    public long insertUser(String username, String password, String email) {    //Método para crear un usuario
+    public boolean registerNewUser(String username, String hashedPassword, String email) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put(DBManager.COLUMN_USERNAME, username);
-        values.put(DBManager.COLUMN_PASSWORD, password);
+        values.put(DBManager.COLUMN_PASSWORD, hashedPassword);
         values.put(DBManager.COLUMN_EMAIL, email);
-        return db.insert(DBManager.TABLE_USUARIOS, null, values);
+
+        long result = db.insert(DBManager.TABLE_USUARIOS, null, values);
+
+        return result != -1; // Devuelve true si la inserción fue exitosa
     }
 
     public Cursor authenticateUser(String username, String password) {  //Método para comprobar que un usuario existe
@@ -149,7 +153,7 @@ public class HabitFacade {
 
         String hashedPassword = PasswordSecurity.hashPassword(newPassword);
 
-        ContentValues values = new ContentValues();//Esto no se muy bien lo que hace
+        ContentValues values = new ContentValues();
         values.put(DBManager.COLUMN_PASSWORD, hashedPassword);
 
         int rowsUpdated = db.update(
@@ -160,6 +164,17 @@ public class HabitFacade {
         );
 
         return rowsUpdated > 0;
+    }
+
+    public boolean updatePasswordByEmail(String email, String hashedPassword) {
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DBManager.COLUMN_PASSWORD, hashedPassword);
+
+        int rowsUpdated = db.update(DBManager.TABLE_USUARIOS, values, DBManager.COLUMN_EMAIL + " = ?", new String[]{email});
+
+        return rowsUpdated > 0; // Devuelve true si se actualizó al menos una fila
     }
 
     public boolean verifyPassword(int userId, String inputPassword) { //Método para verificar la contraseña
