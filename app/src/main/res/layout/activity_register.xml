@@ -15,6 +15,7 @@
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:drawableStart="@android:drawable/ic_lock_lock"
         android:hint="@string/pass"
         android:inputType="textPassword" />
 
@@ -22,6 +23,7 @@
         android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:drawableStart="@android:drawable/ic_dialog_email"
         android:hint="@string/email"
         android:inputType="textEmailAddress" />
 
