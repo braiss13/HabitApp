@@ -29,9 +29,9 @@ public class ReminderWorker extends Worker {
 
     @NonNull
     @Override
+    // Método que se ejecuta al llamar al ReminderWorker
     public Result doWork() {
         try {
-            Log.d("ReminderWorker", "Inicio del Worker");
 
             int userId = getUserIdFromSession();
 
@@ -42,13 +42,13 @@ public class ReminderWorker extends Worker {
 
             boolean habitsPending = habitFacade.checkHabitsPending(userId);
 
+            // En caso de que haya hábitos pendientes, se envía una notificación
             if (habitsPending) {
                 NotificationHelper notificationHelper = new NotificationHelper(context);
                 notificationHelper.createNotification(
                         "¡Tienes hábitos pendientes!",
                         "Recuerda completar tus hábitos antes de que termine la semana."
                 );
-                Log.d("ReminderWorker", "Notificación creada con éxito");
             } else {
                 Log.d("ReminderWorker", "No hay hábitos pendientes. Worker terminado.");
             }
@@ -60,6 +60,7 @@ public class ReminderWorker extends Worker {
         }
     }
 
+    // Método para obtener el usuario autenticado actual
     private int getUserIdFromSession() {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Session", Context.MODE_PRIVATE);
         return sharedPreferences.getInt("user_id", -1); // Devuelve -1 si no se encuentra el ID del usuario

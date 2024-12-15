@@ -59,7 +59,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         setupCompletedListView();
         registerForContextMenu(lvHabitsCompleted);
 
-        loadCompletedHabits(); // Llama después de inicializar todo
+        loadCompletedHabits(); // Llama después de inicializar lo necesario
     }
 
     @Override
@@ -68,7 +68,9 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         loadCompletedHabits(); // Refresca los datos al reanudar la actividad
         LocaleUtils.setLocaleFromPreferences(this);
     }
-    private void loadCompletedHabits() { //Método para cargar los hábitos completados
+
+    //Método para cargar los hábitos completados
+    private void loadCompletedHabits() {
         if (userId == -1) {
             Toast.makeText(this, "Error: Usuario no autenticado.", Toast.LENGTH_SHORT).show();
             return;
@@ -88,6 +90,7 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         }
     }
 
+    // Configura la lista de datos usando un Cursor para recuperarlos de la BD y luego mostrarlos como ListView
     private void setupCompletedListView() {
         String[] from = {
                 DBManager.COLUMN_HABITO_NOMBRE,

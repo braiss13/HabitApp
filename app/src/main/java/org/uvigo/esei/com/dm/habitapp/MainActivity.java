@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
         return sharedPreferences.getBoolean("isLogged", false);
     }
 
+    // Crear una solicitud periódica (actualmente de 5 días) para el Worker
     private void scheduleHabitReminder() {
-        // Crear una solicitud periódica para el Worker
         PeriodicWorkRequest reminderWorkRequest = new PeriodicWorkRequest.Builder(ReminderWorker.class, 1, TimeUnit.DAYS)
                 .setInitialDelay(5, TimeUnit.DAYS) // Ajustar la preferencia de días
                 .build();

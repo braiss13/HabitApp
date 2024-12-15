@@ -115,8 +115,8 @@ public class HabitsListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        //Aplicamos el idioma, el filtro que estaba guardado en sharedPreferences
         super.onResume();
+        //Aplicamos el idioma, el filtro que estaba guardado en sharedPreferences
         LocaleUtils.setLocaleFromPreferences(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("FilterState",MODE_PRIVATE);
@@ -165,18 +165,22 @@ public class HabitsListActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private int getHabitCount(int userId){ //Método para contar el número de hábitos que tiene el usuario
+    //Método para contar el número de hábitos que tiene el usuario
+    private int getHabitCount(int userId){
         Cursor cursor = habitFacade.getAllHabits(userId);
         int habitCount = cursor.getCount();
         cursor.close();
         return habitCount;
     }
 
+    //Método para resetear los hábitos a 0
     public void resetAllHabitsProgress(){
         habitFacade.resetAllHabitsProgress(userId);
-    } //Método para resetear los hábitos a 0
+    }
 
+    // Configura la lista de datos usando un Cursor para recuperarlos de la BD y luego mostrarlos como ListView
     private void setupListView() {
+
         // Definimos cómo se mapea cada dato de la base de datos a los elementos visuales del XML
         String[] from = {
                 DBManager.COLUMN_HABITO_NOMBRE,
@@ -196,6 +200,7 @@ public class HabitsListActivity extends AppCompatActivity {
                 R.id.btnDecrementProgress
         };
 
+        // El SimpleCursorAdapter asigna automáticamente los valores de las columnas from a las columnas to
         adapter = new SimpleCursorAdapter(this, R.layout.list_item_habit, null, from, to, 0);
 
         // Adaptador personalizado para gestionar dinámicamente el progreso (0/frecuencia)
@@ -295,7 +300,8 @@ public class HabitsListActivity extends AppCompatActivity {
 
     }
 
-    private void loadHabits() { //Método para cargar la lista de hábitos sin filtro aplicado
+    //Método para cargar la lista de hábitos sin aplicar ningún filtro
+    private void loadHabits() {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1); // Recuperar el user_id del usuario logueado
 
@@ -312,7 +318,8 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
-    public void filterHabits() { //Método para cargar la lista de hábitos con filtro aplicado
+    //Método para cargar la lista de hábitos según el filtro aplicado
+    public void filterHabits() {
         String filterText = edtHabitFilter.getText().toString().trim();
         Cursor cursor;
 
@@ -332,7 +339,8 @@ public class HabitsListActivity extends AppCompatActivity {
         adapter.swapCursor(cursor);
     }
 
-    private void incrementAllHabits(){ //Método para incrementar en 1 todos los hábitos
+    //Método para incrementar en 1 todos los hábitos
+    private void incrementAllHabits(){
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         int userId = sharedPreferences.getInt("user_id", -1);
 
@@ -350,7 +358,8 @@ public class HabitsListActivity extends AppCompatActivity {
 
     }
 
-    private void shareHabitsViaWhatsApp(int habitId) { //Método para compartir tu Lista de Hábitos por Whatsapp
+    //Método para compartir tu Lista de Hábitos por Whatsapp
+    private void shareHabitsViaWhatsApp(int habitId) {
 
         Cursor cursor = habitFacade.getAllHabits(userId);
 
@@ -415,6 +424,7 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
+    // Método para verificar si realmente se quiere borrar un hábito
     private void confirmDeletion(long habitId) {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
 
@@ -465,7 +475,8 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
-    public void logout() { //Método para cerrar sesión
+    //Método para cerrar sesión
+    public void logout() {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -487,6 +498,7 @@ public class HabitsListActivity extends AppCompatActivity {
     }
 
     @Override
+    // Método que se ejecuta al pulsar el botón de ir hacia atrás
     public void onBackPressed() {
         new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle(getString(R.string.exit_app_title))

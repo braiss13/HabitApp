@@ -35,7 +35,8 @@ public class HabitFacade {
         return db.query(DBManager.TABLE_USUARIOS, null, null, null, null, null, null);
     }
 
-    public String getUsername(int userId){  //Método para obtener el nombre de usuario
+    // Método para obtener el nombre de usuario
+    public String getUsername(int userId){
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         Cursor cursor = db.query(
@@ -62,7 +63,8 @@ public class HabitFacade {
 
     }
 
-    public String getEmail(int userId){ //Método para obtener el email
+    // Método para obtener el email
+    public String getEmail(int userId){
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         Cursor cursor = db.query(
@@ -99,14 +101,15 @@ public class HabitFacade {
         return result != -1; // Devuelve true si la inserción fue exitosa
     }
 
-    public Cursor authenticateUser(String username, String password) {  //Método para comprobar que un usuario existe
+    // Método para comprobar que un usuario existe
+    public Cursor authenticateUser(String username, String password) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + DBManager.TABLE_USUARIOS + " WHERE " + DBManager.COLUMN_USERNAME + "=? AND " + DBManager.COLUMN_PASSWORD + "=?",
                 new String[]{username, password});
     }
 
-
-    public Cursor getHabitsByCategory(String category, int userId) {    //Obtener habitos filtrados por categoría
+    // Obtener los hábitos filtrados por categoría
+    public Cursor getHabitsByCategory(String category, int userId) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -120,7 +123,8 @@ public class HabitFacade {
         );
     }
 
-    public Cursor getHabitsByName(String name, int userId) {    //Obtener habitos filtrados por nombre
+    // Obtener los hábitos filtrados por nombre
+    public Cursor getHabitsByName(String name, int userId) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -134,7 +138,8 @@ public class HabitFacade {
         );
     }
 
-    public Cursor getCompletedHabits(int userId) {      //Obtener habitos completados
+    // Obtener los hábitos completados
+    public Cursor getCompletedHabits(int userId) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
         String query = "SELECT hc." + DBManager.COLUMN_HABITO_COMPLETADO_ID + ", " +
                 "h." + DBManager.COLUMN_HABITO_NOMBRE + ", " +
@@ -147,8 +152,8 @@ public class HabitFacade {
         return db.rawQuery(query, new String[]{String.valueOf(userId)});
     }
 
-
-    public boolean updatePassword(int userId, String newPassword) { //Método para actualizar la contraseña
+    // Método para actualizar la contraseña
+    public boolean updatePassword(int userId, String newPassword) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         String hashedPassword = PasswordSecurity.hashPassword(newPassword);
@@ -177,7 +182,8 @@ public class HabitFacade {
         return rowsUpdated > 0; // Devuelve true si se actualizó al menos una fila
     }
 
-    public boolean verifyPassword(int userId, String inputPassword) { //Método para verificar la contraseña
+    // Método para comprobar si es correcta la contraseña
+    public boolean verifyPassword(int userId, String inputPassword) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         Cursor cursor = db.query(
@@ -201,7 +207,8 @@ public class HabitFacade {
         return false;
     }
 
-    public Cursor getHabitsByCompleted(int userId){     //Obtener habitos filtrados por estado completado
+    // Obtener habitos filtrados por estado completado
+    public Cursor getHabitsByCompleted(int userId){
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -215,7 +222,8 @@ public class HabitFacade {
         );
     }
 
-    public Cursor getHabitsByIncompleted( int userId){      //Obtener habitos filtrados por estado en progreso
+    // Obtener habitos filtrados por estado en progreso
+    public Cursor getHabitsByIncompleted( int userId){
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -229,8 +237,8 @@ public class HabitFacade {
         );
     }
 
-
-    public Cursor getAllHabits(int userId) {    //Método para obtener todos los hábitos de un usuario
+    // Método para obtener todos los hábitos de un usuario
+    public Cursor getAllHabits(int userId) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
 
         return db.query(
@@ -301,7 +309,8 @@ public class HabitFacade {
         );
     }
 
-    public boolean deleteUser(int userId){ //Eliminar un usuario junto con sus hábitos (no se si es realmente necesario con ON DELETE CASCADE)
+    // Eliminar un usuario junto con sus hábitos
+    public boolean deleteUser(int userId){
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         db.beginTransaction();
@@ -393,7 +402,8 @@ public class HabitFacade {
 
     }
 
-    public void resetAllHabitsProgress(int userId) { //Método para resetear el progreso de los hábitos
+    // Método para resetear el progreso de los hábitos
+    public void resetAllHabitsProgress(int userId) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -407,7 +417,8 @@ public class HabitFacade {
         );
     }
 
-    public void incrementAllHabitsProgress(int userId) {    //Método para incrementar el progreso de todos los hábitos
+    // Método para incrementar el progreso de todos los hábitos
+    public void incrementAllHabitsProgress(int userId) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
         Cursor cursor = db.query(
@@ -443,6 +454,7 @@ public class HabitFacade {
         cursor.close();
     }
 
+    // Método para verificar si quedan hábitos por hacer (para luego enviar notificación)
     public boolean checkHabitsPending(int userId) {
 
         SQLiteDatabase db = dbManager.getReadableDatabase();
@@ -464,7 +476,7 @@ public class HabitFacade {
         return hasPending;
     }
 
-
+    // Método para resetear el progreso a 0
     public void updateProgressToZero(int habitId) {
         SQLiteDatabase db = dbManager.getWritableDatabase();  // Usamos dbManager para obtener la instancia de la base de datos.
         String updateQuery = "UPDATE " + DBManager.TABLE_HABITOS +  // Usamos el nombre de la tabla de hábitos desde DBManager
@@ -472,6 +484,7 @@ public class HabitFacade {
         db.execSQL(updateQuery, new Object[]{habitId});
     }
 
+    // Método que permite decrementar en 1 el progreso actual (en caso de equivocación al pulsar el +)
     public void decrementProgress(int habitId) {
         SQLiteDatabase db = dbManager.getWritableDatabase();  // Usamos dbManager para obtener la instancia de la base de datos.
         String updateQuery = "UPDATE " + DBManager.TABLE_HABITOS +  // Usamos el nombre de la tabla de hábitos desde DBManager
@@ -479,6 +492,7 @@ public class HabitFacade {
         db.execSQL(updateQuery, new Object[]{habitId});
     }
 
+    // Método para marcar un hábito como completado
     public boolean markHabitAsCompleted(int habitId) {
         SQLiteDatabase db = dbManager.getWritableDatabase();
 
@@ -501,7 +515,8 @@ public class HabitFacade {
         return sdf.format(new Date());  // Devuelve la fecha y hora actual
     }
 
-    public boolean isEmailRegistered(String email) { //Método para comprobar si el email existe en la BD
+    // Método para verificar si un email ya existe en la BD
+    public boolean isEmailRegistered(String email) {
         SQLiteDatabase db = dbManager.getReadableDatabase();
         String query = "SELECT COUNT(*) FROM " + DBManager.TABLE_USUARIOS + " WHERE " + DBManager.COLUMN_EMAIL + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{email});

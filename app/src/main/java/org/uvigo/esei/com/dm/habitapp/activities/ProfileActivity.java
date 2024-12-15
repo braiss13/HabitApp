@@ -101,6 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    // Método que se ejecuta al pulsar el botón de ir hacia atrás
     public void onBackPressed() {
         // Aplicar el idioma actualizado antes de regresar
         super.onBackPressed();
@@ -117,7 +118,8 @@ public class ProfileActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().onBackPressed();
     }
 
-    private void loadProfile(){ //Método para cargar los datos del perfil
+    //Método para cargar los datos del perfil
+    private void loadProfile(){
 
         tvUsername.setText(habitFacade.getUsername(userId));
         tvEmail.setText(habitFacade.getEmail(userId));
@@ -130,7 +132,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //Respuesta al intent de elegir foto
+    // Respuesta al intent de elegir foto
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);                                 //Esto se hace así porque solo con la Uri no nos deja
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -154,7 +157,8 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImageToInternalStorage(Bitmap bitmap) { //Método para guardar la imagen escogida en el almacenamiento interno
+    //Método para guardar la imagen escogida en el almacenamiento interno
+    private void saveImageToInternalStorage(Bitmap bitmap) {
         File file = new File(getFilesDir(), PROFILE_IMAGE_FILE_NAME);
 
         try (FileOutputStream outputStream = new FileOutputStream(file)) {

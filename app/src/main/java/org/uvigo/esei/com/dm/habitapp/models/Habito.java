@@ -11,14 +11,12 @@ public class Habito {
     private boolean estado;
     private String fecha_creacion;
 
-    // Quitado , int objetivo
     public Habito(int id, String nombre, String descripcion, String frecuencia, String categoria, boolean estado, String fecha_creacion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.frecuencia = frecuencia;
         this.categoria = categoria;
-        //this.objetivo = objetivo;
         this.progreso = progreso;
         this.estado = estado;
         this.fecha_creacion=fecha_creacion;

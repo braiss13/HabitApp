@@ -87,8 +87,8 @@ public class SettingsActivity extends AppCompatActivity {
         LocaleUtils.setLocaleFromPreferences(this);
     }
 
-
-    private void deleteUser() { //Método que borra el usuario y sale de la app
+    //Método que borra el usuario y sale de la app
+    private void deleteUser() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
@@ -128,6 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
         finish();
     }
 
+    // Método que se ejecuta al pulsar el botón de ir hacia atrás
     public void onBackPressed() {
         // Aplicar el idioma actualizado antes de regresar
         super.onBackPressed();
@@ -144,7 +145,7 @@ public class SettingsActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().onBackPressed();
     }
 
-
+    // Establece un spinner para elegir el idioma
     private void setSpinnerToLanguage(Spinner spinner, String langCode) {
         String[] languageOptions = getResources().getStringArray(R.array.language_options);
         int position = 0; // Por defecto, "Español"
@@ -172,8 +173,10 @@ public class SettingsActivity extends AppCompatActivity {
                 return "es";
         }
     }
+
+    // Leer el idioma guardado en SharedPreferences
     public void setLocaleFromPreferences() {
-        // Leer el idioma guardado en SharedPreferences
+
         SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         String languageCode = prefs.getString("language", "es");  // "es" es el valor por defecto si no hay preferencia
 

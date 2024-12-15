@@ -59,9 +59,8 @@ public class AddHabitActivity extends AppCompatActivity {
         LocaleUtils.setLocaleFromPreferences(this);
     }
 
-
-    public void saveHabit() {
-        //Método para guardar un hábito
+    //Método para guardar un hábito
+    public void saveHabit(){
 
         String name = edtName.getText().toString().trim();
         String description = edtDescription.getText().toString().trim();
@@ -88,6 +87,7 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     @Override
+    // Método que se ejecuta al pulsar el botón de ir hacia atrás
     public void onBackPressed() {
         new android.app.AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle(getString(R.string.cancel_creation))

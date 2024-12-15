@@ -83,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
         LocaleUtils.setLocaleFromPreferences(this);
     }
 
+    // Método para registrar un usuario
     private boolean registerUser(String username, String password, String email) {
         // Hashea la contraseña
         String hashedPassword = PasswordSecurity.hashPassword(password);

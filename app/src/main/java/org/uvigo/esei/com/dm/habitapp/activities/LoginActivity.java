@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param username Nombre de usuario autenticado.
      * @param userId ID del usuario autenticado.
      */
-    public void saveSession(String username, int userId) { //Método para guardar la sesión del Usuario que se loguea
+    public void saveSession(String username, int userId) {
         SharedPreferences sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 

@@ -71,9 +71,8 @@ public class EditHabitActivity extends AppCompatActivity {
         LocaleUtils.setLocaleFromPreferences(this);
     }
 
-
+    //Método para cargar los atributos del Hábito que quieres editar
     private void loadHabitDetails() {
-        //Método para cargar los atributos del Hábito que quieres editar
 
         int userId = getSharedPreferences("Session", MODE_PRIVATE).getInt("user_id", -1); // Obtener usuario actual
         Cursor cursor = habitFacade.getHabitById((int) habitId, userId); // Modificar HabitFacade para admitir userId
@@ -101,8 +100,8 @@ public class EditHabitActivity extends AppCompatActivity {
         }
     }
 
+    //Método para actualizar el hábito en la BD.
     private void updateHabit() {
-        //Método para actualizar el hábito en la BD.
 
         String name = edtName.getText().toString().trim();
         String description = edtDescription.getText().toString().trim();
@@ -130,6 +129,7 @@ public class EditHabitActivity extends AppCompatActivity {
     }
 
     @Override
+    // Método que se ejecuta al pulsar el botón de ir hacia atrás
     public void onBackPressed() {
         new android.app.AlertDialog.Builder(this, R.style.AppTheme_Dialog)
                 .setTitle(getString(R.string.cancel_edit))
