@@ -11,11 +11,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -140,7 +138,7 @@ public class HabitsListActivity extends AppCompatActivity {
             resetAllHabitsProgress();
         }
         int habitCount = getHabitCount(userId); // Obtener el total de hábitos para el usuario
-        tvHabitCount.setText("Total Hábitos: " + habitCount);
+        tvHabitCount.setText(getString(R.string.habits_total) + habitCount);
 
         // Aplicar el filtro actual
         filterHabits();
@@ -248,12 +246,12 @@ public class HabitsListActivity extends AppCompatActivity {
                 view.setOnClickListener(v -> {
                     // Crear el diálogo de confirmación
                     new AlertDialog.Builder(HabitsListActivity.this, R.style.AppTheme_Dialog)
-                            .setTitle("Eliminar progreso") // Título del diálogo
-                            .setMessage("¿Seguro que quiere restar uno al progreso?") // Mensaje del diálogo
+                            .setTitle(getString(R.string.delete_progress)) // Título del diálogo
+                            .setMessage(getString(R.string.delete_progress_confirmation)) // Mensaje del diálogo
                             .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                                 if (progress == 0) {
                                     // Si el progreso ya es 0, mostrar un Toast
-                                    Toast.makeText(HabitsListActivity.this, "El progreso ya está en 0", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(HabitsListActivity.this, getString(R.string.progress_0), Toast.LENGTH_SHORT).show();
                                     // Verificar si el progreso es 1
                                 }else if (progress == 1) {
                                     habitFacade.updateProgressToZero(habitId); // Si es 1, lo ponemos a 0
@@ -318,6 +316,7 @@ public class HabitsListActivity extends AppCompatActivity {
         }
     }
 
+    //TODO ESTO HAY QUE INTERNACIONALIZARLO?????
     //Método para cargar la lista de hábitos según el filtro aplicado
     public void filterHabits() {
         String filterText = edtHabitFilter.getText().toString().trim();
@@ -345,8 +344,8 @@ public class HabitsListActivity extends AppCompatActivity {
         int userId = sharedPreferences.getInt("user_id", -1);
 
         new AlertDialog.Builder(this, R.style.AppTheme_Dialog)
-                .setTitle("Confirmar marcar todos")
-                .setMessage("¿Estás seguro de que quieres marcar todos los hábitos?")
+                .setTitle(getString(R.string.marc_all))
+                .setMessage(getString(R.string.marc_all_confirmation))
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     habitFacade.incrementAllHabitsProgress(userId);
                     filterHabits();
@@ -359,12 +358,13 @@ public class HabitsListActivity extends AppCompatActivity {
     }
 
     //Método para compartir tu Lista de Hábitos por Whatsapp
+    //TODO ESTO HAY QUE TRADUCIRLO ??? EL MENSAJE QUE COMPARTES LO TRADUCIMOS TMABIEN???
     private void shareHabitsViaWhatsApp(int habitId) {
 
         Cursor cursor = habitFacade.getAllHabits(userId);
 
         if (cursor == null || cursor.getCount() == 0) {
-            Toast.makeText(this, "No hay hábitos para compartir.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_habits_to_share), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -394,7 +394,7 @@ public class HabitsListActivity extends AppCompatActivity {
         try {
             startActivity(sendIntent);
         } catch (android.content.ActivityNotFoundException e) {
-            Toast.makeText(this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.was_uninstall), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -436,7 +436,7 @@ public class HabitsListActivity extends AppCompatActivity {
                 .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                     habitFacade.deleteHabit((int) habitId, userId);
                     int habitCount = getHabitCount(userId);
-                    tvHabitCount.setText("Total Hábitos: " + habitCount); //Contamos aquí también el número de hábitos para que se actualice tras borrar uno
+                    tvHabitCount.setText(getString(R.string.habits_total) + habitCount); //Contamos aquí también el número de hábitos para que se actualice tras borrar uno
                     loadHabits(); // Recargar los hábitos tras eliminar uno
                 })
                 .setNegativeButton(getString(R.string.no), null)

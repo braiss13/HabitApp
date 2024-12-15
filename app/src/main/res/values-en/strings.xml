@@ -97,5 +97,20 @@
     <string name="completed_habits">Completed Habits</string>
     <string name="habits_number">Habits Number</string>
     <string name="edit_habit">Habit Edit</string>
+    <string name="habits_total">"Total habits: "</string>
+    <string name="progress_0">Progress is already 0</string>
+    <string name="delete_progress">Delete progress</string>
+    <string name="delete_progress_confirmation">Are you sure you want to substract 1 to progress?</string>
+    <string name="marc_all">Confirm mark all</string>
+    <string name="marc_all_confirmation">Are you sure you want to mark all?</string>
+    <string name="no_habits_to_share">There are no habits to share</string>
+    <string name="was_uninstall">Whatsapp is not installed</string>
+    <string name="user_not_loged">User not authenticated</string>
+    <string name="habits_completed_not_loadede">Couldn´t load habits completed</string>
+    <string name="image_error">Error saving image</string>
+    <string name="image_error_intern">Error saving image on the storage</string>
+    <string name="toast_empty_email">Please, enter your email</string>
+    <string name="toast_add_token">Please, enter your token</string>
+    <string name="toast_email_not_valid">Email not valid</string>
 
 </resources>

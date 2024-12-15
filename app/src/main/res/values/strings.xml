@@ -30,6 +30,14 @@
     <string name="session_close_confirmation">¿Está seguro de que quiere cerrar sesión?</string>
     <string name="session_closed">La sesión ha sido cerrada</string>
     <string name="habits_number">Número de Habitos</string>
+    <string name="habits_total">"Total Hábitos: "</string>
+    <string name="progress_0">"El progreso ya está en 0"</string>
+    <string name="delete_progress">"Eliminar progreso"</string>
+    <string name="delete_progress_confirmation">"¿Seguro que quiere restar uno al progreso?"</string>
+    <string name="marc_all">"Confirmar marcar todos"</string>
+    <string name="marc_all_confirmation">"¿Estás seguro de que quieres marcar todos los hábitos?</string>
+    <string name="no_habits_to_share">"No hay hábitos para compartir."</string>
+    <string name="was_uninstall">Whatsapp no instalado</string>
     <!--HABITSLIST LAYOUT-->
     <string name="progress">Progreso:</string>
     <string name="introduce_filter">Introduce el filtro</string>
@@ -41,6 +49,13 @@
 
     <!--LIST_ITEM_COMPLETED_HABIT LAYOUT-->
     <string name="completion_date">Fecha de completado: </string>
+
+    <!--HABITSLIST COMPLETED-->
+    <string name="user_not_loged">Usuario no autenticado.</string>
+    <string name="habits_completed_not_loadede">No se pudieron cargar los hábitos completados.</string>
+
+
+
 
     <!--ADDHABIT-->
     <string name="fill_required_fields">Por favor, completa todos los campos obligatorios</string>
@@ -71,6 +86,8 @@
     <string name ="change_pass">Cambiar contraseña</string>
     <string name ="my_habits">Mis hábitos</string>
     <string name ="settings">Ajustes</string>
+    <string name ="image_error">Error al guardar la imagen</string>
+    <string name ="image_error_intern">Error al guardar la imagen en almacenamiento interno</string>
 
     <!--SETTINGS-->
     <string name ="delete">Vas a eliminar</string>
@@ -90,6 +107,11 @@
     <!--PASSWORD_CHANGE LAYOUT-->
     <string name="pass_now">Contraseña actual</string>
     <string name="pass_new">Contraseña nueva</string>
+
+    <!--RECOVER PASSWORD-->
+    <string name="toast_empty_email">Por favor, ingresa tu correo electrónico</string>
+    <string name="toast_add_token">Por favor, ingresa el token de recuperación</string>
+    <string name="toast_email_not_valid">Correo electrónico no válido</string>
 
     <!--SEND_TOKEN LAYOUT-->
     <string name="introduce_email">Ingrese su correo electrónico: </string>

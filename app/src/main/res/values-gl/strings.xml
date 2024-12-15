@@ -96,5 +96,20 @@
     <string name="completed_habits">Hábitos Rematados</string>
     <string name="habits_number">Número de Hábitos</string>
     <string name="edit_habit">Editar Hábito</string>
+    <string name="habits_total">"Hábitos totales: "</string>
+    <string name="progress_0">O progreso xa é 0</string>
+    <string name="delete_progress">Eliminar o progreso</string>
+    <string name="delete_progress_confirmation">Seguro que quere eliminar un ao progreso?</string>
+    <string name="marc_all">Confirmar marcar todos</string>
+    <string name="marc_all_confirmation">Seguro que queres marcar todos?</string>
+    <string name="no_habits_to_share">Non hai hábitos para compartir</string>
+    <string name="was_uninstall">Whatsapp non está instalado</string>
+    <string name="user_not_loged">Usuario non autenticado</string>
+    <string name="habits_completed_not_loadede">Non se puideron cargar os hábitos completados</string>
+    <string name="image_error">Erro ao gardar a imaxe</string>
+    <string name="image_error_intern">Erro ao gardar a imaxe no almacén interno</string>
+    <string name="toast_empty_email">Pro favor, ingrese o email</string>
+    <string name="toast_add_token">Por favor, ingrese o token</string>
+    <string name="toast_email_not_valid">Email non válido</string>
 
 </resources>

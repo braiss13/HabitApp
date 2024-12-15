@@ -152,7 +152,7 @@ public class ProfileActivity extends AppCompatActivity {
                 inputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.image_error), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -165,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error al guardar la imagen en almacenamiento interno", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.image_error_intern), Toast.LENGTH_SHORT).show();
         }
 
     }

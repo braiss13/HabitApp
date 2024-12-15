@@ -68,17 +68,17 @@ public class RecoverPasswordActivity extends AppCompatActivity {
 
         // Validación inicial de los campos
         if (email.isEmpty()) {
-            Toast.makeText(this, "Por favor, ingresa tu correo electrónico", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_empty_email), Toast.LENGTH_SHORT).show();
             return;
         }
         if (enteredToken.isEmpty()) {
-            Toast.makeText(this, "Por favor, ingresa el token de recuperación", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_add_token), Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Validar formato del correo electrónico
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Correo electrónico no válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_email_not_valid), Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -1,17 +1,9 @@
 package org.uvigo.esei.com.dm.habitapp.activities;
 
-import android.app.AlertDialog;
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -72,14 +64,14 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
     //Método para cargar los hábitos completados
     private void loadCompletedHabits() {
         if (userId == -1) {
-            Toast.makeText(this, "Error: Usuario no autenticado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.user_not_loged), Toast.LENGTH_SHORT).show();
             return;
         }
 
         Cursor cursor = habitFacade.getCompletedHabits(userId);
 
         if (cursor == null) {
-            Toast.makeText(this, "No se pudieron cargar los hábitos completados.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.habits_completed_not_loadede), Toast.LENGTH_SHORT).show();
             return;
         }
 
