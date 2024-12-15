@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#191919"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -9,11 +10,12 @@
         android:id="@+id/tvProfileActivityTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/profile"
-        android:textSize="24sp"
-        android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:text="@string/profile"
+        android:textColor="#FE9167"
+        android:textSize="24sp"
+        android:textStyle="bold">
 
     </TextView>
 
@@ -21,62 +23,62 @@
         android:id="@+id/ivProfilePicture"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/default_profile"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-         />
+        android:src="@drawable/default_profile" />
 
     <Button
         android:id="@+id/btnEditPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_gravity="center"
+        android:layout_marginTop="16dp"
         android:text="@string/edit_pic" />
 
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_marginTop="24dp"
-        android:textColor="@color/cardview_dark_background"
         android:gravity="center"
-        android:text="@string/user_name"/>
+        android:text="@string/user_name"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/email" />
-
+        android:text="@string/email"
+        android:textColor="#A3A0B2"
+        android:textSize="16sp" />
 
 
     <Button
         android:id="@+id/btnChangePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/change_pass"
         android:layout_marginTop="16dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="@string/change_pass" />
 
     <Button
         android:id="@+id/btnHabitsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/my_habits"
         android:layout_marginTop="16dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="@string/my_habits" />
+
     <Button
         android:id="@+id/btnSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/settings"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="@string/settings" />
 
 </LinearLayout>
