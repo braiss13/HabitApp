@@ -111,5 +111,13 @@
     <string name="toast_empty_email">Pro favor, ingrese o email</string>
     <string name="toast_add_token">Por favor, ingrese o token</string>
     <string name="toast_email_not_valid">Email non válido</string>
+    <string name="token_checked">Token verificado, ingrese a nova contrasinal</string>
+    <string name="please_new_pass">Por favor, ingresa unha nova contrasinal</string>
+    <string name="pass_6">A contrasinal debe ter 6 caracteres como mínimo</string>
+    <string name="pass_updated">Contrasinal actualizada</string>
+    <string name="invalid_token">Token ncorrecto, tenta de novo</string>
+    <string name="token_number">O token debe ser un número valido</string>
+    <string name="check_email">Erro ao actualizar o contrasinal</string>
+    <string name="email_already_existsç">Este email xa existe, inicia sesión ou proba con outro</string>
 
 </resources>

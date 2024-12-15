@@ -112,5 +112,13 @@
     <string name="toast_empty_email">Please, enter your email</string>
     <string name="toast_add_token">Please, enter your token</string>
     <string name="toast_email_not_valid">Email not valid</string>
+    <string name="token_checked">Token checked, enter your new password</string>
+    <string name="please_new_pass">Please, enter a new password</string>
+    <string name="pass_6">Password must be 6 characters at least</string>
+    <string name="pass_updated">Password updated</string>
+    <string name="invalid_token">Invalid token, try again</string>
+    <string name="token_number">Token must be a valid number</string>
+    <string name="check_email">Error updaating password</string>
+    <string name="email_already_existsç">This email already exists, login or register with other</string>
 
 </resources>

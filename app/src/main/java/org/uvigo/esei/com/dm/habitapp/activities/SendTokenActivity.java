@@ -28,7 +28,7 @@ public class SendTokenActivity extends AppCompatActivity {
     private Session session;
     private MimeMessage message;
     int token = (int) (Math.random() * 900000) + 100000; // Genera un número aleatorio de 6 dígitos
-
+//TODO INTERNACIONALIZAR EL MENSAJE????
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

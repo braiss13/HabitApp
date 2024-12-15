@@ -17,6 +17,7 @@
     <!--REGISTER-->
     <string name="register_success">Usuario registrado con éxito</string>
     <string name="register_error">Error al registrar usuario</string>
+    <string name="email_already_existsç">Este email ya existe, inicia sesión o regístrate con otro</string>
     <!--REGISTER LAYOUT-->
     <string name="email" translatable="false">Email</string>
 
@@ -112,7 +113,13 @@
     <string name="toast_empty_email">Por favor, ingresa tu correo electrónico</string>
     <string name="toast_add_token">Por favor, ingresa el token de recuperación</string>
     <string name="toast_email_not_valid">Correo electrónico no válido</string>
-
+    <string name="token_checked">Token verificado, ahora ingresa tu nueva contraseña</string>
+    <string name="please_new_pass">Por favor, ingresa una nueva contraseña</string>
+    <string name="pass_6">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="pass_updated">Contraseña actualizada correctamente</string>
+    <string name="invalid_token">Token incorrecto, inténtelo nuevamente</string>
+    <string name="token_number">El token debe ser un número válido</string>
+    <string name="check_email">Error al actualizar la contraseña. Verifica el correo.</string>
     <!--SEND_TOKEN LAYOUT-->
     <string name="introduce_email">Ingrese su correo electrónico: </string>
     <string name="correo_electronico">Correo electrónico</string>
@@ -159,5 +166,6 @@
             <item>Inglés</item>
             <item>Galego</item>
         </string-array>
+
 
 </resources>

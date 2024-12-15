@@ -54,13 +54,13 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 if(!LocaleUtils.isValidEmail(email)){
-                    Toast.makeText(RegisterActivity.this, "Email no valido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.toast_email_not_valid), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Verificar si el email ya está registrado
                 if (habitFacade.isEmailRegistered(email)) {
-                    Toast.makeText(RegisterActivity.this, "Este email ya existe, inicia sesión o regístrate con otro", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.email_already_existsç), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

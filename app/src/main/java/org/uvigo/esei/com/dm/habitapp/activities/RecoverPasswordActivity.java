@@ -90,15 +90,15 @@ public class RecoverPasswordActivity extends AppCompatActivity {
                 // Si el token es válido, solicita la nueva contraseña
                 if (etNewPassword.getVisibility() == View.GONE) {
                     etNewPassword.setVisibility(View.VISIBLE);
-                    Toast.makeText(this, "Token verificado, ahora ingresa tu nueva contraseña", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.token_checked), Toast.LENGTH_SHORT).show();
                 } else if (newPassword.isEmpty()) {
-                    Toast.makeText(this, "Por favor, ingresa una nueva contraseña", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.please_new_pass), Toast.LENGTH_SHORT).show();
                 } else if (newPassword.length() < 6) {
-                    Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.pass_6), Toast.LENGTH_SHORT).show();
                 } else {
                     // La contraseña es válida, guarda los cambios (simulado aquí)
                     saveNewPassword(email, newPassword);
-                    Toast.makeText(this, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.pass_updated), Toast.LENGTH_SHORT).show();
 
                     // Redirige al usuario a la pantalla de inicio de sesión
                     Intent intent = new Intent(RecoverPasswordActivity.this, LoginActivity.class);
@@ -106,10 +106,10 @@ public class RecoverPasswordActivity extends AppCompatActivity {
                     finish();
                 }
             } else {
-                Toast.makeText(this, "Token incorrecto, inténtelo nuevamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.invalid_token), Toast.LENGTH_SHORT).show();
             }
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "El token debe ser un número válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.token_number), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -121,9 +121,9 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         boolean isUpdated = habitFacade.updatePasswordByEmail(email, hashedPassword);
 
         if (isUpdated) {
-            Toast.makeText(this, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.pass_updated), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Error al actualizar la contraseña. Verifica el correo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.check_email), Toast.LENGTH_SHORT).show();
         }
     }
 
