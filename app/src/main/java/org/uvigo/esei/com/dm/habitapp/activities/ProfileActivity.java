@@ -61,8 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("Session", MODE_PRIVATE);
         userId = sharedPreferences.getInt("user_id", -1);
 
-
-
         loadProfile();
 
         btnEditPhoto.setOnClickListener(new View.OnClickListener() {
@@ -118,8 +116,6 @@ public class ProfileActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().onBackPressed();
     }
 
-
-
     private void loadProfile(){
 
         tvUsername.setText(habitFacade.getUsername(userId));
@@ -131,10 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
             ivProfileImage.setImageBitmap(bitmap);
         }
 
-
     }
-
-
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

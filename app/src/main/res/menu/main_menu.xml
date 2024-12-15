@@ -6,21 +6,21 @@
     <item
         android:id="@+id/menu_increment_all_habits"
         android:title="Incrementar hábitos"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_baseline_add_circle_24"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_profile"
         android:title="Ver Perfil"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@drawable/ic_baseline_account_circle_24"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_share"
         android:title="Compartir via WhatsApp"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/ic_baseline_share_24"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_completed_habits"
         android:title="Ver hábitos completados"
-        android:icon="@android:drawable/ic_menu_more"
+        android:icon="@drawable/ic_baseline_check_circle_24"
         app:showAsAction="always"/>
 </menu>

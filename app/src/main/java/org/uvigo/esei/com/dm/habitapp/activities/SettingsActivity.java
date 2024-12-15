@@ -128,6 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
     public void onBackPressed() {
         // Aplicar el idioma actualizado antes de regresar
         super.onBackPressed();

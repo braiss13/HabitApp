@@ -111,8 +111,6 @@ public class HabitsListActivityCompleted extends AppCompatActivity {
         }
     }
 
-
-
     private void setupCompletedListView() {
         String[] from = {
                 DBManager.COLUMN_HABITO_NOMBRE,

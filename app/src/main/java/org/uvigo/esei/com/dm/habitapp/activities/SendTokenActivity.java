@@ -19,7 +19,6 @@ import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 
-
 public class SendTokenActivity extends AppCompatActivity {
     private HabitFacade habitFacade;
     private String emailFrom = "alicianoal1@gmail.com";
@@ -27,8 +26,6 @@ public class SendTokenActivity extends AppCompatActivity {
     private Session session;
     private MimeMessage message;
     int token = (int) (Math.random() * 900000) + 100000; // Genera un número aleatorio de 6 dígitos
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -19,7 +19,6 @@ import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 import org.uvigo.esei.com.dm.habitapp.database.DBManager;
 
 
-
 public class RecoverPasswordActivity extends AppCompatActivity {
     private HabitFacade habitFacade;
 

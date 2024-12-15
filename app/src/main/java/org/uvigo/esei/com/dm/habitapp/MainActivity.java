@@ -28,10 +28,10 @@ import org.uvigo.esei.com.dm.habitapp.database.HabitFacade;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+
     private NotificationHelper notificationHelper;
     private HabitFacade habitFacade;
     private Button btnLogin, btnRegister;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
